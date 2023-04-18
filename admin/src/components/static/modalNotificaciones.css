@@ -1,0 +1,126 @@
+.modal {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: orange;
+}
+
+.modal-inactive {
+    display: none;
+}
+
+.modal-content {
+    position: fixed;
+    background-color: bisque;
+    color: rgb(43, 41, 41);
+    padding: 20px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.modal-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    line-height: 2px;
+}
+
+.modal-machine-details{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    line-height: 2px;
+}
+
+.modal-buttons-notificaciones{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 10px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.data-modal{
+    font-size: 27px;
+    margin-left: 4px;
+    text-align: center;
+}
+
+.button-list-aprobada {
+    height: fit-content;
+    width: fit-content;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 7px;
+    background-color: rgb(58, 148, 58);
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.button-list-rechazada {
+    height: fit-content;
+    width: fit-content;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 7px;
+    background-color: rgb(179, 35, 10);
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.button-list-guardar {
+    height: fit-content;
+    width: fit-content;
+    padding: 9px;
+    font-size: 20px;
+    border-radius: 7px;
+    background-color: rgb(71, 94, 164);
+    color: white;
+}
+
+.button-list-volver {
+    height: fit-content;
+    width: fit-content;
+    padding: 7px;
+    font-size: 20px;
+    border-radius: 7px;
+    background-color: rgb(71, 94, 164);
+    color: white;
+    margin-left: 10px;
+}
+
+.button-list-noResponde {
+    height: fit-content;
+    width: fit-content;
+    padding: 9px;
+    font-size: 20px;
+    border-radius: 7px;
+    background-color: rgb(71, 94, 164);
+    color: white;
+    margin-left: 10px;
+}
+
+.detalle-observaciones-falla {
+    text-align: left;
+    background-color: rgb(228, 32, 11);
+    border: 2px solid rgb(65, 64, 64); 
+    margin-top: 20px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    margin: none; 
+    padding: 2px;  
+ }

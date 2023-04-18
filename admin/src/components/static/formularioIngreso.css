@@ -1,0 +1,94 @@
+.form {
+    text-align: left;
+    font-size: 20px;
+}
+
+.subtitulos {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    color: rgb(52, 51, 51)
+}
+
+input {
+    margin-right: 15px;
+    font-size: 18px;
+    border: 1px solid rgb(121, 119, 119);
+}
+
+input[type=text] {
+    height: 32px;
+    border-radius: 5px;
+}
+
+input[type=email] {
+    height: 32px;
+    border-radius: 5px;
+}
+
+input[type=checkbox] {
+    width: 25px;
+    height: 32px;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+input[type=radio] {
+    width: 25px;
+    height: 32px;
+    border-radius: 5px;
+    vertical-align: middle;
+}
+
+select {
+    width: fit-content;
+    height: 32px;
+    border-radius: 5px;
+    font-size: 22px;
+    padding: 3px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+label {
+    font-size: 22px;
+    vertical-align: middle;
+    color: rgb(33, 33, 33)
+}
+
+.observaciones {
+    resize: none;
+    width: 100%;
+    height: 100px;
+    padding: 4px;
+}
+
+/* Comprobante */
+
+.comprobante {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 1rem;
+}
+
+.firma-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.miselaneus {
+    font-size: 11px;
+}
+
+.encabezado {
+    font-size: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1px;
+}
