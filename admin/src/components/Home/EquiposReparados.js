@@ -129,7 +129,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
       return (
         <div className='frame'>
         <h1 className='title-component'>Equipos listos para retiro: </h1>
-        <div >
+        <div className='render-section'>
         {eqreparadosLista.map((x, index) => {
           return(
             <div className="list-section" key={index}>
@@ -226,7 +226,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
       return (
         <div className='frame'>
           <h1 className='title-component'>Equipos listos para retiro:</h1>
-          <div>
+          <div className='render-section'>
             <p className='not-exist'>No hay notificaciones pendientes</p>
           </div>
           <NavLink to="/notificaciones">Menú</NavLink>

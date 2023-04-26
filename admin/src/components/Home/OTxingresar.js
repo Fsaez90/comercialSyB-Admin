@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import "../static/modalIngreso.css"
+import React, { useState, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import "../static/modalIngreso.css";
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 function OTxingresar({listaOt, render, setRender}) {
 
@@ -70,7 +71,7 @@ function Ingresar (n) {
   return (
     <div className='frame'>
       <h1 className='title-component'>Ordenes de trabajo por ingresar a PC: </h1>
-      <div >
+      <div className='render-section'>
       {listaOt.map((x, index) => {
         return(
           <div className="list-section" key={index}>
@@ -101,7 +102,7 @@ function Ingresar (n) {
           )
       })}
       </div>
-      <NavLink to="/">Menú</NavLink>
+      <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
       <div className={modal}>
         <div className='modal-content'>
           <div className='modal-details'>

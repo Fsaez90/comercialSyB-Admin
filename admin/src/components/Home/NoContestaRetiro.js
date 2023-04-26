@@ -128,7 +128,7 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
     return (
       <div className='frame'>
       <h1 className='title-component'>Clientes inubicados con equipo listo para retiro:</h1>
-      <div >
+      <div className='render-section'>
       {noContestaRetiroLista.map((x, index) => {
         return(
           <div className="list-section" key={index}>
@@ -222,7 +222,7 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
     return (
       <div className='frame'>
         <h1 className='title-component'>Clientes inubicados con equipo listo para retiro:</h1>
-        <div>
+        <div className='render-section'>
           <p className='not-exist'>No hay notificaciones pendientes</p>
         </div>
         <NavLink to="/notificaciones">Menú</NavLink>

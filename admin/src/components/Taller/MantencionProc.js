@@ -159,7 +159,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes de trabajo en espera de mantención: </h1>
-        <div >
+        <div className='render-section'>
         {procManLista.map((x, index) => {
           return(
             <div className="list-section" key={index}>
@@ -273,7 +273,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes de trabajo en espera de Revisión:</h1>
-        <div>
+        <div className='render-section'>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
         <NavLink to="/taller">Menú</NavLink>

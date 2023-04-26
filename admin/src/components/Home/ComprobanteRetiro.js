@@ -79,7 +79,6 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                     </div>
                 </div>
                 <div className='cliente-data-firma'>
-
                         <div className='firma-area-comprobante'>
                             <img
                                 src={`http://127.0.0.1:8000/` + orden.firma}

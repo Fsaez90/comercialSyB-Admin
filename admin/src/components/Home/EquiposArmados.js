@@ -134,7 +134,7 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
       return (
         <div className='frame'>
         <h1 className='title-component'>Equipos con presupuesto rechazado listos para retiro: </h1>
-        <div >
+        <div className='render-section'>
         {eqarmadosLista.map((x, index) => {
           return(
             <div className="list-section" key={index}>
@@ -232,7 +232,7 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
       return (
         <div className='frame'>
           <h1 className='title-component'>Equipos con presupuesto rechazado listos para retiro:</h1>
-          <div>
+          <div className='render-section'>
             <p className='not-exist'>No hay notificaciones pendientes</p>
           </div>
           <NavLink to="/notificaciones">Menú</NavLink>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import "./admin/static-admin/busquedadmin.css"
+
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom'
 import ClientesXnotificar from '../src/components/Home/ClientesXnotificar'
 import OTxingresar from "../src/components/Home/OTxingresar"
@@ -80,17 +82,17 @@ function App() {
   useEffect(() => {   
     const fetchData = async () => {
       
-      setInterval(() => {
-        const date = new Date();
-        setClock(date.toLocaleTimeString());
-        setDate(date.toLocaleDateString());
-      }, 1000);
+      // setInterval(() => {
+      //   const date = new Date();
+      //   setClock(date.toLocaleTimeString());
+      //   setDate(date.toLocaleDateString());
+      // }, 1000);
       
       const result = await fetch(`http://127.0.0.1:8000/comercial/orden-list/`)
       result.json().then(json => {
         setOrden(json)
       })
-     
+  
       let lista = orden.filter(function(x){
         return x.ingreso_sistema === false
       })
@@ -151,8 +153,6 @@ function App() {
         return x.espera_repuesto === true && x.entregada === false
       }) 
     
- 
-
       let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length 
       let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
       let totalNoContesta = NoContestappto.length + NoContestaretiro.length
@@ -206,7 +206,7 @@ function App() {
     <div className="App">
       <Router>
       <Routes>
-        <Route path='/' element={<AdminHome />}/>
+        <Route path='/' element={<AdminHome />}/> 
         <Route path='/app' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>

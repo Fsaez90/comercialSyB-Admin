@@ -1,0 +1,271 @@
+.frame-admin {
+    padding: 5%;
+}
+
+.subtitle-admin {
+    color: rgb(116, 58, 58);
+    font-weight: bold;
+    font-size: 100%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.search-bar{
+    margin: 0px;
+    width: 70%;
+    text-align: center;
+}
+
+.modal-elements-admin{
+    display: flex;
+    border: 1px solid rgb(32, 80, 182);
+    border-radius: 5px;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: white;
+}
+
+.title-consulta-admin {
+    width:max-content;
+    padding: 4px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.elements-admin-btn {
+    display: flex;
+    margin-top: 10px;
+    margin-left: 3%;
+}
+
+.buttons-admin {
+    color: white;
+    background-color: rgb(32, 80, 182);
+    border-style: none;
+    padding: 2%;
+    border-radius: 5px;
+}
+
+.button-close {
+    margin-top: 5%;
+    margin-bottom: 10px;
+    color: white;
+    background-color: red;
+    border-style: none;
+    padding: 2%;
+    border-radius: 5px;
+}
+
+.button-list-admin {
+    font-size: 13px;
+    align-self: center;
+    background-color: rgb(32, 80, 182);
+    color: white;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-radius: 5px;
+    border-style: none;
+    padding: 5px;
+}
+
+/* modal */
+
+.modal-inactive {
+    display: none;
+}
+
+.modal-admin {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.317);
+    backdrop-filter: blur(6px);
+}
+
+.busqueda-modal-admin {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(243, 226, 201);
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+    justify-content: center;
+    font-size: 10px;
+    margin-top: 20px;
+}
+
+.cliente-data-admin{
+    display: flex;
+    flex-direction: column;
+    border-radius:5px;
+}
+
+.elements-admin{
+    display: flex;
+    border: 1px solid rgb(32, 80, 182);
+    border-radius: 5px;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-top: 3%;
+    margin-left: 3%;
+    margin-right: 3%;
+    padding: 3px;
+    background-color: rgb(203, 227, 235);
+}
+.elements-admin-fechas{
+    display: flex;
+    border: 1px solid rgb(32, 80, 182);
+    border-radius: 5px;
+    flex-direction: column;
+    gap: 2%;
+    text-align: left;
+    font-size: 10px;
+    margin-top: 3%;
+    margin-left: 3%;
+    margin-right: 3%;
+    padding: 3px;
+    background-color: rgb(203, 227, 235);
+}
+
+.detalle-repuestos-admin {
+    height: fit-content;
+    width: fit-content;
+    resize: none;
+    background-color: rgb(108, 179, 212);
+    border-style: hidden;
+}
+
+.orden-diagnostico {
+    width: fit-content;
+    margin-left: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.work-data {
+    background-color: rgb(108, 179, 212);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.orden-data {
+    width: fit-content;
+    margin-left: 3px;
+    font-weight: bold;
+}
+
+.cliente-data-firma{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(108, 179, 212);
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.firma-area-comprobante{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.data-consulta-status-anular{
+    align-self: center; 
+    font-size: 10px;
+    background-color: rgb(240, 92, 13);
+    text-align: center;
+    color: aliceblue;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0;
+    margin-left: 5px;
+ }
+
+ .modal-elements-declaracion{
+    text-align: justify;
+    width: 700px;
+    display: column;
+    margin-right: 20px;
+}
+
+.data-consulta-status-admin{
+    font-size: 15px;
+    background-color: green;
+    text-align: center;
+    color: aliceblue;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0px;   
+ }
+
+ /* comprobante retiro */
+
+ .modal-inactive-comprobante {
+    display: none
+ }
+
+ .modal-comprobante-admin {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.858);
+    backdrop-filter: blur(6px);
+}
+
+.cliente-data-firma-admin{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(236, 241, 244);
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin-top: 5%;
+}
+
+.firma-area-comprobante-admin{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.cliente-data-admin-pics{
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    margin-top: 5%;
+}
+
+.prio-inactive {
+    display: none;
+}
+
+.prio-active {
+    display: flex;
+}
+
+.prio-inactive-quitar {
+    display: none;
+}
+
+.prio-active-quitar {
+    display: flex;
+}
+
+
+
+

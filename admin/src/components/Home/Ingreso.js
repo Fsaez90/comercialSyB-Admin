@@ -1,9 +1,9 @@
-import React, {useState, useRef} from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import React, {useState, useRef} from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
-import SignaturePad from "react-signature-canvas"
-import '../static/formularioIngreso.css'
+import SignaturePad from "react-signature-canvas";
+import '../static/formularioIngreso.css';
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 function Ingreso({setRender, render, date}) {
 
@@ -76,53 +76,63 @@ function Ingreso({setRender, render, date}) {
   return (
     <div className='frame'>
       <h1 className='title-component'>Formulario Ingreso de equipo:</h1>
-      <br /><br />
+      <br />
       <form className='form' onSubmit={ () => crearOrden()}>
         <div className='subtitulos'>Datos cliente</div>
          <br />
-         <input type="text" placeholder='Nombre' onChange={(e) => setName(e.target.value)} required/>
-          <input type="text" placeholder='Apellidos' onChange={(e) => setLastname(e.target.value)} required/>
-            <br /><br />
-          <input type="text" placeholder='Rut' onChange={(e) => setRut(e.target.value)} required/>
-          <input  type='text' placeholder='Teléfono' onChange={(e) => setPhone(e.target.value)} required/>
-            <br /><br />
-          <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
-            <br /><br />
+         <input className='form-field' type="text" placeholder='Nombre' onChange={(e) => setName(e.target.value)} required/>
+          <input className='form-field' type="text" placeholder='Apellidos' onChange={(e) => setLastname(e.target.value)} required/>
+            <br />
+          <input className='form-field' type="text" placeholder='Rut' onChange={(e) => setRut(e.target.value)} required/>
+          <input className='form-field'  type='text' placeholder='Teléfono' onChange={(e) => setPhone(e.target.value)} required/>
+            <br />
+          <input className='form-field' type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
+            <br />
           <div className='subtitulos'>Datos del equipo</div>
             <br />
-            <input type="text" placeholder='Tipo' onChange={(e) => setTipo(e.target.value)} required/>
-            <input type="text" placeholder='Modelo' onChange={(e) => setModelo(e.target.value)} required/>
-            <br /><br />
-            <input type="text" placeholder='Marca' onChange={(e) => setMarca(e.target.value)} required/>
-            <input type="text" placeholder='Serie' onChange={(e) => setSerie(e.target.value)} required/>
+            <input className='form-field' type="text" placeholder='Tipo' onChange={(e) => setTipo(e.target.value)} required/>
+            <input className='form-field' type="text" placeholder='Modelo' onChange={(e) => setModelo(e.target.value)} required/>
             <br />
+            <input className='form-field' type="text" placeholder='Marca' onChange={(e) => setMarca(e.target.value)} required/>
+            <input className='form-field' type="text" placeholder='Serie' onChange={(e) => setSerie(e.target.value)} required/>
             <br />
-            <input type='checkbox' id="espada" onChange={(e) => setEspada(!espada)}/>
-            <label for="espada">Espada</label><br />
-            <input type='checkbox' id="cadena" onChange={(e) => setCadena(!cadena)}/>
-            <label for="cadena">Cadena</label><br />
-            <input type='checkbox' id="funda" onChange={(e) => setFunda(!funda)}/>
-            <label for="funda">Funda</label><br />
-            <input type='checkbox' id="disco" onChange={(e) => setDisco(!disco)}/>
-            <label for="disco">Disco de Corte</label>
-            <br /><br />
+            <div className='accesorios'>
+              <input type='checkbox' id="espada" onChange={(e) => setEspada(!espada)}/>
+              <label className='label' for="espada">Espada</label><br />
+              <input type='checkbox' id="cadena" onChange={(e) => setCadena(!cadena)}/>
+              <label className='label' for="cadena">Cadena</label><br />
+              <input type='checkbox' id="funda" onChange={(e) => setFunda(!funda)}/>
+              <label className='label' for="funda">Funda</label><br />
+              <input type='checkbox' id="disco" onChange={(e) => setDisco(!disco)}/>
+              <label className='label' for="disco">Disco de Corte</label>
+            </div>
+            <br />
             <textarea className='observaciones' placeholder='Observaciones' onChange={(e) => setObservaciones(e.target.value)} value={observaciones}/>
-            <br /><br />
-            <label for="mantenimiento">Mantenimiento</label>
-            <input type='radio' name='proposito' id="mantenimiento" onChange={(e) => {
-              setMantenimiento(!mantenimiento)
-              setRevision(false)
-              setStatus("Equipo en espera de Mantención")
-              }} value={mantenimiento} required/>
-              <br /><br />
-            <label for="revision">Revisión</label>
-            <input type='radio' name='proposito' id="revision" onChange={(e) => {
-              setRevision(!revision)
-              setMantenimiento(false)
-              setStatus("Equipo en espera de Revision")
-              }} value={revision}/>
-            <br /><br />
-            <label for="recepcion">Recepcionado por:</label>
+            <br />
+            <div>
+              <label className='label' for="mantenimiento">Mantenimiento</label>
+              <input type='radio' name='proposito' id="mantenimiento" onChange={(e) => {
+                setMantenimiento(!mantenimiento)
+                setRevision(false)
+                setStatus("Equipo en espera de Mantención")
+                }} value={mantenimiento} required/>
+                <br />
+              <label className='label' for="revision">Revisión</label>
+              <input type='radio' name='proposito' id="revision" onChange={(e) => {
+                setRevision(!revision)
+                setMantenimiento(false)
+                setStatus("Equipo en espera de Revision")
+                }} value={revision}/>
+              <br />
+              <label className='label' for="revision">Garantía</label>
+              <input type='radio' name='proposito' id="revision" onChange={(e) => {
+                setRevision(!revision)
+                setMantenimiento(false)
+                setStatus("Equipo en espera de Revision")
+                }} value={revision}/>
+            </div>
+            <br />
+            <label className='label' for="recepcion">Recepcionado por:</label>
           <select onChange={(e) => setMecanico(e.target.value)} id="recepcion" required>
             <option value="1">Seleccionar</option>
             <option value="1">Técnico 1</option>
@@ -136,8 +146,10 @@ function Ingreso({setRender, render, date}) {
               <SignaturePad
                 ref={sigCanvas} 
                 canvasProps={{
-                  className: "SignaturePad"
+                className: "SignaturePad",
+                clearOnResize: false
                 }}
+
               />
               <div className='signature-pad-buttons'>
                 <button className='buttons' onClick={() => {
@@ -225,8 +237,7 @@ function Ingreso({setRender, render, date}) {
       {imageURL ? (<input type='submit' className='buttons' value="IMPRIMIR" />): null}
       </form>
       <div className="return-menu">
-        <NavLink to="/">Menú</NavLink>
-      </div>
+        <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>      </div>
       <div id={success}>
         <p id={succesMsg}>Orden ingresada exitosamente!</p>
       </div>

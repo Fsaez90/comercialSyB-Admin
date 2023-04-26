@@ -81,7 +81,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
       return (
         <div className='frame'>
           <h1 className='title-component'>Solicitudes de repuestos para mantenciones: </h1>
-          <div >
+          <div className='render-section'>
           {repRecibidosMmtoLista.map((x, index) => {
             return(
               <div className="list-section" key={index}>
@@ -161,7 +161,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
       return (
         <div className='frame'>
           <h1 className='title-component'>Solicitures de repuestos para mantenciones:</h1>
-          <div>
+          <div className='render-section'>
             <p className='not-exist'>No hay ordenes pendientes</p>
           </div>
           <NavLink to="/taller">Menú</NavLink>

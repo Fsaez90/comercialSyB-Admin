@@ -239,7 +239,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes de trabajo prioritarias ya comenzadas:</h1>
-        <div >
+        <div className='render-section'>
         {procPrioLista.map((x, index) => {
           return(
             <div className="list-section" key={index}>
@@ -414,7 +414,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes de trabajo prioritarias ya comenzadas:</h1>
-        <div>
+        <div className='render-section'>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
         <NavLink to="/taller">Menú</NavLink>

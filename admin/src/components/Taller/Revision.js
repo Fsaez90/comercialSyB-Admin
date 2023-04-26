@@ -115,7 +115,7 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes de trabajo en espera de revision: </h1>
-        <div >
+        <div className='render-section'>
         {revLista.map((x, index) => {
           return(
             <div className="list-section" key={index}>
@@ -175,11 +175,11 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
               <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
             </div>
             <div className='detalle-observaciones'>
-              Indicar diagnóstico:
+              <p>Indicar diagnóstico:</p>
               <textarea className='diagnostico-field' onChange={(e) => setDiagnostico(e.target.value)} value={diagnostico}/>
             </div>
             <div className='detalle-observaciones'>
-              Indicar detalle de respuestos y mano de obra:
+              <p>Indicar detalle de respuestos y mano de obra:</p>
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
             <div className='modal-buttons'>
@@ -201,7 +201,7 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes de trabajo en espera de Revisión:</h1>
-        <div>
+        <div className='render-section'>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
         <NavLink to="/taller">Menú</NavLink>

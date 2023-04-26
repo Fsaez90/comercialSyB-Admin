@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 import "../static/busqueda.css"
 import ComprobanteRetiro from './ComprobanteRetiro'
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 function ConsultaEstado() {
   
@@ -108,7 +109,7 @@ function ConsultaEstado() {
         <br/>
         <p className='not-exist'>{notExist}</p>
         <br/>
-        <NavLink to="/">Menú</NavLink>
+        <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
       </div>
     )
   } 

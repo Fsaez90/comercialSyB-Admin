@@ -132,7 +132,7 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
     return (
         <div className='frame'>
         <h1 className='title-component'>Ordenes de trabajo con presupuesto Rechazado:</h1>
-        <div>
+        <div className='render-section'>
         {rechLista.map((x, index) => {
           return(
             <div className="list-section" key={index}>
@@ -220,7 +220,7 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes de trabajo con presupuesto Rechazado:</h1>
-        <div>
+        <div className='render-section'>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
         <NavLink to="/taller">Menú</NavLink>

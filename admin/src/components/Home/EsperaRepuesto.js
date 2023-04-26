@@ -84,7 +84,7 @@ function repuestoAtallerHandle(n) {
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes en espera de repuestos: </h1>
-        <div >
+        <div className='render-section'>
         {esperaRepuestoLista.map((x, index) => {
           return(
             <div className="list-section" key={index}>
@@ -176,7 +176,7 @@ function repuestoAtallerHandle(n) {
     return (
       <div className='frame'>
         <h1 className='title-component'>Ordenes en espera de repuestos:</h1>
-        <div>
+        <div className='render-section'>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
         <NavLink to="/">Menú</NavLink>

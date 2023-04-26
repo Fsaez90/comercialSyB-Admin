@@ -390,7 +390,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
     return (
       <div className='frame'>
       <h1 className='title-component'>Mantenciones listas: </h1>
-      <div >
+      <div className='render-section'>
       {mmtoslistosLista.map((x, index) => {
         return(
           <div className="list-section" key={index}>
@@ -540,7 +540,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
     return (
       <div className='frame'>
         <h1 className='title-component'>Presupuesto listos por notificar y valorizar/ingresar a PC:</h1>
-        <div>
+        <div className='render-section'>
           <p className='not-exist'>No hay notificaciones pendientes</p>
         </div>
         <NavLink to="/notificaciones">Menú</NavLink>
