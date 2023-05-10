@@ -31,6 +31,9 @@ import MmtoRepListos from "./components/Taller/mmtoRepListos";
 import EsperaRepuesto from "./components/Home/EsperaRepuesto";
 
 import AdminHome from "./admin/AdminHome";
+import Mecanicos from "./admin/Mecanicos";
+import Mecanico1 from "./admin/mecanico1";
+import Mecanico2 from "./admin/mecanico2";
 
 function App() {
   const [orden, setOrden] = useState([]);
@@ -79,15 +82,39 @@ function App() {
   const [esperaRepuestoLista, setEsperaRepuestoLista] = useState([])
   const [nocontestaTotal, setnocontestaTotal] = useState()
 
+  const [reportesMensuales1, setReportesMensuales1] = useState()
+  const [reportesMensuales2, setReportesMensuales2] = useState()
+  const [reporteMensual1, setReporteMensual1] = useState([])
+  const [reporteMensual2, setReporteMensual2] = useState([])
+  const [reporteMensualTotal1, setReporteMensualTotal1] = useState()
+  const [reporteMensualTotal2, setReporteMensualTotal2] = useState()
+  const [reporteMensualIds1, setReporteMensualIds1] = useState()
+  const [reporteMensualIds2, setReporteMensualIds2] = useState()
+  const [month, setMonth] = useState()
+  const [year, setYear] = useState()
+
+
   useEffect(() => {   
     const fetchData = async () => {
       
-      // setInterval(() => {
-      //   const date = new Date();
-      //   setClock(date.toLocaleTimeString());
-      //   setDate(date.toLocaleDateString());
-      // }, 1000);
-      
+      setInterval(() => {
+        const date = new Date();
+        setClock(date.toLocaleTimeString());
+        setDate(date.toLocaleDateString());
+        setMonth(date.toLocaleString('default', { month: 'long' }));
+        setYear(date.getFullYear().toString());
+      }, 1000);
+
+      const result1 = await fetch(`http://127.0.0.1:8000/comercial/reporte-mecanico1/`)
+      result1.json().then(json => {
+        setReportesMensuales1(json)
+      })
+    
+      const result2 = await fetch(`http://127.0.0.1:8000/comercial/reporte-mecanico2/`)
+      result2.json().then(json => {
+        setReportesMensuales2(json)
+      })
+
       const result = await fetch(`http://127.0.0.1:8000/comercial/orden-list/`)
       result.json().then(json => {
         setOrden(json)
@@ -98,6 +125,21 @@ function App() {
       })
       setNotificaciones(lista.length)
       setListaOt(lista)
+      
+      //Admin data fetch
+      let reportCurrentMonth1 = reportesMensuales1.filter(function(x){
+        return x.year === year && x.mes === month
+      })
+      let reportCurrentMonth2 = reportesMensuales2.filter(function(x){
+        return x.year === year && x.mes === month
+      })
+
+      setReporteMensual1(reportCurrentMonth1)
+      setReporteMensual2(reportCurrentMonth2)
+      setReporteMensualTotal1(reportCurrentMonth1[0].total)
+      setReporteMensualTotal2(reportCurrentMonth2[0].total)
+      setReporteMensualIds1(reportCurrentMonth1[0].lista_ordenes)
+      setReporteMensualIds2(reportCurrentMonth2[0].lista_ordenes)
 
       //Taller data fetch 
 
@@ -199,7 +241,6 @@ function App() {
     setTimeout(() => {
       fetchData(); 
     }, 100); 
-      
     },[render])  
 
   return (
@@ -208,6 +249,10 @@ function App() {
       <Routes>
         <Route path='/' element={<AdminHome />}/> 
         <Route path='/app' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
+        <Route path='/mecanicos' element={<Mecanicos render={render} setRender={setRender} reporteMensualTotal1={reporteMensualTotal1} reporteMensualTotal2={reporteMensualTotal2} month={month} />}/>
+        <Route path='/mecanico1' element={<Mecanico1 reporteMensualIds1={reporteMensualIds1} render={render} setRender={setRender}/>}/> 
+        <Route path='/mecanico2' element={<Mecanico2 reporteMensualIds2={reporteMensualIds2} render={render} setRender={setRender}/>}/>  
+
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
         <Route path='/estado' element={<ConsultaEstado />}/>

@@ -18,7 +18,7 @@ function AdminHome() {
             <NavLink className='menu-button' to="/ingreso">O.T en proceso de reparación</NavLink>
             <NavLink className='menu-button' to="/notificaciones">Maquinas para retiro</NavLink>
             <NavLink className='menu-button' to="/otxingresar">O.T espera repuesto</NavLink>
-            <NavLink className='menu-button' to="/estado">Mecánicos</NavLink>
+            <NavLink className='menu-button' to="/mecanicos">Mecánicos</NavLink>
         </div>
         <br/>
         <div className='menu-admin'>
