@@ -90,6 +90,8 @@ function App() {
   const [reporteMensualTotal2, setReporteMensualTotal2] = useState()
   const [reporteMensualIds1, setReporteMensualIds1] = useState()
   const [reporteMensualIds2, setReporteMensualIds2] = useState()
+  const [reporteMensualIds1Gar, setReporteMensualIdsGar1] = useState()
+  const [reporteMensualIds2Gar, setReporteMensualIdsGar2] = useState()
   const [month, setMonth] = useState()
   const [year, setYear] = useState()
 
@@ -140,6 +142,8 @@ function App() {
       setReporteMensualTotal2(reportCurrentMonth2[0].total)
       setReporteMensualIds1(reportCurrentMonth1[0].lista_ordenes)
       setReporteMensualIds2(reportCurrentMonth2[0].lista_ordenes)
+      setReporteMensualIdsGar1(reportCurrentMonth1[0].garantias)
+      setReporteMensualIdsGar2(reportCurrentMonth1[0].garantias)
 
       //Taller data fetch 
 
@@ -250,8 +254,8 @@ function App() {
         <Route path='/' element={<AdminHome />}/> 
         <Route path='/app' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
         <Route path='/mecanicos' element={<Mecanicos render={render} setRender={setRender} reporteMensualTotal1={reporteMensualTotal1} reporteMensualTotal2={reporteMensualTotal2} month={month} />}/>
-        <Route path='/mecanico1' element={<Mecanico1 reporteMensualIds1={reporteMensualIds1} render={render} setRender={setRender}/>}/> 
-        <Route path='/mecanico2' element={<Mecanico2 reporteMensualIds2={reporteMensualIds2} render={render} setRender={setRender}/>}/>  
+        <Route path='/mecanico1' element={<Mecanico1 reporteMensualIds1={reporteMensualIds1} reporteMensualIds1Gar={reporteMensualIds1Gar} render={render} setRender={setRender} month={month}/>}/> 
+        <Route path='/mecanico2' element={<Mecanico2 reporteMensualIds2={reporteMensualIds2} reporteMensualIds2Gar={reporteMensualIds2Gar} render={render} setRender={setRender} month={month}/>}/>  
 
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>

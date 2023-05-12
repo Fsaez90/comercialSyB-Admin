@@ -26,11 +26,42 @@
     background-color: white;
 }
 
+.modal-elements-admin-mecanics{
+    display: flex;
+    border-radius: 5px;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    color: white;
+    /* background-color: green */
+}
+
 .title-consulta-admin {
     width:max-content;
     padding: 4px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
+}
+
+.title-consulta-admin-mecanics {
+    width:max-content;
+    padding: 4px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    background-color: green;
+    margin-bottom: 10px;
+}
+
+.title-consulta-admin-mecanics-gar {
+    width:max-content;
+    padding: 4px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    background-color: red;
+    margin-bottom: 10px;
 }
 
 .elements-admin-btn {
