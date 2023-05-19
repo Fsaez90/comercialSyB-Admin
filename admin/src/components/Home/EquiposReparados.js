@@ -29,6 +29,10 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
   const [valorizacion, setValorizacion] = useState("$")
   const [prioritaria, setPrioritaria] = useState()
   const [fechaReparacion, setFechaReparacion] = useState()
+  const [isGarantia, setIsGarantia] = useState()
+  const [detallePptoGar, setDetallePptoGar] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState() 
+  const [aplGarantia,  setAplGarantia] = useState()
 
   const navigate  = useNavigate();
 
@@ -161,13 +165,17 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
                   setValorizacion(x.valorizacion)
                   setIngresoSistema(x.ingreso_sistema)
                   setFechaReparacion(x.fecha_reparacion)
+                  setIsGarantia(x.garantia)
+                  setDetallePptoGar(x.detalle_garantia)
+                  setDiagnosticoGar(x.diagnostico_garantia)
+                  setAplGarantia(x.validez_garantia)
                 }
                   }>Notificar cliente</button>         
             </div> 
             )
         })}
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
         <div className={modal}>
             <div className='modal-content'>
               <div className='modal-details-taller'>
@@ -183,24 +191,49 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
                 </div>
                 <div className='machine-detail-2'>
                   <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                  {isGarantia? <p className='sub-detail'><span className='data-modal-taller'>GARANTIA</span></p>: null}     
                   {mantencion? <p className='sub-detail'><span className='data-modal-taller'>Mantención</span></p>: null}
                   {revision? <p className='sub-detail'><span className='data-modal-taller'>Revisión</span></p>: null}
                   <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
                   <p className='sub-detail'>Fecha de reparación: <span className='data-modal-taller'>{fechaReparacion}</span></p>
                 </div>
               </div>
-              <div className='detalle-observaciones'>
-                Diagnóstico:
-                <textarea className='diagnostico-field' value={diagnostico}/>
-              </div>
-              <div className='detalle-observaciones'>
-                Detalle de reparación:
-                <textarea className='detalle-field' value={presupuesto}/>
-                <div>
-                  <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
-                  <label for="valorizacion">Favor indicar valorización de presupuesto</label>
+              {isGarantia?
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
                 </div>
-              </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  {(aplGarantia === "no")?
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>:
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                  }
+                </div>
+              </>:
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnostico}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={presupuesto}/>
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                </div>
+              </>
+              }
               <div className='modal-buttons-notificaciones'>
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
@@ -229,7 +262,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
           <div className='render-section'>
             <p className='not-exist'>No hay notificaciones pendientes</p>
           </div>
-          <NavLink to="/notificaciones">Menú</NavLink>
+          <NavLink to="/notificaciones">Volver</NavLink>
         </div>
       )
     }

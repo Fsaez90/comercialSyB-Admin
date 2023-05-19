@@ -29,12 +29,14 @@ import NoContestaRetiro from "./components/Home/NoContestaRetiro";
 import SolicitudRepuestos from "./components/Home/SolicitudRepuestos";
 import MmtoRepListos from "./components/Taller/mmtoRepListos";
 import EsperaRepuesto from "./components/Home/EsperaRepuesto";
+import Garantias from "./components/Taller/garantias";
+import GarantiaProceso from "./components/Taller/GarantiaProceso";
 
 import AdminHome from "./admin/AdminHome";
 import Mecanicos from "./admin/Mecanicos";
 import Mecanico1 from "./admin/mecanico1";
 import Mecanico2 from "./admin/mecanico2";
-
+ 
 function App() {
   const [orden, setOrden] = useState([]);
   const [render, setRender] = useState(false)
@@ -48,11 +50,13 @@ function App() {
   const [procPrioLista, setProcPrioLista] = useState([])
   const [procRevLista, setProcRevLista] = useState([])
   const [procManLista, setProcManLista] = useState([])
+  const [proGarLista, setProGarLista] = useState([])
   const [revLista, setRevlista] = useState([])
   const [manLista, setManlista] = useState([])
   const [aprLista, setAprlista] = useState([])
   const [rechLista, setRechlista] = useState([])
   const [prioridad, setPrioridad] = useState()
+  const [garantia, setGarantia] = useState()
   const [revision, setRevision] = useState()
   const [mantencion, setMantencion] = useState()
   const [aprobadas, setAprobadas] = useState()
@@ -80,6 +84,9 @@ function App() {
   const [repRecibidosMmtoLista, setRepRecibidosMmtoLista] = useState([])
   const [esperaRepuesto, setEsperaRepuesto] = useState()
   const [esperaRepuestoLista, setEsperaRepuestoLista] = useState([])
+  const [garantiaLista, setGarantiaLista] = useState([])
+  const [garantiaCom, setGarantiaCom] = useState([])
+  const [lastId, setLastid] = useState()
   const [nocontestaTotal, setnocontestaTotal] = useState()
 
   const [reportesMensuales1, setReportesMensuales1] = useState()
@@ -95,7 +102,6 @@ function App() {
   const [month, setMonth] = useState()
   const [year, setYear] = useState()
 
-
   useEffect(() => {   
     const fetchData = async () => {
       
@@ -106,46 +112,44 @@ function App() {
         setMonth(date.toLocaleString('default', { month: 'long' }));
         setYear(date.getFullYear().toString());
       }, 1000);
+      // const result = await fetch('http://127.0.0.1:8000/comercial/orden-list/');
+      // result
+        // .json()
+        // .then(data => {
+        //   setOrden(data);
+        //   if (Array.isArray(data) && data.length > 0) {
+        //     const lastObject = data[data.length - 1]; // Use '-1' to get the last object
+        //     setLastid(lastObject.id);
+        //   }
+        // })
+      //   .catch(error => {
+      //     // Handle any errors that occurred during the fetch request
+      //     console.error('Error:', error);
+      //   });
 
-      const result1 = await fetch(`http://127.0.0.1:8000/comercial/reporte-mecanico1/`)
-      result1.json().then(json => {
-        setReportesMensuales1(json)
-      })
+
+      // const result1 = await fetch(`http://127.0.0.1:8000/comercial/reporte-mecanico1/`)
+      // result1.json().then(json => {
+      //   setReportesMensuales1(json)
+      // })
     
-      const result2 = await fetch(`http://127.0.0.1:8000/comercial/reporte-mecanico2/`)
-      result2.json().then(json => {
-        setReportesMensuales2(json)
-      })
+      // const result2 = await fetch(`http://127.0.0.1:8000/comercial/reporte-mecanico2/`)
+      // result2.json().then(json => {
+      //   setReportesMensuales2(json)
+      // })
 
-      const result = await fetch(`http://127.0.0.1:8000/comercial/orden-list/`)
-      result.json().then(json => {
-        setOrden(json)
-      })
-  
-      let lista = orden.filter(function(x){
-        return x.ingreso_sistema === false
-      })
-      setNotificaciones(lista.length)
-      setListaOt(lista)
+      const [response, response1, response2] = await Promise.all([
+        fetch('http://127.0.0.1:8000/comercial/orden-list/'),
+        fetch('http://127.0.0.1:8000/comercial/reporte-mecanico1/'),
+        fetch('http://127.0.0.1:8000/comercial/reporte-mecanico2/')
+      ]);
       
-      //Admin data fetch
-      let reportCurrentMonth1 = reportesMensuales1.filter(function(x){
-        return x.year === year && x.mes === month
-      })
-      let reportCurrentMonth2 = reportesMensuales2.filter(function(x){
-        return x.year === year && x.mes === month
-      })
-
-      setReporteMensual1(reportCurrentMonth1)
-      setReporteMensual2(reportCurrentMonth2)
-      setReporteMensualTotal1(reportCurrentMonth1[0].total)
-      setReporteMensualTotal2(reportCurrentMonth2[0].total)
-      setReporteMensualIds1(reportCurrentMonth1[0].lista_ordenes)
-      setReporteMensualIds2(reportCurrentMonth2[0].lista_ordenes)
-      setReporteMensualIdsGar1(reportCurrentMonth1[0].garantias)
-      setReporteMensualIdsGar2(reportCurrentMonth1[0].garantias)
-
-      //Taller data fetch 
+      const data = await response.json();
+      setOrden(data);
+      if (Array.isArray(data) && data.length > 0) {
+        const lastObject = data[data.length - 1]; // Use '-1' to get the last object
+        setLastid(lastObject.id);
+      }
 
       let listaPrioridad = orden.filter(function(x){
         return x.prioritaria === true && x.comenzada === false && x.entregada === false
@@ -171,6 +175,9 @@ function App() {
       let mantComenzadas = orden.filter(function(x){
         return x.mantencion === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
       })
+      let garComenzadas = orden.filter(function(x){
+        return x.garantia === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
+      })
       let PptosListos = orden.filter(function(x){
         return x.revision === true && x.revisado === true && x.terminada ===true  && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
       })
@@ -178,10 +185,10 @@ function App() {
         return x.mantencion === true && x.mmto_completado === true && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
       })
       let solicitudRepMmto = orden.filter(function(x){
-        return x.mantencion === true && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === false && x.espera_repuesto === false && x.entregada === false
+        return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === false && x.espera_repuesto === false && x.entregada === false
       })
       let repuestosRecibidosMmmto = orden.filter(function(x){
-        return x.mantencion === true && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === true && x.entregada === false
+        return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === true && x.entregada === false
       })
       let EqReparados = orden.filter(function(x){
         return x.revisado === true && x.terminada === true && x.reparada === true && x.cliente_noresponde === false && x.cliente_notificado_retiro === false && x.entregada === false
@@ -198,7 +205,10 @@ function App() {
       let EsperaRepuestos = orden.filter(function(x){
         return x.espera_repuesto === true && x.entregada === false
       }) 
-    
+      let Garantias = orden.filter(function(x){
+        return x.garantia === true && x.validez_garantia === null
+      }) 
+
       let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length 
       let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
       let totalNoContesta = NoContestappto.length + NoContestaretiro.length
@@ -211,6 +221,8 @@ function App() {
       setPriComenzadas(priComenzadas.length)
       setRevComenzadas(revComenzadas.length)
       setManComenzadas(mantComenzadas.length)
+      setGarantiaCom(garComenzadas.length)
+      setProGarLista(garComenzadas)
       setTotalProceso(procesoTotal)
       setProcPrioLista(priComenzadas)
       setProcRevLista(revComenzadas)
@@ -226,6 +238,7 @@ function App() {
       setmmtoslistosLista(MmtosListos)
       seteqreparadosLista(EqReparados)
       seteqarmadosLista(EqArmados)
+      setGarantiaLista(Garantias)
       setNoContestaPptoLista(NoContestappto)
       setNoContestaRetiroLista(NoContestaretiro)
       setSolicitudRepuestosLista(solicitudRepMmto)
@@ -241,6 +254,35 @@ function App() {
       setRepRecibidosMmto(repuestosRecibidosMmmto.length)
       setEsperaRepuestoLista(EsperaRepuestos)
       setnocontestaTotal(totalNoContesta)
+      
+      const data1 = await response1.json();
+      setReportesMensuales1(data1);
+      
+      const data2 = await response2.json();
+      setReportesMensuales2(data2);
+
+      let lista = orden.filter(function(x){
+        return x.ingreso_sistema === false
+      })
+      setNotificaciones(lista.length)
+      setListaOt(lista)
+      
+      //Admin data fetch
+      let reportCurrentMonth1 = reportesMensuales1.filter(function(x){
+        return x.year === year && x.mes === month
+      })
+      let reportCurrentMonth2 = reportesMensuales2.filter(function(x){
+        return x.year === year && x.mes === month
+      })
+
+      setReporteMensual1(reportCurrentMonth1)
+      setReporteMensual2(reportCurrentMonth2)
+      setReporteMensualTotal1(reportCurrentMonth1[0].total)
+      setReporteMensualTotal2(reportCurrentMonth2[0].total)
+      setReporteMensualIds1(reportCurrentMonth1[0].lista_ordenes)
+      setReporteMensualIds2(reportCurrentMonth2[0].lista_ordenes)
+      setReporteMensualIdsGar1(reportCurrentMonth1[0].garantias)
+      setReporteMensualIdsGar2(reportCurrentMonth1[0].garantias)
     };
     setTimeout(() => {
       fetchData(); 
@@ -257,35 +299,35 @@ function App() {
         <Route path='/mecanico1' element={<Mecanico1 reporteMensualIds1={reporteMensualIds1} reporteMensualIds1Gar={reporteMensualIds1Gar} render={render} setRender={setRender} month={month}/>}/> 
         <Route path='/mecanico2' element={<Mecanico2 reporteMensualIds2={reporteMensualIds2} reporteMensualIds2Gar={reporteMensualIds2Gar} render={render} setRender={setRender} month={month}/>}/>  
 
-        <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender}/>}/>
+        <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
-        <Route path='/estado' element={<ConsultaEstado />}/>
+        <Route path='/estado' element={<ConsultaEstado date={date} />}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
         <Route path='/entrega' element={<Entrega date={date} clock={clock}/>}/>
         <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista}/>}/>
 
         <Route path='/taller' element={<HomeTaller render={render} setRender={setRender} prioridad={prioridad} revision={revision} mantencion={mantencion} aprobadas={aprobadas} rechazadas={rechazadas} totalProceso={totalProceso} repRecibidosMmto={repRecibidosMmto}/>}/>
-       
+        <Route path='/garantia' element={<Garantias render={render} setRender={setRender} garantia={garantia} garantiaLista={garantiaLista} clock={clock} date={date} />} />
         <Route path='/prioridad' element={<Prioridad date={date} clock={clock} prioridad={prioridad} setRender={setRender} render={render} prioLista={prioLista}/>}/>
         <Route path='/mantenimiento' element={<Mantenimiento date={date} clock={clock} mantenciones={mantencion} setRender={setRender} render={render} manLista={manLista} />}/>
         <Route path='/revision' element={<Revision date={date} clock={clock} revisiones={revision} setRender={setRender} render={render} revLista={revLista}/>}/>
         <Route path='/mmto-rep-listos' element={<MmtoRepListos date={date} clock={clock} render={render} setRender={setRender} repRecibidosMmto={repRecibidosMmto} repRecibidosMmtoLista={repRecibidosMmtoLista} />}/>
         <Route path='/aprobadas' element={<Aprobadas date={date} clock={clock} render={render} setRender={setRender} aprobadas={aprobadas} aprLista={aprLista} />}/>
         <Route path='/rechazadas' element={<Rechazadas date={date} clock={clock} render={render} setRender={setRender} rechazadas={rechazadas} rechLista={rechLista} />}/>
-        <Route path='/proceso' element={<Proceso render={render} setRender={setRender} priComenzadas={priComenzadas} revComenzadas={revComenzadas} manComenzadas={manComenzadas} />}/>
+        <Route path='/proceso' element={<Proceso render={render} setRender={setRender} priComenzadas={priComenzadas} revComenzadas={revComenzadas} manComenzadas={manComenzadas} garantiaCom={garantiaCom} />}/>
         <Route path='/proceso-prioridad' element={<PrioritariasProc date={date} clock={clock} priComenzadas={priComenzadas} setRender={setRender} render={render} procPrioLista={procPrioLista}/>}/>
         <Route path='/proceso-revision' element={<RevisionProc revComenzadas={revComenzadas} setRender={setRender} render={render} procRevLista={procRevLista} date={date} clock={clock}/>}/>
         <Route path='/proceso-mantencion' element={<MantencionProc date={date} clock={clock} manComenzadas={manComenzadas} setRender={setRender} render={render} procManLista={procManLista}/>}/>
-        
+        <Route path='/proceso-garantia' element={<GarantiaProceso proGarLista={proGarLista} render={render} setRender={setRender} date={date} clock={clock} />}/>
         <Route path="/pptos-listos" element={<PptosListos render={render} setRender={setRender} date={date} clock={clock} pptoslistos={pptoslistos} pptoslistosLista={pptoslistosLista}/>}/>
         <Route path="/mmto-solicitud-rep" element={<SolicitudRepuestos render={render} setRender={setRender} date={date} clock={clock} solicitudRepuestos={solicitudRepuestos} solicitudRepuestosLista={solicitudRepuestosLista} />}/>
 
         <Route path="/mantenciones-listas" element={<MantencionesListas render={render} setRender={setRender} date={date} clock={clock} mmtoslistos={mmtoslistos} mmtoslistosLista={mmtoslistosLista} />}/>
         <Route path="/equipos-reparados" element={<EquiposReparados render={render} setRender={setRender} date={date} clock={clock} eqreparados={eqreparados} eqreparadosLista={eqreparadosLista}/>}/>
-        <Route path="equipos-armados" element={<EquiposArmados render={render} setRender={setRender} date={date} clock={clock} eqarmados={eqarmados} eqarmadosLista={eqarmadosLista} />}/>
-        <Route path="no-contesta" element={<NoContesta render={render} setRender={setRender} date={date} clock={clock} noContestaretiro={noContestaretiro} noContestappto={noContestappto}/>}/>
-        <Route path="no-contesta-pptos" element={<NoContestapptos render={render} setRender={setRender} date={date} clock={clock} noContestappto={noContestappto} noContestaPptoLista={noContestaPptoLista}/>}/>
-        <Route path="no-contesta-retiro" element={<NoContestaRetiro render={render} setRender={setRender} date={date} clock={clock} noContestaretiro={noContestaretiro} noContestaRetiroLista={noContestaRetiroLista}/>}/>
+        <Route path="/equipos-armados" element={<EquiposArmados render={render} setRender={setRender} date={date} clock={clock} eqarmados={eqarmados} eqarmadosLista={eqarmadosLista} />}/>
+        <Route path="/no-contesta" element={<NoContesta render={render} setRender={setRender} date={date} clock={clock} noContestaretiro={noContestaretiro} noContestappto={noContestappto}/>}/>
+        <Route path="/no-contesta-pptos" element={<NoContestapptos render={render} setRender={setRender} date={date} clock={clock} noContestappto={noContestappto} noContestaPptoLista={noContestaPptoLista}/>}/>
+        <Route path="/no-contesta-retiro" element={<NoContestaRetiro render={render} setRender={setRender} date={date} clock={clock} noContestaretiro={noContestaretiro} noContestaRetiroLista={noContestaRetiroLista}/>}/>
       </Routes>
       </Router>
     </div>

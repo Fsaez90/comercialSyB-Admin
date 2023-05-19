@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalNotificaciones.css"
 
 function NoContestaRetiro({render, setRender, date, noContestaretiro, noContestaRetiroLista}) {
-    const [modal, setModal] = useState("modal-inactive")
+  const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
   const [apellidos, setApellidos] = useState()
@@ -29,6 +29,9 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
   const [presupuesto, setPresupuesto] = useState("")
   const [valorizacion, setValorizacion] = useState("$")
   const [prioritaria, setPrioritaria] = useState()
+  const [detallePptoGar, setDetallePptoGar] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState()
+  const [isGarantia, setIsGarantia] = useState()
   const navigate  = useNavigate();
 
   useEffect(() => {
@@ -160,13 +163,16 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
                 setHoraRevision(x.hora_trabajo)
                 setPrioritaria(x.prioritaria)
                 setIngresoSistema(x.ingreso_sistema)
+                setDetallePptoGar(x.detalle_garantia)
+                setDiagnosticoGar(x.diagnostico_garantia)
+                setIsGarantia(x.garantia)
               }
                 }>Notificar</button>         
           </div> 
           )
       })}
       </div>
-      <NavLink to="/notificaciones">Menú</NavLink>
+      <NavLink to="/notificaciones">Volver</NavLink>
       <div className={modal}>
           <div className='modal-content'>
             <div className='modal-details-taller'>
@@ -182,23 +188,42 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                {isGarantia? <p className='sub-detail'><span className='data-modal-taller'>GARANTIA</span></p>: null}
                 {mantencion? <p className='sub-detail'><span className='data-modal-taller'>Mantención</span></p>: null}
                 {revision? <p className='sub-detail'><span className='data-modal-taller'>Revisión</span></p>: null}
                 <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
               </div>
             </div>
-            <div className='detalle-observaciones'>
-              Diagnóstico:
-              <textarea className='diagnostico-field' value={diagnostico}/>
-            </div>
-            <div className='detalle-observaciones'>
-              Detalle de reparación:
-              <textarea className='detalle-field' value={presupuesto}/>
-              <div>
-                <input type="text" id="valorizacion" value={valorizacion}/>
-                <label for="valorizacion">Valorización de presupuesto:</label>
-              </div>
-            </div>
+            {isGarantia?
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                </div>
+              </>:
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnostico}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={presupuesto}/>
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                </div>
+              </>
+              }
             <div className='modal-buttons-notificaciones'>
               <div>
                 <button className='button-list-aprobada' onClick={() => {
@@ -225,7 +250,7 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
         <div className='render-section'>
           <p className='not-exist'>No hay notificaciones pendientes</p>
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
       </div>
     )
   }

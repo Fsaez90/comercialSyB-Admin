@@ -254,7 +254,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
           )
       })}
       </div>
-      <NavLink to="/notificaciones">Menú</NavLink>
+      <NavLink to="/notificaciones">Volver</NavLink>
       <div className={modal}>
           <div className='modal-content'>
             <div className='modal-details-taller'>
@@ -337,7 +337,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
         <div className='render-section'>
           <p className='not-exist'>No hay notificaciones pendientes</p>
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
       </div>
     )
   }

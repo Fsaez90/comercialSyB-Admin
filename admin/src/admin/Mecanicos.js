@@ -46,8 +46,8 @@ function Mecanicos({render, setRender, reporteMensualTotal1, reporteMensualTotal
             <NavLink className='menu-button' to="/ingreso">Meses anteriores</NavLink>
         </div>
         <div className='menu'>
-            <NavLink className='menu-button' to="/mecanico1">Mecánico1 {`Total: ${reporteMensualTotal1 === undefined? "": reporteMensualTotal1}`}</NavLink>
-            <NavLink className='menu-button' to="/mecanico2">Mecánico2 {`Total:  ${reporteMensualTotal2 === undefined? "": reporteMensualTotal2}`}</NavLink>
+            <NavLink className='menu-button' to="/mecanico1">Mecánico1 {`Total: ${reporteMensualTotal1 === null? "0": reporteMensualTotal1}`}</NavLink>
+            <NavLink className='menu-button' to="/mecanico2">Mecánico2 {`Total:  ${reporteMensualTotal2 === null? "0": reporteMensualTotal2}`}</NavLink>
         </div>
         <br/>
         <div className='menu-admin'>

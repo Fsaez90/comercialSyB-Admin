@@ -27,7 +27,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   const [diagnostico, setDiagnostico] = useState()
   const [detallePpto, setDetallePpto] = useState()
   const  navigate  = useNavigate();
-  console.log(aPresupuesto)
+
   useEffect(() => {
     setTimeout(() => {
       setRender(!render)

@@ -264,7 +264,6 @@ function mantenimientopptoHandle(n) {
                   setDetallePpto("")
                   }}>Volver</button>
             </div>}
-            
           </div>
         </div>  
       </div>

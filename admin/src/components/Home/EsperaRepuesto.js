@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalTaller.css"
+import AddHomeIcon from '@mui/icons-material/AddHome';
+
 
 function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista}) {
   const [modal, setModal] = useState("modal-inactive")
@@ -179,7 +181,7 @@ function repuestoAtallerHandle(n) {
         <div className='render-section'>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
-        <NavLink to="/">Menú</NavLink>
+        <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
       </div>
     )
 }

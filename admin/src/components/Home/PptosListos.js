@@ -32,7 +32,10 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   const [prioritaria, setPrioritaria] = useState()
   const [esperaRepuesto, setEsperaRepuesto] = useState(false)
   const [repuestoField, setRepuestoField] = useState()
-
+  const [isGarantia, setIsGarantia] = useState() 
+  const [detallePptoGar, setDetallePptoGar] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState()
+  const [aplGarantia, setAplGarantia] = useState()
 
   const navigate  = useNavigate();
 
@@ -41,7 +44,6 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
       setRender(!render)
     }, 500); 
   },[modal])
-
 
 
   function AprobadaHandle(n){
@@ -214,43 +216,59 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   }
 
   function NoRespondeHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    Promise.all([
+      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            revisado: true,
+            status: "Presupuesto terminado, cliente no conesta, email enviado",
+            terminada: true,
+            valorizacion: valorizacion,
+            prioritaria: prioritaria,
+            cliente_noresponde: true,
+        })
+      }),
+      fetch(`http://127.0.0.1:8000/comercial/email/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
+          id: id,
+          name: nombre,
+          lastname: apellidos,
           email: email,
-          telefono: telefono,
           tipo: tipo,
-          marca: marca,
           modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
           diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          revisado: true,
-          status: "Presupuesto terminado, cliente no conesta",
-          terminada: true,
           valorizacion: valorizacion,
-          prioritaria: prioritaria,
-          cliente_noresponde: true,
+        })
       })
-    })
+    ])
     setRender(!render)
     setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
+    setModal("modal-inactive")
+    navigate('/notificaciones') 
     }, 500);
   }
 
@@ -290,13 +308,17 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                 setPrioritaria(x.prioritaria)
                 setValorizacion(x.valorizacion) 
                 setIngresoSistema(x.ingreso_sistema)
+                setIsGarantia(x.garantia)
+                setDetallePptoGar(x.detalle_garantia)
+                setDiagnosticoGar(x.diagnostico_garantia)
+                setAplGarantia(x.validez_garantia)
               }
                 }>Notificar</button>         
           </div> 
           )
       })}
       </div>
-      <NavLink to="/notificaciones">Menú</NavLink>
+      <NavLink to="/notificaciones">Volver</NavLink>
       <div className={modal}>
           <div className='modal-content'>
             <div className='modal-details-taller'>
@@ -312,24 +334,48 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                {isGarantia? <p className='sub-detail'>GARANTIA NO VALIDA</p>: null}
                 {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
                 {revision? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Revisión</span></p>: null}
                 <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
               </div>
             </div>
-            <div className='detalle-observaciones'>
-              Diagnóstico:
-              <textarea className='diagnostico-field' value={diagnostico}/>
-            </div>
-            <div className='detalle-observaciones'>
-              Detalle de reparación:
-              <textarea className='detalle-field' value={presupuesto}/>
-              <div>
-                <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
-                <label for="valorizacion">Favor indicar valorización de presupuesto</label>
-                <br/><br/>
-              </div>
-            </div>
+            {isGarantia?
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  {(aplGarantia === "no")?
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                </div>:
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                </div>
+                  }
+                </div>
+              </>:
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnostico}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={presupuesto}/>
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                </div>
+              </>
+              }
             <div className='opcion-presupuesto'>
                 <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
                 <label for="espera_repuesto">Repuesto faltante</label>
@@ -382,7 +428,6 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                setModal("modal-inactive")
                setPresupuesto("")
                setDiagnostico("")
-               
               }}>Volver</button>
           </div>
         </div>}
@@ -397,7 +442,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
         <div className='render-section'>
           <p className='not-exist'>No hay notificaciones pendientes</p>
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
       </div>
     )
   }

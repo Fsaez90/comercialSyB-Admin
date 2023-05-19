@@ -29,6 +29,8 @@ function SolicitudRepuestos({render, setRender, solicitudRepuestos, solicitudRep
   const [repuestoField, setRepuestoField] = useState()
   const [fechaRevision, setFechaRevision] = useState()
   const [horaRevision, setHoraRevision] = useState()
+  const [detallePptoGar, setDetallePptoGar] = useState()
+  const [isGarantia, setIsGarantia] = useState() 
 
   const  navigate  = useNavigate();
   
@@ -61,7 +63,7 @@ function EnesperaRepuesto(n) {
         revision: revision,
         mecanico: mecanico,
         ingreso_sistema: ingresoSistema,
-        status: "Equipo en proceso de Mantencion en Espera de Repuesto",
+        status: "Equipo en proceso de Mantencion/Garantia en Espera de Repuesto",
         diagnostico: diagnostico,
         comenzada: true,
         detalle_ppto: detallePpto,
@@ -104,7 +106,7 @@ function respuestosEnviadosHandle(n) {
           diagnostico: diagnostico,
           comenzada: true,
           detalle_ppto: detallePpto,
-          status: "Equipo en proceso de Mantencion",
+          status: "Equipo en proceso de Mantencion/Garantia",
           terminada: true,
           solicitud_repuestos: true,
           repuestos_entregados: true,
@@ -151,14 +153,15 @@ function respuestosEnviadosHandle(n) {
                   setDetallePpto(x.detalle_ppto)
                   setFechaRevision(x.fecha_trabajo)
                   setHoraRevision(x.hora_trabajo)
-                  
+                  setDetallePptoGar(x.detalle_garantia)
+                  setIsGarantia(x.garantia)
                 }
                   }>Comenzar</button>         
             </div> 
             )
         })}
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
         <div className={modal}>
           <div className='modal-content'>
             <div className='modal-details-taller'>
@@ -174,6 +177,7 @@ function respuestosEnviadosHandle(n) {
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                {isGarantia? <p className='sub-detail'>Trabajo de GARANTIA</p>: null}
                 {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
                 {revision? <p className='sub-detail'>Equipo a Revisión</p>: null}
                 {espada? <p className='sub-detail'>Espada:<span className='data-modal-taller'>Sí</span></p>: null}
@@ -182,13 +186,26 @@ function respuestosEnviadosHandle(n) {
                 {disco? <p className='sub-detail'>Disco de corte:<span className='data-modal-taller'>Sí</span></p>: null}
               </div>
             </div>
-            <div className='observaciones-taller'>
-              <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
-            </div>
-            <div className='detalle-observaciones'>
-              Repuestos solicitados:
-              <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
-            </div>
+            {isGarantia?
+            <>
+              <div className='observaciones-taller'>
+                <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>GARANTIA</span></p>
+              </div>
+                <div className='detalle-observaciones'>
+                  Repuestos solicitados:
+                  <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar}/>
+              </div>
+            </>:
+            <>
+              <div className='observaciones-taller'>
+                <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
+              </div>
+              <div className='detalle-observaciones'>
+                Repuestos solicitados:
+                <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
+              </div>
+            </>    
+            }
             <div className='opcion-presupuesto'>
                 <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
                 <label for="espera_repuesto">Repuesto faltante</label>
@@ -223,7 +240,7 @@ function respuestosEnviadosHandle(n) {
         <div className='render-section'>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
       </div>
     )
 }

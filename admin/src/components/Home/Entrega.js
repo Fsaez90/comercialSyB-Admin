@@ -4,6 +4,7 @@ import "../static/busqueda.css"
 import "../static/modalTaller.css"
 import ModuloCliente from '../Modulos Retiro/ModuloCliente'
 import ModuloTercero from '../Modulos Retiro/ModuloTercero'
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 function Entrega({date, clock}) {
   const [numero, setNumero] = useState("")
@@ -141,7 +142,7 @@ function Entrega({date, clock}) {
         <br/>
         <p className='not-exist'>{notExist}</p>
         <br/>
-        <NavLink to="/">Menú</NavLink>
+        <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
       </div>
     )
   } 
