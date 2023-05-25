@@ -41,7 +41,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
   function mantenimientoHandle(n){
     if (repMecanico === "1"){
       Promise.all([
-        fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -76,7 +76,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
             reparada_por: repMecanico
           })
         }),
-        fetch(`http://127.0.0.1:8000/comercial/update-report1/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
           method: "PUT",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -96,7 +96,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
       });
     } else if(repMecanico === "2") {
       Promise.all([
-        fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -131,7 +131,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
             reparada_por: repMecanico
           })
         }),
-        fetch(`http://127.0.0.1:8000/comercial/update-report2/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
           method: "PUT",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({

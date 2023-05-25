@@ -4,7 +4,7 @@ import Busqueda from './Busqueda'
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import BuildIcon from '@mui/icons-material/Build';
 
-function AdminHome() {
+function AdminHome({date}) {
   return (
     <div className='frame-menu'>
         <h1 className='title-menu'>STIHL Los Andes - Admin</h1>
@@ -12,7 +12,7 @@ function AdminHome() {
           <div className='subtitle-admin'>Equipos en bodega:</div>
         </div>
         <div>
-          <Busqueda />
+          <Busqueda date={date} />
         </div>
         <div className='menu'>
             <NavLink className='menu-button' to="/ingreso">O.T en proceso de reparación</NavLink>

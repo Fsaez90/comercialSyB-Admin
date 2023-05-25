@@ -35,7 +35,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   },[modal])
 
   function enProcesoHandle(n) {
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -73,7 +73,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   }
 
   function revisionHandle(n) {
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({

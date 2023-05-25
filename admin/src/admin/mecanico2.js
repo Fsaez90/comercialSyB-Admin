@@ -42,7 +42,7 @@ function Mecanico2({reporteMensualIds2, reporteMensualIds2Gar, render, setRender
     }
 
     function getOrdenData(x) {
-        fetch(`http://127.0.0.1:8000/comercial/orden/${x}/`)
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/orden/${x}/`)
             .then(response => {
             if(response.status === 200) { return response.json()}
             if(response.status === 404) { setNotExist("Orden no encontrada")}
@@ -56,12 +56,13 @@ function Mecanico2({reporteMensualIds2, reporteMensualIds2Gar, render, setRender
     <div className='subtitle-admin'>Reparaciones mecánico 2 - {mes}</div>
       <div className='cliente-data-admin'>
         {reporteMensualIds2?.map((x, index) => {
+            const orderId = parseInt(x); 
             return (
                 <div key={index} className='modal-elements-admin-mecanics' onClick={() => {
-                    getOrdenData(x[index])
+                    getOrdenData(orderId)
                     setModal("modal-admin")
                     }}>
-                    <div className='title-consulta-admin-mecanics'>Orden Nº : {x[index]}</div>
+                    <div className='title-consulta-admin-mecanics'>Orden Nº : {orderId}</div>
                 </div>
             )
         })}
@@ -91,7 +92,7 @@ function Mecanico2({reporteMensualIds2, reporteMensualIds2Gar, render, setRender
     </div>
     <br/><br/>
         <div className='menu-admin'>
-            <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+            <NavLink to="/mecanicos"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
         </div>
     </div>
   )

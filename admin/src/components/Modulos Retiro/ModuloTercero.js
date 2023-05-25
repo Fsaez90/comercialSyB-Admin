@@ -5,7 +5,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import "../static/modalRetiro.css"
 
-function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
+function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, status}) {
     const [isDisable, setIsDisable] = useState("buttons")
     const [imageURL, setImageURL] = useState(null)
     const [nombre, setNombre] = useState()
@@ -31,9 +31,10 @@ function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
         uploadData.append('telefono_tercero', telefono)
         uploadData.append('firma_tercero', imageURL)
         uploadData.append('fecha_retiro', date)
+        uploadData.append('anulada', anular)
         uploadData.append('status', status)
         uploadData.append('entregada', true)
-        fetch(`http://127.0.0.1:8000/comercial/foto-carnet/${n}/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
             method: 'POST',
             body: uploadData
         }).then( res => console.log(res))
@@ -47,7 +48,7 @@ function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
     
     return (
         <div>
-            <h1 className='title-component'>Formulario de Entrega a via tercera persona:</h1>
+            <h1 className='title-component'>Formulario de entrega via tercera persona:</h1>
             <form onSubmit={() => {EntregaHandle(orden.id)}}>
             <div className='tercero-form'>     
                 <div className='tercero-form-block-header'>
@@ -56,7 +57,6 @@ function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
                 </div>
                 <div className='tercero-form-block'>
                     <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder='Nombre' required/>
-                    <br /><br />
                     <input type="text" value={apellidos} onChange={(e) => setApellidos(e.target.value)} placeholder='Apellidos' required/>
                 </div>
                 <div className='tercero-form-block'>
@@ -68,7 +68,7 @@ function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
                     <input title='' id='foto-frontal' type="file" accept="image/*" capture onChange={(e) => setFrontal(e.target.files[0])} required/>
                     {frontal?<span className='foto-checked'><div className='ball-foto-checked'>&#x2713;</div></span>:<div className='pendiente'>Pendiente</div>}
                 </div>
-                <div className='tercero-form-block'>
+                <div className='tercero-form-block-carnet'>
                     <label className='label-carnet' for="foto-reverso">Reverso <i class='fa fa-camera'></i></label>
                     <input id='foto-reverso' type="file" accept="image/*" capture onChange={(e) => setReverso(e.target.files[0])} required/>
                     {reverso?<span className='foto-checked'><div className='ball-foto-checked'>&#x2713;</div></span>:<div className='pendiente'>Pendiente</div>}

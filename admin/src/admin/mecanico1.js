@@ -16,7 +16,7 @@ function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender
       },[render])
 
     function getOrdenData(x) {
-        fetch(`http://127.0.0.1:8000/comercial/orden/${x}/`)
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/orden/${x}/`)
         .then(response => {
           if(response.status === 200) {
             return response.json()
@@ -68,7 +68,7 @@ function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender
     <div className='subtitle-admin'>Reparaciones mecánico 1 - {mes}</div>
       <div className='cliente-data-admin'>
         {reporteMensualIds1?.map((x, index) => {
-            const orderId = parseInt(x[index]); 
+            const orderId = parseInt(x); 
             return (
                 <div key={index} className='modal-elements-admin-mecanics' onClick={() => {
                     getOrdenData(orderId)
@@ -87,7 +87,7 @@ function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender
     <div className='subtitle-admin'>Garantías (-)</div>
       <div className='cliente-data-admin'>
         {reporteMensualIds1Gar?.map((x, index) => {
-            const orderId = parseInt(x[index]); 
+            const orderId = parseInt(x); 
             return (
                 <div key={index} className='modal-elements-admin-mecanics' onClick={() => {
                     getOrdenData(orderId)
@@ -104,7 +104,7 @@ function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender
     </div>
     <br/><br/>
     <div className='menu-admin'>
-        <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+        <NavLink to="/mecanicos"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
     </div>
     </div>
   )

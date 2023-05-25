@@ -9,6 +9,8 @@
     right: 0;
     bottom: 0;
     background-color: orange;
+    overflow-y: scroll; /* Add this property */
+
 }
 
 .modal-comprobante {
@@ -22,6 +24,8 @@
     right: 0;
     bottom: 0;
     background-color: orange;
+    overflow-y: scroll; /* Add this property */
+
 }
 
 .modal-inactive {
@@ -41,6 +45,7 @@
     font-size: 20px;
     border-radius: 10px;
     border: 1px solid black;
+    overflow-y: scroll; /* Add this property */
 }
 
 
@@ -157,3 +162,91 @@
     padding: 5px;
 }
 
+
+
+@media (max-width: 375px) {
+
+    .button-retiro {
+        height: fit-content;
+        width: fit-content;
+        padding: 9px;
+        font-size: 15px;
+        border-radius: 6px;
+        background-color: rgb(32, 66, 144);
+        color: #fff;
+        border-style: none;
+    }
+
+    .btns-retiro {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .button-list-retiro {
+        height: fit-content;
+        width: fit-content;
+        padding: 10px;
+        font-size: 15px;
+        border-radius: 7px;
+        background-color: rgb(32, 66, 144);
+        color: #fff;
+        margin: 0px;
+        border-style: none;
+    }
+    .retiro-form {
+        width: 100%;
+    }
+    .tercero-form {
+        margin-right: 2%;
+        margin-left: 2%;
+        flex-direction: column;
+        background-color: aliceblue;
+        border-radius: 10px;
+        text-align: center;
+        overflow-y: scroll;
+    }
+    .tercero-form-block-header {
+        padding: 10px;
+        font-size: 10px;
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+        background-color: aliceblue;
+        justify-content: space-around;
+        color: rgb(17, 17, 17);
+    }
+    .tercero-form-block {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: aliceblue;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    .tercero-form-block-t {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: aliceblue;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    #input-entrega { 
+        margin-right: 0px;
+    }
+    .frame {
+        align-items: center;
+    }
+    .entrega-form-buttons{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        margin-top: 10px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    
+  }

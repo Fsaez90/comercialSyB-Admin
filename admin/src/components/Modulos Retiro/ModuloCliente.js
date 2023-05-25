@@ -6,7 +6,7 @@ import 'reactjs-popup/dist/index.css';
 import "../static/modalRetiro.css"
 
 
-function ModuloCliente({orden, setModalFormaCliente, setModal, date, status}) {
+function ModuloCliente({orden, setModalFormaCliente, anular, setModal, date, status}) {
   const [isDisable, setIsDisable] = useState("buttons")
   const [imageURL, setImageURL] = useState(null)
   const  navigate  = useNavigate();
@@ -24,7 +24,8 @@ function ModuloCliente({orden, setModalFormaCliente, setModal, date, status}) {
     uploadData.append('fecha_retiro', date)
     uploadData.append('status', status)
     uploadData.append('entregada', true)
-    fetch(`http://127.0.0.1:8000/comercial/foto-carnet/${n}/`, {
+    uploadData.append('anulada', anular)
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
         method: 'POST',
         body: uploadData
     }).then( res => console.log(res))
@@ -36,7 +37,7 @@ function ModuloCliente({orden, setModalFormaCliente, setModal, date, status}) {
       }, 1500); 
 }
   return (
-    <div>
+    <div className='retiro-form'>
         <h1 className='title-component'>Formulario de entrega a cliente:</h1>
         <div className='tercero-form'>
                 <div className='tercero-form-block-header'>
@@ -45,10 +46,7 @@ function ModuloCliente({orden, setModalFormaCliente, setModal, date, status}) {
                 </div>
                 <div className='tercero-form-block'>
                     <input type="text" value={orden.nombre} placeholder='Nombre'/>
-                    <br /><br />
                     <input type="text" value={orden.apellidos} placeholder='Apellidos'/>
-                </div>
-                <div className='tercero-form-block'>
                     <input type="text" value={orden.rut} placeholder='Cédula Identidad'/>
                     <input type="text" value={orden.telefono} placeholder='Teléfono'/>
                 </div>

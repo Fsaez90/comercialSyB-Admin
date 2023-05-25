@@ -39,7 +39,7 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
   },[modal])
 
   function ArmadaHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -85,7 +85,7 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
   }
   
   function GuardarHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({

@@ -3,14 +3,19 @@ import ComprobanteRetiroAdmin from './ComprobanteRetiroAdmin'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
-function BusquedaModal({orden, setModal, getOrdenData}) {
+function BusquedaModal({orden, setModal, getOrdenData, date}) {
 const [modalComprobanteRetiro, setModalComprobanteRetiro] = useState("modal-inactive-comprobante")
 const [dataComprobante, setDataComprobante] = useState({})
 const [ok, setOk] = useState("prio-inactive")
 const [okQuitar, setOkQuitar] = useState("prio-inactive-quitar")
 
+const dateOfToday = new Date();
+const date2 = new Date(dateOfToday);
+date2.setDate(dateOfToday.getDate() - 30);
+const dateOf30DaysAgo = date2.toLocaleDateString()
+
 function prioridadHandle (n) {
-    fetch(`http://127.0.0.1:8000/comercial/update-partial/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-partial/${n}/`, {
       method: "PUT",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -25,7 +30,7 @@ function prioridadHandle (n) {
 }
 
 function QuitarPrioridadHandle (n) {
-  fetch(`http://127.0.0.1:8000/comercial/update-partial/${n}/`, {
+  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-partial/${n}/`, {
     method: "PUT",
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -38,6 +43,26 @@ function QuitarPrioridadHandle (n) {
     getOrdenData()
   }, 500);
 }
+
+function garantiaHandle (n) {
+  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-partial/${n}/`, {
+    method: "PUT",
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+        garantia: true,
+        mantencion: null,
+        revision: null,
+        mmto_completado: false,
+        cliente_notificado_retiro: false,
+        cliente_notificado_ppto: false,
+        fecha_reingreso: date,
+        falla_encontrada: false,
+        status: "Equipo reingresado por garantía"
+    })
+  })
+  setOk("gar-active") 
+}
+
   return (
     <div className='busqueda-modal-admin'>
       <div className='cliente-data-admin'>
@@ -87,7 +112,13 @@ function QuitarPrioridadHandle (n) {
           <p className='data-consulta-status-admin'>{orden.status}</p>
         </div>
         <br/>
+        {(orden.fecha_retiro > dateOf30DaysAgo && orden.garantia === false && orden.entregada === true)? <div className='elements-admin-btn'><button className='buttons-admin' onClick={()=>garantiaHandle(orden.id)}>Garantía</button><div className={ok}><CheckCircleIcon style={{color: "green"}}></CheckCircleIcon></div></div>: null}
+        <br />
+        {(orden.comenzada === true || orden.retirada === true)? null:
+        <>
         {orden.prioritaria?<div className='elements-admin-btn'><button className='buttons-admin' onClick={()=> QuitarPrioridadHandle(orden.id)}>Quitar prioridad</button><div className={okQuitar}><CheckCircleIcon style={{color: "green"}}></CheckCircleIcon></div></div>: <div className='elements-admin-btn'><button className='buttons-admin' onClick={() => prioridadHandle(orden.id)}>Prioridad</button><div className={ok}><CheckCircleIcon style={{color: "green"}}></CheckCircleIcon></div></div>}
+        </>
+        }
         {orden.entregada?
           <div className='elements-admin-btn'>
             <button className='buttons-admin' onClick={() => {

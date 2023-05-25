@@ -41,7 +41,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
 
   function enProcesoHandleRev(n) {
      if ( aplGarantia === "si") {
-        fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -84,7 +84,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
             navigate('/taller') 
           }, 500);
     } else {
-        fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -133,7 +133,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
   function solicitudRepuestosHandle(n){
     if (repMecanico === "1"){
       Promise.all([
-      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -176,7 +176,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
               detalle_garantia: detallePptoGar
           })
         }),
-        fetch(`http://127.0.0.1:8000/comercial/update-report1/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
           method: "PUT",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -196,7 +196,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
       });
     } else {
       Promise.all([
-        fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -239,7 +239,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
               detalle_garantia: detallePptoGar
           })
         }),
-        fetch(`http://127.0.0.1:8000/comercial/update-report2/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
           method: "PUT",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -261,7 +261,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
   }
 
   function pptoHandle(n) {
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -284,9 +284,9 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
             mecanico: mecanico,
             ingreso_sistema: ingresoSistema,
             status: "Garantía no válida, notificar presupuesto a cliente",
-            diagnostico: diagnostico,
+            diagnostico: diagnosticoGar,
             comenzada: true,
-            detalle_ppto: detallePpto,
+            detalle_ppto: detallePptoGar,
             validez_garantia: aplGarantia,
             hora_trabajo: clock,
             fecha_trabajo: date,

@@ -41,7 +41,7 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
   },[modal])
 
   function NotificadoHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -86,7 +86,7 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
   }
 
   function NoRespondeHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({

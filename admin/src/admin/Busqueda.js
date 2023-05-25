@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import BusquedaModal from './BusquedaModal'
 
-function Busqueda() {
+function Busqueda({date}) {
   
   const [param, setParam] = useState("")
   const [orden, setOrden] = useState(null)
@@ -11,7 +11,7 @@ function Busqueda() {
 
 
   function getOrdenData() {
-    fetch(`http://127.0.0.1:8000/comercial/search-orden/${param}`)
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/search-orden/${param}`)
         .then(response => {
         if(response.status === 200) { return response.json()}
         if(response.status === 404) { setNotExist("Orden no encontrada")}
@@ -45,7 +45,7 @@ function Busqueda() {
             })}
           </div>
           <div className={modal}>
-            <BusquedaModal getOrdenData={getOrdenData} orden={modalData} setModal={setModal}/>
+            <BusquedaModal getOrdenData={getOrdenData} orden={modalData} setModal={setModal} date={date}/>
           </div>
           <button className='button-list-admin' onClick={() => {
                 setOrden(null)

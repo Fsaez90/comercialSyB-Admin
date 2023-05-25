@@ -33,7 +33,6 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
   const [detallePptoGar, setDetallePptoGar] = useState()
   const [diagnosticoGar, setDiagnosticoGar] = useState() 
   const [aplGarantia,  setAplGarantia] = useState()
-
   const navigate  = useNavigate();
 
   useEffect(() => {
@@ -43,7 +42,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
   },[modal])
 
   function NotificadoHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -87,7 +86,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
   }
 
   function NoRespondeHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -170,7 +169,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
                   setDiagnosticoGar(x.diagnostico_garantia)
                   setAplGarantia(x.validez_garantia)
                 }
-                  }>Notificar cliente</button>         
+                  }>Notificar</button>         
             </div> 
             )
         })}

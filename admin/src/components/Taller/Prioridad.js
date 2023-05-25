@@ -36,7 +36,7 @@ function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
 },[modalRev, modalMan])
 
 function enProcesoHandleMan(n) {
-  fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -77,7 +77,7 @@ function enProcesoHandleMan(n) {
 }
 
 function mantenimientopptoHandle(n) {
-  fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -117,7 +117,7 @@ function mantenimientopptoHandle(n) {
 }
 
 function mantenimientoHandle(n) {
-  fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -158,7 +158,7 @@ function mantenimientoHandle(n) {
 }
 
 function enProcesoHandleRev(n) {
-  fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -196,7 +196,7 @@ function enProcesoHandleRev(n) {
 }
 
 function revisionHandle(n) {
-  fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({

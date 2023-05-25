@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalNotificaciones.css"
 
-function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosLista}) {
+function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) {
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -32,6 +32,10 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   const [esperaRepuesto, setEsperaRepuesto] = useState(false)
   const [repuestoField, setRepuestoField] = useState()
   const [fechaReparacion, setFechaReparacion] = useState()
+  const [isGarantia, setIsGarantia] = useState() 
+  const [aplGarantia, setAplGarantia] = useState()
+  const [detallePptoGar, setDetallePptoGar] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState()
 
 
   const navigate  = useNavigate();
@@ -43,7 +47,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   },[modal])
 
   function NotificadoHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -86,7 +90,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   }
 
   function AprobadaHandle(n) {
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -129,7 +133,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   }
 
   function AprobadaEsperaRepuestoHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -173,7 +177,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   }
 
   function RechazadaHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -216,10 +220,11 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   }
 
   function NoRespondePptoHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
+    Promise.all([
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
           nombre: nombre,
           apellidos: apellidos,
           rut: rut,
@@ -241,23 +246,38 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
           diagnostico: diagnostico,
           comenzada: true,
           detalle_ppto: presupuesto,
-          mmto_completado: true,
+          mmto_completado: false,
           status: "Presupuesto terminado, cliente no conesta",
           terminada: true,
           valorizacion: valorizacion,
           prioritaria: prioritaria,
           cliente_noresponde: true,
+        })
+      }),
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          id: id,
+          name: nombre,
+          lastname: apellidos,
+          email: email,
+          tipo: tipo,
+          modelo: modelo,
+          diagnostico: diagnostico,
+          valorizacion: valorizacion,
+        })
       })
-    })
+    ])
     setRender(!render)
     setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
+    setModal("modal-inactive")
+    navigate('/notificaciones') 
     }, 500);
   }
 
   function NotificadoHandle(n) {
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -299,7 +319,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   }
 
   function NoRespondeNotifHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -341,7 +361,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   }
   
   function GuardarHandle(n) {
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -383,14 +403,12 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
     }, 500);
   }
   
-  
-
 
   if (mmtoslistos !== 0) {
     return (
       <div className='frame'>
-      <h1 className='title-component'>Mantenciones listas: </h1>
-      <div className='render-section'>
+      <h1 className='title-component'>Mantenciones listas para notificar: </h1>
+      <div >
       {mmtoslistosLista.map((x, index) => {
         return(
           <div className="list-section" key={index}>
@@ -423,6 +441,10 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
                 setValorizacion(x.valorizacion)
                 setIngresoSistema(x.ingreso_sistema)
                 setFechaReparacion(x.fecha_reparacion)
+                setIsGarantia(x.garantia)
+                setAplGarantia(x.validez_garantia)
+                setDetallePptoGar(x.detalle_garantia)
+                setDiagnosticoGar(x.diagnostico_garantia)
               }
                 }>Notificar</button>         
           </div> 
@@ -445,26 +467,61 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                {isGarantia? <p className='sub-detail'>GARANTIA APLICADA</p>: null}
                 {mantencion? <p className='sub-detail'><span className='data-modal-taller'>Mantención</span></p>: null}
                 {revision? <p className='sub-detail'><span className='data-modal-taller'>Revisión</span></p>: null}
                 <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
-                {aPresupuesto? null: <p className='sub-detail'>Fecha de mntención: <span className='data-modal-taller'>{fechaReparacion}</span></p>}
+                {aPresupuesto? null: <p className='sub-detail'>Fecha de mantención: <span className='data-modal-taller'>{fechaReparacion}</span></p>}
               </div>
             </div>
             
             {aPresupuesto? <div className='detalle-observaciones-falla'>**Falla encontrada**, informar a cliente sobre presupuesto</div>: null}
             
-            <div className='detalle-observaciones'>
-              Diagnóstico:
-              <textarea className='diagnostico-field' value={diagnostico}/>
-            </div>
-            <div className='detalle-observaciones'>
-              Detalle de reparación:
-              <textarea className='detalle-field' value={presupuesto}/>
-              <div>
-                <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
-                <label for="valorizacion">Favor indicar valorización de presupuesto</label>
-              </div>
+            {isGarantia?
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  <div className='opcion-presupuesto'>
+                    <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
+                    <label for="espera_repuesto">Repuesto faltante</label>
+                    {esperaRepuesto? 
+                      <div className='detalle-observaciones'>
+                          Indicar repuestos faltantes + código:
+                        <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
+                      </div>: null} 
+                  </div>
+                  {(aplGarantia === "no")?
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                </div>:
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                </div>
+                  }
+                </div>
+              </>:
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnostico}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={presupuesto}/>
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                </div>
+              </>
+              }
               {aPresupuesto?
               <div className='opcion-presupuesto'>
                 <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
@@ -475,7 +532,6 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
                     <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
                   </div>: null} 
               </div>:null}
-            </div>
             <div className='modal-buttons-notificaciones'>
               {aPresupuesto?
               <div>
@@ -540,7 +596,7 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
     return (
       <div className='frame'>
         <h1 className='title-component'>Presupuesto listos por notificar y valorizar/ingresar a PC:</h1>
-        <div className='render-section'>
+        <div>
           <p className='not-exist'>No hay notificaciones pendientes</p>
         </div>
         <NavLink to="/notificaciones">Volver</NavLink>

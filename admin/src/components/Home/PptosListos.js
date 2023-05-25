@@ -47,7 +47,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
 
 
   function AprobadaHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -90,7 +90,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   }
 
   function AprobadaEsperaRepuestoHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -134,7 +134,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   }
   
   function RechazadaHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -176,7 +176,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   }
 
   function GuardarHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -217,7 +217,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
 
   function NoRespondeHandle(n){
     Promise.all([
-      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -250,7 +250,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             cliente_noresponde: true,
         })
       }),
-      fetch(`http://127.0.0.1:8000/comercial/email/`, {
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({

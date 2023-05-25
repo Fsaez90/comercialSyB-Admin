@@ -29,7 +29,9 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
   const [presupuesto, setPresupuesto] = useState("")
   const [valorizacion, setValorizacion] = useState("$")
   const [prioritaria, setPrioritaria] = useState()
+  const [aPresupuesto, setApresupuesto] = useState()
   const [esperaRepuesto, setEsperaRepuesto] = useState(false)
+  const [fechaReparacion, setFechaReparacion] = useState()
   const [repuestoField, setRepuestoField] = useState()
   const navigate  = useNavigate();
 
@@ -40,7 +42,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
   },[modal])
 
   function AprobadaHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -83,7 +85,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
   }
 
   function AprobadaEsperaRepuestoHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -128,7 +130,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
   }
   
   function RechazadaHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -171,7 +173,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
   }
   
   function NoRespondeHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -248,6 +250,8 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
                 setHoraRevision(x.hora_trabajo)
                 setPrioritaria(x.prioritaria)
                 setIngresoSistema(x.ingreso_sistema)
+                setApresupuesto(x.falla_encontrada)
+                setFechaReparacion(x.fecha_reparacion)
               }
                 }>Notificar</button>         
           </div> 
@@ -272,9 +276,12 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
                 {mantencion? <p className='sub-detail'><span className='data-modal-taller'>Mantención</span></p>: null}
                 {revision? <p className='sub-detail'><span className='data-modal-taller'>Revisión</span></p>: null}
+                {aPresupuesto? null: <p className='sub-detail'>Fecha de mantención: <span className='data-modal-taller'>{fechaReparacion}</span></p>}
                 <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
               </div>
             </div>
+
+            {aPresupuesto? <div className='detalle-observaciones-falla'>**Falla encontrada**, informar a cliente sobre presupuesto</div>: null}                        
             <div className='detalle-observaciones'>
               Diagnóstico:
               <textarea className='diagnostico-field' value={diagnostico}/>

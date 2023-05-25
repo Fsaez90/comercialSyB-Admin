@@ -2,7 +2,7 @@ import React, { useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
-function HomeTaller({render, setRender, prioridad, revision, mantencion, aprobadas, rechazadas, totalProceso, repRecibidosMmto }) {
+function HomeTaller({render, setRender, prioridad, garantia, revision, mantencion, aprobadas, rechazadas, totalProceso, repRecibidosMmto }) {
   
   useEffect(() => {
     setTimeout(() => {
@@ -18,6 +18,10 @@ function HomeTaller({render, setRender, prioridad, revision, mantencion, aprobad
           <div className='frame-menu not'>
             <NavLink className='menu-button' to="/prioridad">Prioridad</NavLink>
             {prioridad > 0? <p id='not-count'>{prioridad}</p>: null}
+          </div>
+          <div className='frame-menu not'>
+            <NavLink className='menu-button' to="/garantia">Garantias</NavLink>
+            {garantia > 0? <p id='not-count'>{garantia}</p>: null}
           </div>
           <div className='frame-menu not'>
             <NavLink className='menu-button' to="/proceso">En proceso ({totalProceso})</NavLink>

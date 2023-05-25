@@ -5,33 +5,33 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
   return (
     <div>  
         {orden.nombre_tercero?
-            <div className='busqueda-modal'> 
-                <div className='cliente-data'>
-                    <div className='modal-elements'>
-                        <div className='title-consulta'>Orden Nº:<span className='orden-data'>{orden.id}</span></div>
-                        <div className='title-consulta'>Equipo:<span className='orden-data'>{orden.marca} {orden.modelo}</span></div>
+            <div className='busqueda-modal-admin'> 
+                <div className='cliente-data-admin'>
+                    <div className='elements-admin'>
+                        <div className='title-consulta-modal'>Orden Nº:<span className='orden-data'>{orden.id}</span></div>
+                        <div className='title-consulta-modal'>Equipo:<span className='orden-data'>{orden.marca} {orden.modelo}</span></div>
                     </div>
-                    <div className='modal-elements'>
-                        <div className='title-consulta'>Persona:<span className='orden-data'>Tercero</span></div>
-                        <div className='title-consulta'>Fecha retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>
+                    <div className='elements-admin'>
+                        <div className='title-consulta-modal'>Persona:<span className='orden-data'>Tercero</span></div>
+                        <div className='title-consulta-modal'>Fecha retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>
                     </div>
                 </div>
-                <div className='cliente-data'>
-                    <div className='modal-elements-declaracion'>
+                <div className='cliente-data-admin'>
+                    <div className='modal-elements-declaracion-admin'>
                         <div>**DECLARACION** Confirmo la recepción de equipo marca: {orden.marca} modelo: {orden.marca} y acuso conformidad y satiscacción de trabajos y servicios realizados por Comercial S & B, Stihl Los Andes.</div>
                     </div>
                 </div>
-                <div className='cliente-data-firma'>
+                <div className='cliente-data-firma-admin'>
 
-                        <div className='firma-area-comprobante'>
+                        <div className='firma-area-comprobante-admin'>
                             <img
-                                src={`http://127.0.0.1:8000/` + orden.firma_tercero}
+                                src={`https://comercialsyb-backend-production.up.railway.app` + orden.firma_tercero}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
                                 margin: "0 auto",
                                 borderBottom: "2px solid black",
-                                width: "250px"
+                                width: "120px"
                                 }}
                             />
                             <br/>
@@ -39,55 +39,57 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                         </div>
 
                 </div>
-                <div className='cliente-data'>
-                        <div className='title-consulta'><img
-                                src={`http://127.0.0.1:8000/` + orden.foto_carnet_frontal}
-                                alt= "Firma" 
+                <div className='cliente-data-admin-pics'>
+                        <div className='title-consulta-modal'><img
+                                src={`https://comercialsyb-backend-production.up.railway.app` + orden.foto_carnet_frontal}
+                                alt= "carnet frontal" 
                                 style={{
                                 display: "block",
                                 margin: "0 auto",
                                 borderBottom: "2px solid black",
-                                width: "350px"
+                                width: "150px",
+                                height: "100px"
                                 }}
                             /></div>
-                        <div className='title-consulta'><img
-                                src={`http://127.0.0.1:8000/` + orden.foto_carnet_reverso}
-                                alt= "Firma" 
+                        <div className='title-consulta-modal'><img
+                                src={`https://comercialsyb-backend-production.up.railway.app` + orden.foto_carnet_reverso}
+                                alt= "carnet reverso" 
                                 style={{
                                 display: "block",
                                 margin: "0 auto",
                                 borderBottom: "2px solid black",
-                                width: "350px"
+                                width: "150px",
+                                height: "100px"
                                 }}
                             /></div>
                  </div>
             </div>:
-            <div className='busqueda-modal'> 
-                <div className='cliente-data'>
-                    <div className='modal-elements'>
-                        <div className='title-consulta'>Orden Nº:<span className='orden-data'>{orden.id}</span></div>
-                        <div className='title-consulta'>Equipo:<span className='orden-data'>{orden.marca} {orden.modelo}</span></div>
+            <div className='busqueda-modal-admin'> 
+                <div className='cliente-data-admin'>
+                    <div className='elements-admin'>
+                        <div className='title-consulta-modal'>Orden Nº:<span className='orden-data'>{orden.id}</span></div>
+                        <div className='title-consulta-modal'>Equipo:<span className='orden-data'>{orden.marca} {orden.modelo}</span></div>
                     </div>
-                    <div className='modal-elements'>
-                        <div className='title-consulta'>Persona:<span className='orden-data'>Cliente/Dueño</span></div>
-                        <div className='title-consulta'>Fecha retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>
+                    <div className='elements-admin'>
+                        <div className='title-consulta-modal'>Persona:<span className='orden-data'>Cliente/Dueño</span></div>
+                        <div className='title-consulta-modal'>Fecha retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>
                     </div>
                 </div>
-                <div className='cliente-data'>
-                    <div className='modal-elements-declaracion'>
+                <div className='cliente-data-admin'>
+                    <div className='modal-elements-declaracion-admin'>
                         <div>**DECLARACION** Confirmo la recepción de equipo marca: {orden.marca} modelo: {orden.marca} y acuso conformidad y satiscacción de trabajos y servicios realizados por Comercial S & B, Stihl Los Andes.</div>
                     </div>
                 </div>
-                <div className='cliente-data-firma'>
-                        <div className='firma-area-comprobante'>
+                <div className='cliente-data-firma-admin'>
+                        <div className='firma-area-comprobante-admin'>
                             <img
-                                src={`http://127.0.0.1:8000/` + orden.firma}
+                                src={`https://comercialsyb-backend-production.up.railway.app` + orden.firma}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
                                 margin: "0 auto",
                                 borderBottom: "2px solid black",
-                                width: "250px"
+                                width: "120px"
                                 }}
                             />
                             <br/>
@@ -97,7 +99,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                 </div>
             </div>}
         
-        <button onClick={() => setModalComprobanteRetiro("modal-inactive")}>Volver</button>
+        <button className='button-close' onClick={() => setModalComprobanteRetiro("modal-inactive")}>Volver</button>
     </div>
   )
 }
