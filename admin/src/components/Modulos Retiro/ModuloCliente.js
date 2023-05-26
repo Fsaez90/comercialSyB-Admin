@@ -6,7 +6,7 @@ import 'reactjs-popup/dist/index.css';
 import "../static/modalRetiro.css"
 
 
-function ModuloCliente({orden, setModalFormaCliente, anular, setModal, date, status}) {
+function ModuloCliente({orden, setModalFormaCliente, anular, setModal, date, status,  setRender, render}) {
   const [isDisable, setIsDisable] = useState("buttons")
   const [imageURL, setImageURL] = useState(null)
   const  navigate  = useNavigate();
@@ -32,6 +32,7 @@ function ModuloCliente({orden, setModalFormaCliente, anular, setModal, date, sta
     .catch(error => console.log(error))
 
     setTimeout(() => {
+        setRender(!render)
         setModal("modal-inactive")
         navigate("/")
       }, 1500); 

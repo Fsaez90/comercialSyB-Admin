@@ -46,7 +46,6 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                                 style={{
                                 display: "block",
                                 margin: "0 auto",
-                                borderBottom: "2px solid black",
                                 width: "150px",
                                 height: "100px"
                                 }}
@@ -57,7 +56,6 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                                 style={{
                                 display: "block",
                                 margin: "0 auto",
-                                borderBottom: "2px solid black",
                                 width: "150px",
                                 height: "100px"
                                 }}

@@ -6,10 +6,10 @@ import ModuloCliente from '../Modulos Retiro/ModuloCliente'
 import ModuloTercero from '../Modulos Retiro/ModuloTercero'
 import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function Entrega({date, clock}) {
+function Entrega({date, clock, setRender, render}) {
   const [numero, setNumero] = useState("")
   const [orden, setOrden] = useState()
-  const [render, setRender] = useState(false)
+  const [render1, setRender1] = useState(false)
   const[notExist, setNotExist] = useState("")
   const [modal, setModal] = useState("modal-inactive")
   const [modalFormaCliente, setModalFormaCliente] = useState("modal-inactive")
@@ -33,7 +33,7 @@ function Entrega({date, clock}) {
         <h1 className='title-component'>Retiro de Equipo</h1>
         <input id="input-entrega" type="text" placeholder='Número de orden' onChange={(e) => {
           setNumero(e.target.value)
-          setRender(!render) 
+          setRender1(!render1) 
           setAnular(false)
           }} value={numero} />
         <div className='busqueda-modal-adin'>
@@ -114,10 +114,10 @@ function Entrega({date, clock}) {
             </div>
         </div>
         <div className={modalFormaCliente}>
-          <ModuloCliente orden={orden} anular={anular} setModalFormaCliente={setModalFormaCliente} setModal={setModal} date={date} clock={clock} status={status}/>
+          <ModuloCliente orden={orden} anular={anular} setModalFormaCliente={setModalFormaCliente} setModal={setModal} date={date} clock={clock} status={status} setRender={setRender} render={render} />
         </div>
         <div className={modalFormaTercero}>
-          <ModuloTercero orden={orden} anular={anular} setModalFormaTercero={setModalFormaTercero} setModal={setModal} date={date} clock={clock} status={status}/>
+          <ModuloTercero orden={orden} anular={anular} setModalFormaTercero={setModalFormaTercero} setModal={setModal} date={date} clock={clock} status={status} setRender={setRender} render={render} />
         </div>
       </div>
     )

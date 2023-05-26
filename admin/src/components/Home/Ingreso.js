@@ -92,7 +92,7 @@ function Ingreso({setRender, render, date, lastId}) {
     <div className='frame'>
       <h1 className='title-component'>Formulario Ingreso de equipo:</h1>
       <br />
-      <form className='form' onSubmit={ (e) => crearOrden(e)}>
+      <form className='form' onSubmit={(e) => crearOrden(e)}>
         <div className='subtitulos'>Datos cliente</div>
          <br />
          <input className='form-field' type="text" placeholder='Nombre' onChange={(e) => setName(e.target.value)} required/>
@@ -251,10 +251,10 @@ function Ingreso({setRender, render, date, lastId}) {
 
       ): null}
       <br /><br />
-      {imageURL ? (<input type='submit' className='buttons' value="IMPRIMIR" />): null}
+      {imageURL ? (<input type='submit' className='buttons-admin' onTouchEnd={(e) => crearOrden(e)} value="IMPRIMIR" />): null}
       </form>
       <div className="return-menu">
-        <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>      </div>
+        <NavLink to="/app"><br /><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>      </div>
       <div id={success}>
         <p id={succesMsg}>Orden ingresada exitosamente!</p>
       </div>

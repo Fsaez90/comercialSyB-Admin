@@ -5,7 +5,6 @@ import "./admin/static-admin/busquedadmin.css"
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom'
 import ClientesXnotificar from '../src/components/Home/ClientesXnotificar'
 import OTxingresar from "../src/components/Home/OTxingresar"
-import ConsultaEstado from "../src/components/Home/ConsultaEstado"
 import Entrega from "../src/components/Home/Entrega"
 import Ingreso from "../src/components/Home/Ingreso"
 import Home from "../src/components/Home/Home";
@@ -31,7 +30,6 @@ import MmtoRepListos from "./components/Taller/mmtoRepListos";
 import EsperaRepuesto from "./components/Home/EsperaRepuesto";
 import Garantias from "./components/Taller/garantias";
 import GarantiaProceso from "./components/Taller/GarantiaProceso";
-import BuquedaConsulta from "./components/Home/BusquedaConsulta";
 import AdminHome from "./admin/AdminHome";
 import Mecanicos from "./admin/Mecanicos";
 import Mecanico1 from "./admin/mecanico1";
@@ -113,31 +111,6 @@ function App() {
         setMonth(date.toLocaleString('default', { month: 'long' }));
         setYear(date.getFullYear().toString());
       }, 1000);
-      // const result = await fetch('http://127.0.0.1:8000/comercial/orden-list/');
-      // result
-        // .json()
-        // .then(data => {
-        //   setOrden(data);
-        //   if (Array.isArray(data) && data.length > 0) {
-        //     const lastObject = data[data.length - 1]; // Use '-1' to get the last object
-        //     setLastid(lastObject.id);
-        //   }
-        // })
-      //   .catch(error => {
-      //     // Handle any errors that occurred during the fetch request
-      //     console.error('Error:', error);
-      //   });
-
-
-      // const result1 = await fetch(`http://127.0.0.1:8000/comercial/reporte-mecanico1/`)
-      // result1.json().then(json => {
-      //   setReportesMensuales1(json)
-      // })
-    
-      // const result2 = await fetch(`http://127.0.0.1:8000/comercial/reporte-mecanico2/`)
-      // result2.json().then(json => {
-      //   setReportesMensuales2(json)
-      // })
 
       const [response, response1, response2] = await Promise.all([
         fetch('https://comercialsyb-backend-production.up.railway.app/comercial/orden-list/'),
@@ -304,7 +277,7 @@ function App() {
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
         <Route path='/estado' element={<BusquedaConsulta date={date} />}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
-        <Route path='/entrega' element={<Entrega date={date} clock={clock}/>}/>
+        <Route path='/entrega' element={<Entrega date={date} clock={clock} setRender={setRender} render={render} />}/>
         <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista}/>}/>
 
         <Route path='/taller' element={<HomeTaller render={render} setRender={setRender} prioridad={prioridad} revision={revision} mantencion={mantencion} aprobadas={aprobadas} rechazadas={rechazadas} totalProceso={totalProceso} repRecibidosMmto={repRecibidosMmto}/>}/>

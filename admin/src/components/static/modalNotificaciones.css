@@ -7,6 +7,7 @@
     bottom: 0;
     background-color: orange;
     width: 100vw;
+    overflow-y: scroll; /* Add this property */
 }
 
 .modal-inactive {
@@ -14,7 +15,9 @@
 }
 
 .modal-content {
-    position: fixed;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     background-color: bisque;
     color: rgb(43, 41, 41);
     font-size: 15px;
@@ -22,6 +25,7 @@
     border: 1px solid black;
     left: 2%;
     right: 2%;
+    overflow-y: scroll; /* Add this property */
 }
 
 .modal-details {

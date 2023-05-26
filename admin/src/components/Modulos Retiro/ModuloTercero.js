@@ -5,7 +5,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import "../static/modalRetiro.css"
 
-function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, status}) {
+function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, status, setRender, render}) {
     const [isDisable, setIsDisable] = useState("buttons")
     const [imageURL, setImageURL] = useState(null)
     const [nombre, setNombre] = useState()
@@ -19,6 +19,8 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
     const signButton = useRef({})
     const clear = () => sigCanvas.current.clear();
     const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
+    console.log(frontal)
+    console.log(reverso)
 
 
     function EntregaHandle(n) {
@@ -41,6 +43,7 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
         .catch(error => console.log(error))
 
         setTimeout(() => {
+            setRender(!render)
             setModal("modal-inactive")
             navigate("/")
           }, 1500); 
@@ -49,7 +52,7 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
     return (
         <div>
             <h1 className='title-component'>Formulario de entrega via tercera persona:</h1>
-            <form onSubmit={() => {EntregaHandle(orden.id)}}>
+            {/* <form onSubmit={() => EntregaHandle(orden.id)}> */}
             <div className='tercero-form'>     
                 <div className='tercero-form-block-header'>
                     <h2>Orden Nº {orden.id}</h2>
@@ -65,12 +68,12 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
                 </div>
                 <div className='tercero-form-block-carnet'>
                     <label className='label-carnet' for="foto-frontal">Frontal <i class='fa fa-camera'></i></label>
-                    <input title='' id='foto-frontal' type="file" accept="image/*" capture onChange={(e) => setFrontal(e.target.files[0])} required/>
+                    <input title='' id='foto-frontal' type="file" accept="image/*" onChange={(e) => setFrontal(e.target.files[0])} required/>
                     {frontal?<span className='foto-checked'><div className='ball-foto-checked'>&#x2713;</div></span>:<div className='pendiente'>Pendiente</div>}
                 </div>
                 <div className='tercero-form-block-carnet'>
                     <label className='label-carnet' for="foto-reverso">Reverso <i class='fa fa-camera'></i></label>
-                    <input id='foto-reverso' type="file" accept="image/*" capture onChange={(e) => setReverso(e.target.files[0])} required/>
+                    <input id='foto-reverso' type="file" accept="image/*" onChange={(e) => setReverso(e.target.files[0])} required/>
                     {reverso?<span className='foto-checked'><div className='ball-foto-checked'>&#x2713;</div></span>:<div className='pendiente'>Pendiente</div>}
                 </div>
                 
@@ -86,11 +89,11 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
                     </div>
                 </div>)}
                 </Popup>
-                {imageURL?(<input type="submit" className='buttons' value="Entregar"/>): null}
+                {imageURL?(<button onClick={() => {EntregaHandle(orden.id)}} onTouchEnd={() => EntregaHandle(orden.id)} className='buttons' >Entregar</button>): null}
                 <button className='buttons' onClick={() => {setModalFormaTercero("modal-inactive"); setModal("modal"); setImageURL(null); setIsDisable("buttons")}}>Volver</button>
             </div>
             </div>
-            </form> 
+            {/* </form>  */}
         </div>
     )
     }
