@@ -51,7 +51,7 @@ function Mecanicos({render, setRender, reporteMensualTotal1, reporteMensualTotal
         </div>
         <br/>
         <div className='menu-admin'>
-            <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+            <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
         </div>
     </div>
   )

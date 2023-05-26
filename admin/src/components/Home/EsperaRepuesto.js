@@ -4,7 +4,7 @@ import "../static/modalTaller.css"
 import AddHomeIcon from '@mui/icons-material/AddHome';
 
 
-function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista}) {
+function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista, setAdminEsp, adminEsp}) {
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -123,7 +123,8 @@ function repuestoAtallerHandle(n) {
             )
         })}
         </div>
-        <NavLink to="/">Menú</NavLink>
+        {(adminEsp === true)?<NavLink onClick={() => setAdminEsp(false)} to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+        :<NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>}
         <div className={modal}>
           <div className='modal-content'>
             <div className='modal-details-taller'>
@@ -181,7 +182,8 @@ function repuestoAtallerHandle(n) {
         <div className='render-section'>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
-        <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+        {(adminEsp === true)?<NavLink onClick={() => setAdminEsp(false)} to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+        :<NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>}
       </div>
     )
 }

@@ -35,6 +35,7 @@ import Mecanicos from "./admin/Mecanicos";
 import Mecanico1 from "./admin/mecanico1";
 import Mecanico2 from "./admin/mecanico2";
 import BusquedaConsulta from "./components/Home/BusquedaConsulta";
+import ListasRetiro from "./admin/ListasRetiro";
  
 function App() {
   const [orden, setOrden] = useState([]);
@@ -98,8 +99,11 @@ function App() {
   const [reporteMensualIds2, setReporteMensualIds2] = useState()
   const [reporteMensualIds1Gar, setReporteMensualIdsGar1] = useState()
   const [reporteMensualIds2Gar, setReporteMensualIdsGar2] = useState()
+  const [listasRetiro, setListasRetiro] = useState([])
+  const [listasRetiroTotal, setListasRetiroTotal] = useState()
   const [month, setMonth] = useState()
   const [year, setYear] = useState()
+  const [adminEsp, setAdminEsp] = useState(false)
 
   useEffect(() => {   
     const fetchData = async () => {
@@ -182,6 +186,9 @@ function App() {
       let Garantias = orden.filter(function(x){
         return x.garantia === true && x.validez_garantia === null
       }) 
+      let ListasxRetiro = orden.filter(function(x) {
+        return x.reparada === true && x.mmto_completado === true && x.entregada === false
+      })
 
       let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length 
       let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
@@ -206,6 +213,8 @@ function App() {
       setManlista(listaMantencion)
       setAprlista(listaAprobadas) 
       setRechlista(listaRechazadas)
+      setListasRetiro(ListasxRetiro)
+      setListasRetiroTotal(ListasxRetiro.length)
 
       setTotalNotificaciones(totalNotificaciones)
       setpptoslistosLista(PptosListos)
@@ -267,18 +276,19 @@ function App() {
     <div className="App">
       <Router>
       <Routes>
-        <Route path='/' element={<AdminHome date={date} />}/> 
+        <Route path='/' element={<AdminHome date={date} setAdminEsp={setAdminEsp} listasRetiro={listasRetiro} adminEsp={adminEsp}/>}/> 
         <Route path='/app' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
         <Route path='/mecanicos' element={<Mecanicos render={render} setRender={setRender} reporteMensualTotal1={reporteMensualTotal1} reporteMensualTotal2={reporteMensualTotal2} month={month} />}/>
         <Route path='/mecanico1' element={<Mecanico1 reporteMensualIds1={reporteMensualIds1} reporteMensualIds1Gar={reporteMensualIds1Gar} render={render} setRender={setRender} month={month}/>}/> 
         <Route path='/mecanico2' element={<Mecanico2 reporteMensualIds2={reporteMensualIds2} reporteMensualIds2Gar={reporteMensualIds2Gar} render={render} setRender={setRender} month={month}/>}/>  
+        <Route path='/listas-retiro' element={<ListasRetiro listasRetiroTotal={listasRetiroTotal} listasRetiro={listasRetiro}/>}/>
 
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
         <Route path='/estado' element={<BusquedaConsulta date={date} />}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
         <Route path='/entrega' element={<Entrega date={date} clock={clock} setRender={setRender} render={render} />}/>
-        <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista}/>}/>
+        <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista} setAdminEsp={setAdminEsp} adminEsp={adminEsp}/>}/>
 
         <Route path='/taller' element={<HomeTaller render={render} setRender={setRender} prioridad={prioridad} revision={revision} mantencion={mantencion} aprobadas={aprobadas} rechazadas={rechazadas} totalProceso={totalProceso} repRecibidosMmto={repRecibidosMmto}/>}/>
         <Route path='/garantia' element={<Garantias render={render} setRender={setRender} garantia={garantia} garantiaLista={garantiaLista} clock={clock} date={date} />} />
