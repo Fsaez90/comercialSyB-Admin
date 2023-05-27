@@ -89,7 +89,7 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
                     </div>
                 </div>)}
                 </Popup>
-                {imageURL?(<button onClick={() => {EntregaHandle(orden.id)}} onTouchEnd={() => EntregaHandle(orden.id)} className='buttons' >Entregar</button>): null}
+                {imageURL?(<button onClick={() => EntregaHandle(orden.id)} onTouchEnd={() => EntregaHandle(orden.id)} className='buttons' >Entregar</button>): null}
                 <button className='buttons' onClick={() => {setModalFormaTercero("modal-inactive"); setModal("modal"); setImageURL(null); setIsDisable("buttons")}}>Volver</button>
             </div>
             </div>
