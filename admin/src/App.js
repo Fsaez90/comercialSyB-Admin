@@ -89,12 +89,12 @@ function App() {
   const [lastId, setLastid] = useState()
   const [nocontestaTotal, setnocontestaTotal] = useState()
 
-  const [reportesMensuales1, setReportesMensuales1] = useState()
-  const [reportesMensuales2, setReportesMensuales2] = useState()
+  const [reportesMensuales1, setReportesMensuales1] = useState([])
+  const [reportesMensuales2, setReportesMensuales2] = useState([])
   const [reporteMensual1, setReporteMensual1] = useState([])
   const [reporteMensual2, setReporteMensual2] = useState([])
-  const [reporteMensualTotal1, setReporteMensualTotal1] = useState()
-  const [reporteMensualTotal2, setReporteMensualTotal2] = useState()
+  const [reporteMensualTotal1, setReporteMensualTotal1] = useState([])
+  const [reporteMensualTotal2, setReporteMensualTotal2] = useState([])
   const [reporteMensualIds1, setReporteMensualIds1] = useState()
   const [reporteMensualIds2, setReporteMensualIds2] = useState()
   const [reporteMensualIds1Gar, setReporteMensualIdsGar1] = useState()
@@ -187,13 +187,13 @@ function App() {
         return x.garantia === true && x.validez_garantia === null
       }) 
       let ListasxRetiro = orden.filter(function(x) {
-        return x.reparada === true && x.mmto_completado === true && x.entregada === false
+        return (x.reparada === true || x.mmto_completado === true) && x.entregada === false
       })
 
       let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length 
       let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
       let totalNoContesta = NoContestappto.length + NoContestaretiro.length
-
+ 
       setPrioridad(listaPrioridad.length) 
       setRevision(listaRevision.length)
       setMantencion(listaMantencion.length)
@@ -276,12 +276,12 @@ function App() {
     <div className="App">
       <Router>
       <Routes>
-        <Route path='/' element={<AdminHome date={date} setAdminEsp={setAdminEsp} listasRetiro={listasRetiro} adminEsp={adminEsp}/>}/> 
+        <Route path='/' element={<AdminHome date={date} render={render} setRender={setRender} setAdminEsp={setAdminEsp} listasRetiroTotal={listasRetiroTotal} adminEsp={adminEsp}/>}/> 
         <Route path='/app' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
         <Route path='/mecanicos' element={<Mecanicos render={render} setRender={setRender} reporteMensualTotal1={reporteMensualTotal1} reporteMensualTotal2={reporteMensualTotal2} month={month} />}/>
         <Route path='/mecanico1' element={<Mecanico1 reporteMensualIds1={reporteMensualIds1} reporteMensualIds1Gar={reporteMensualIds1Gar} render={render} setRender={setRender} month={month}/>}/> 
         <Route path='/mecanico2' element={<Mecanico2 reporteMensualIds2={reporteMensualIds2} reporteMensualIds2Gar={reporteMensualIds2Gar} render={render} setRender={setRender} month={month}/>}/>  
-        <Route path='/listas-retiro' element={<ListasRetiro listasRetiroTotal={listasRetiroTotal} listasRetiro={listasRetiro}/>}/>
+        <Route path='/listas-retiro' element={<ListasRetiro listasRetiro={listasRetiro} render={render} setRender={setRender}/>}/>
 
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>

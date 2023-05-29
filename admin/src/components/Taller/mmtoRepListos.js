@@ -80,7 +80,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
           method: "PUT",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
-            lista_ordenes: id,
+            lista_ordenes: `${n}`,
             garantias: null
           })
         })
@@ -135,7 +135,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
           method: "PUT",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
-            lista_ordenes: id,
+            lista_ordenes: `${n}`,
             garantias: null
           })
         })
@@ -247,7 +247,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                   <div className='detalle-observaciones'>
                     Equipo reparado por:
                     <select onChange={(e) => setRepMecanico(e.target.value)}  value={repMecanico}>
-                      <option value="1">Seleccionar</option>
+                      <option value={null}>Seleccionar</option>
                       <option value="1">Técnico 1</option>
                       <option value="2">Técnico 2</option>
                       <option value="Admin">Admin</option>

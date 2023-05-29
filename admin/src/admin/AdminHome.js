@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import Busqueda from './Busqueda'
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import BuildIcon from '@mui/icons-material/Build';
 
-function AdminHome({date, setAdminEsp, ListasRetiroTotal}) {
+function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal}) {
+
+  useEffect(() => {
+    setTimeout(() => {
+      setRender(!render)
+    }, 500); 
+  },[])
+  
   return (
     <div className='frame-menu'>
         <h1 className='title-menu'>STIHL Los Andes - Admin</h1>
@@ -15,7 +22,7 @@ function AdminHome({date, setAdminEsp, ListasRetiroTotal}) {
           <Busqueda date={date} />
         </div>
         <div className='menu'>
-            <NavLink className='menu-button' to="/listas-retiro">Maquinas para retiro ({ListasRetiroTotal})</NavLink>
+            <NavLink className='menu-button' to="/listas-retiro">Maquinas para retiro ({listasRetiroTotal})</NavLink>
             <NavLink onClick={() => setAdminEsp(true)} className='menu-button' to="/espera-repuesto">O.T espera repuesto</NavLink>
             <NavLink className='menu-button' to="/mecanicos">Mecánicos</NavLink>
         </div>

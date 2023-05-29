@@ -15,28 +15,31 @@ function ModuloCliente({orden, setModalFormaCliente, anular, setModal, date, sta
   const clear = () => sigCanvas.current.clear();
   const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
 
- 
-
-
-  function EntregaHandle(n) {
+  async function EntregaHandle(n) {
     const uploadData = new FormData();
     uploadData.append('firma', imageURL)
     uploadData.append('fecha_retiro', date)
     uploadData.append('status', status)
     uploadData.append('entregada', true)
     uploadData.append('anulada', anular)
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
+  
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
         method: 'POST',
         body: uploadData
-    }).then( res => console.log(res))
-    .catch(error => console.log(error))
-
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  
     setTimeout(() => {
-        setRender(!render)
-        setModal("modal-inactive")
-        navigate("/")
-      }, 1500); 
-}
+      setRender(!render)
+      setModal("modal-inactive")
+      navigate("/")
+    }, 1500);
+  }
+  
   return (
     <div className='retiro-form'>
         <h1 className='title-component'>Formulario de entrega a cliente:</h1>

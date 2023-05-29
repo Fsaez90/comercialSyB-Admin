@@ -34,7 +34,6 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
       setRender(!render)
     }, 500); 
 },[modal])
-console.log(aPresupuesto)
 
 function enProcesoHandle(n) { 
   fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

@@ -143,3 +143,11 @@
     margin: 5px 0px;
 }
 
+.msg-mecanic {
+    display: none;
+}
+
+.msg-mecanic-act {
+    display: relative;
+    color: red;
+}

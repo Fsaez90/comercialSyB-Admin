@@ -22,8 +22,7 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
     console.log(frontal)
     console.log(reverso)
 
-
-    function EntregaHandle(n) {
+    async function EntregaHandle(n) {
         const uploadData = new FormData();
         uploadData.append('foto_carnet_frontal', frontal, frontal.name)
         uploadData.append('foto_carnet_reverso', reverso, reverso.name)
@@ -36,18 +35,23 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
         uploadData.append('anulada', anular)
         uploadData.append('status', status)
         uploadData.append('entregada', true)
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
+      
+        try {
+          const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
             method: 'POST',
             body: uploadData
-        }).then( res => console.log(res))
-        .catch(error => console.log(error))
-
+          });
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      
         setTimeout(() => {
-            setRender(!render)
-            setModal("modal-inactive")
-            navigate("/")
-          }, 1500); 
-    }
+          setRender(!render)
+          setModal("modal-inactive")
+          navigate("/")
+        }, 1500);
+      } 
     
     return (
         <div>
@@ -68,12 +72,12 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
                 </div>
                 <div className='tercero-form-block-carnet'>
                     <label className='label-carnet' for="foto-frontal">Frontal <i class='fa fa-camera'></i></label>
-                    <input title='' id='foto-frontal' type="file" accept="image/*" onChange={(e) => setFrontal(e.target.files[0])} required/>
+                    <input title='' id='foto-frontal' type="file" accept="image/*" capture onChange={(e) => setFrontal(e.target.files[0])} required/>
                     {frontal?<span className='foto-checked'><div className='ball-foto-checked'>&#x2713;</div></span>:<div className='pendiente'>Pendiente</div>}
                 </div>
                 <div className='tercero-form-block-carnet'>
                     <label className='label-carnet' for="foto-reverso">Reverso <i class='fa fa-camera'></i></label>
-                    <input id='foto-reverso' type="file" accept="image/*" onChange={(e) => setReverso(e.target.files[0])} required/>
+                    <input id='foto-reverso' type="file" accept="image/*" capture onChange={(e) => setReverso(e.target.files[0])} required/>
                     {reverso?<span className='foto-checked'><div className='ball-foto-checked'>&#x2713;</div></span>:<div className='pendiente'>Pendiente</div>}
                 </div>
                 

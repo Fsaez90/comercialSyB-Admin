@@ -1,7 +1,6 @@
 import React from 'react'
 
 function ComprobanteRetiroAdmin({orden, setModalComprobanteRetiro}) {
-    
   return (
     <div className='busqueda-modal-admin'>  
     {orden.nombre_tercero?
@@ -25,7 +24,7 @@ function ComprobanteRetiroAdmin({orden, setModalComprobanteRetiro}) {
 
                     <div className='firma-area-comprobante-admin'>
                         <img
-                            src={`https://storage.googleapis.com/comercialsyb` + orden.firma_tercero}
+                            src={orden.firma_tercero}
                             alt= "Firma" 
                             style={{
                             display: "block",
@@ -41,7 +40,7 @@ function ComprobanteRetiroAdmin({orden, setModalComprobanteRetiro}) {
             </div>
             <div className='cliente-data-admin-pics'>
                     <div className='title-consulta-modal'><img
-                            src={`https://storage.googleapis.com/comercialsyb` + orden.foto_carnet_frontal}
+                            src={orden.foto_carnet_frontal}
                             alt= "carnet frontal" 
                             style={{
                             display: "block",
@@ -51,7 +50,7 @@ function ComprobanteRetiroAdmin({orden, setModalComprobanteRetiro}) {
                             }}
                         /></div>
                     <div className='title-consulta-modal'><img
-                            src={`https://storage.googleapis.com/comercialsyb` + orden.foto_carnet_reverso}
+                            src={orden.foto_carnet_reverso}
                             alt= "carnet reverso" 
                             style={{
                             display: "block",
@@ -81,7 +80,7 @@ function ComprobanteRetiroAdmin({orden, setModalComprobanteRetiro}) {
             <div className='cliente-data-firma-admin'>
                     <div className='firma-area-comprobante-admin'>
                         <img
-                            src={`https://storage.googleapis.com/comercialsyb` + orden.firma}
+                            src={orden.firma}
                             alt= "Firma" 
                             style={{
                             display: "block",
