@@ -25,214 +25,308 @@ function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
   const [mantencion, setMantencion] = useState()
   const [revision, setRevision] = useState()
   const [mecanico, setMecanico] = useState()
-  const [diagnostico, setDiagnostico] = useState()
-  const [detallePpto, setDetallePpto] = useState()
+  const [diagnostico, setDiagnostico] = useState(null)
+  const [detallePpto, setDetallePpto] = useState(null)
+  const [msg, setMsg] = useState("msg-mecanic") 
+  
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-},[modalRev, modalMan])
+},[prioridad, modalRev, modalMan])
 
-function enProcesoHandleMan(n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-        nombre: nombre,
-        apellidos: apellidos,
-        rut: rut,
-        email: email,
-        telefono: telefono,
-        tipo: tipo,
-        marca: marca,
-        modelo: modelo,
-        serie: serie,
-        observaciones: observaciones,
-        espada: espada,
-        cadena: cadena,
-        funda: funda,
-        disco: disco,
-        mantencion: mantencion,
-        revision: revision,
-        mecanico: mecanico,
-        ingreso_sistema: ingresoSistema,
-        status: "Equipo en proceso de Mantencion",
-        diagnostico: diagnostico,
-        comenzada: true,
-        detalle_ppto: detallePpto,
-        hora_trabajo: clock,
-        fecha_trabajo: date,
-        falla_encontrada: aPresupuesto,
-        diagnostico: diagnostico,
-        detalle_ppto: detallePpto 
-    })
-  })
-  setRender(!render)
-  setTimeout(() => {
-    setModalMan("modal-inactive-mantencion")
-    navigate('/taller') 
-  }, 500);
+async function enProcesoHandleMan(n) {
+  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    setMsg("msg-mecanic-act")
+  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            status: "Equipo en proceso de Mantencion",
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: "pendiente",
+            fecha_trabajo: "pendiente",
+            falla_encontrada: aPresupuesto,
+            diagnostico: diagnostico,
+            detalle_ppto: detallePpto 
+        })
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic")
+        setTimeout(() => {
+          setModalMan("modal-inactive-mantencion");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
+          navigate('/proceso-prioridad');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
-function mantenimientopptoHandle(n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-        nombre: nombre,
-        apellidos: apellidos,
-        rut: rut,
-        email: email,
-        telefono: telefono,
-        tipo: tipo,
-        marca: marca,
-        modelo: modelo,
-        serie: serie,
-        observaciones: observaciones,
-        espada: espada,
-        cadena: cadena,
-        funda: funda,
-        disco: disco,
-        mantencion: mantencion,
-        revision: revision,
-        mecanico: mecanico,
-        ingreso_sistema: ingresoSistema,
-        diagnostico: diagnostico,
-        comenzada: true,
-        detalle_ppto: detallePpto,
-        hora_trabajo: clock,
-        fecha_trabajo: date,
-        falla_encontrada: aPresupuesto,
-        status: "Falla encontrada, notificar PPTO a cliente",
-        terminada: true
-    })
-  })
-  setRender(!render)
-  setTimeout(() => {
-    setModalMan("modal-inactive-mantencion")
-    navigate('/taller') 
-  }, 500);
+async function mantenimientoHandle(n) {
+  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    setMsg("msg-mecanic-act")
+  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
+            falla_encontrada: aPresupuesto,
+            status: "Equipo en proceso de Mantención",
+            terminada: true
+        })
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModalMan("modal-inactive-mantencion");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
+          navigate('/proceso-prioridad');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }     
+  }
+
 }
 
-function mantenimientoHandle(n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-        nombre: nombre,
-        apellidos: apellidos,
-        rut: rut,
-        email: email,
-        telefono: telefono,
-        tipo: tipo,
-        marca: marca,
-        modelo: modelo,
-        serie: serie,
-        observaciones: observaciones,
-        espada: espada,
-        cadena: cadena,
-        funda: funda,
-        disco: disco,
-        mantencion: mantencion,
-        revision: revision,
-        mecanico: mecanico,
-        ingreso_sistema: ingresoSistema,
-        diagnostico: diagnostico,
-        comenzada: true,
-        detalle_ppto: detallePpto,
-        hora_trabajo: clock,
-        fecha_trabajo: date,
-        falla_encontrada: aPresupuesto,
-        status: "Equipo en proceso de Mantención",
-        terminada: true,
-        solicitud_repuestos: true
-    })
-  })
-  setRender(!render)
-  setTimeout(() => {
-    setModalMan("modal-inactive-mantencion")
-    navigate('/taller') 
-  }, 500);
+async function mantenimientopptoHandle(n) {
+  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    setMsg("msg-mecanic-act")
+  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
+            falla_encontrada: aPresupuesto,
+            status: "Falla encontrada, notificar PPTO a cliente",
+            terminada: true,
+            mmto_completado: true
+        })
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic")
+        setTimeout(() => {
+          setModalMan("modal-inactive-mantencion");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
+          navigate('/proceso-prioridad');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
-function enProcesoHandleRev(n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          status: "Equipo en proceso de revisión",
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: detallePpto,
-          hora_trabajo: clock,
-          fecha_trabajo: date
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModalRev("modal-inactive-revision")
-      navigate('/taller') 
-    }, 500);
+async function enProcesoHandleRev(n) {
+  if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            status: "Equipo en proceso de revisión",
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: "pendiente",
+            fecha_trabajo: "pendiente"
+        })
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic")
+        setTimeout(() => {
+          setModalRev("modal-inactive-revision");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
+          navigate('/proceso-prioridad');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
 }
 
-function revisionHandle(n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          status: "Presupuesto terminado, notificar cliente",
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: detallePpto,
-          hora_trabajo: clock,
-          fecha_trabajo: date,
-          revisado: true,
-          terminada: true,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModalRev("modal-inactive-revision")
-      navigate('/taller') 
-    }, 500);
+async function revisionHandle(n) {
+  if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            status: "Presupuesto terminado, notificar cliente",
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
+            revisado: true,
+            terminada: true,
+        })
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic")
+        setTimeout(() => {
+          setModalRev("modal-inactive-revision");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
+          navigate('/proceso-prioridad');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 }
 
 if (prioridad !== 0) {  
@@ -328,14 +422,19 @@ if (prioridad !== 0) {
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
             <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> setModalRev("modal-inactive-revision")}>Volver</button>
+                <button className='button-list' onClick={()=> {
+                      setModalRev("modal-inactive-revision")
+                      setMsg("msg-mecanic")
+                      setDiagnostico("")
+                      setDetallePpto("")
+                      setApresupuesto(false)
+                      setMsg("msg-mecanic")
+                      }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleRev(id)
-                setModalRev("modal-inactive-revision") 
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 revisionHandle(id)
-                setModalRev("modal-inactive-revision") 
                 }} >Enviar PPTO</button>
             </div>
             </div>
@@ -378,27 +477,30 @@ if (prioridad !== 0) {
               Indicar detalle de respuestos y mano de obra:
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
+            <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             {aPresupuesto? 
             <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> setModalMan("modal-inactive-mantencion")}>Volver</button>
+                  <button className='button-list' onClick={()=> {
+                    setModalMan("modal-inactive-mantencion")
+                    setDiagnostico("")
+                    setDetallePpto("")
+                    setApresupuesto(false)
+                    setMsg("msg-mecanic")
+                    }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
-                setModalMan("modal-inactive-mantencion") 
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientopptoHandle(id)
-                setModalMan("modal-inactive-mantencion") 
                 }}>Enviar Presupuesto</button>
             </div>: 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> setModalMan("modal-inactive-mantencion")}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
-                setModalMan("modal-inactive-mantencion") 
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientoHandle(id)
-                setModalMan("modal-inactive-mantencion") 
                 }}>Solicitar Repuestos</button>
             </div>}
           </div>

@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import "../static/modalNotificaciones.css"
 
 function NoContesta({render, setRender, noContestaretiro, noContestappto}) {
     
     useEffect(() => {
-        setTimeout(() => {
-          setRender(!render)
-        }, 500); 
-      },[])
+        setRender(!render)
+      },[noContestaretiro, noContestappto])
     
       return (
         <div className='frame-menu'>

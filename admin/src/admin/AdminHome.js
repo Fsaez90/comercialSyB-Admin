@@ -7,10 +7,8 @@ import BuildIcon from '@mui/icons-material/Build';
 function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal}) {
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[])
+  },[setAdminEsp, listasRetiroTotal])
   
   return (
     <div className='frame-menu'>

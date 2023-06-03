@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import BuildIcon from '@mui/icons-material/Build';
 
 function Proceso({render, setRender, priComenzadas, revComenzadas, manComenzadas, garantiaCom,}) {
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[])
+  },[priComenzadas, revComenzadas, manComenzadas, garantiaCom])
 
   return (
     <div>

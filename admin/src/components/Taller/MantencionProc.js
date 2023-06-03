@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalIngreso.css"
 
 function MantencionProc({ clock, date, manComenzadas, setRender, render, procManLista}) {
+  const [msg, setMsg] = useState("msg-mecanic") 
   const [aPresupuesto, setApresupuesto] = useState(false)
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
@@ -24,141 +25,189 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   const [mantencion, setMantencion] = useState()
   const [revision, setRevision] = useState()
   const [mecanico, setMecanico] = useState()
-  const [diagnostico, setDiagnostico] = useState()
-  const [detallePpto, setDetallePpto] = useState()
+  const [diagnostico, setDiagnostico] = useState(null)
+  const [detallePpto, setDetallePpto] = useState(null)
   const  navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[manComenzadas, modal])
+
+  async function enProcesoHandle(n) {
+    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+      setMsg("msg-mecanic-act")
+    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+      setMsg("msg-mecanic-act")
+    } else {
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            status: "Equipo en proceso de Mantencion",
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: "pendiente",
+            fecha_trabajo: "pendiente",
+            falla_encontrada: aPresupuesto,
+          })
+        });
+        if (response.ok) {
+          setRender(!render);
+          setMsg("msg-mecanic")
+          setTimeout(() => {
+            setModal("modal-inactive");
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
+            navigate("/proceso-mantencion")
+          }, 500);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
   
-  function enProcesoHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: true,
-          status: "Equipo en proceso de Mantencion",
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: detallePpto,
-          hora_trabajo: "pendiente",
-          fecha_trabajo: "pendiente",
-          falla_encontrada: aPresupuesto,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/taller') 
-    }, 500);
+  async function mantenimientoHandle(n) {
+    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+      setMsg("msg-mecanic-act")
+    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+      setMsg("msg-mecanic-act")
+    }else {
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
+            falla_encontrada: aPresupuesto,
+            status: "Equipo en proceso de Mantencion",
+            terminada: true,
+            solicitud_repuestos: true,
+          })
+        });
+        if (response.ok) {
+          setRender(!render);
+          setMsg("msg-mecanic")
+          setTimeout(() => {
+            setModal("modal-inactive");
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
+            navigate('/proceso-mantenimiento');
+          }, 500);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
-
-  function mantenimientoHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: detallePpto,
-          hora_trabajo: clock,
-          fecha_trabajo: date,
-          falla_encontrada: aPresupuesto,
-          status: "Equipo en proceso de Mantencion",
-          terminada: true,
-          solicitud_repuestos: true,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/taller') 
-    }, 500);
-  }
-
-  function mantenimientopptoHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: detallePpto,
-          hora_trabajo: clock,
-          fecha_trabajo: date,
-          falla_encontrada: aPresupuesto,
-          status: "Falla encontrada, notificar PPTO a cliente",
-          terminada: true,
-          mmto_completado: true
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/taller') 
-    }, 500);
+  
+  async function mantenimientopptoHandle(n) {
+    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+      setMsg("msg-mecanic-act")
+    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+      setMsg("msg-mecanic-act")
+    } else {
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
+            falla_encontrada: aPresupuesto,
+            status: "Falla encontrada, notificar PPTO a cliente",
+            terminada: true,
+            mmto_completado: true
+          })
+        });
+    
+        if (response.ok) {
+          setRender(!render);
+          setMsg("msg-mecanic")
+          setTimeout(() => {
+            setModal("modal-inactive");
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
+            navigate('/proceso-mantenimiento');
+          }, 500);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  
   }
 
   if (manComenzadas !== 0) {
     return (
       <div className='frame'>
-        <h1 className='title-component'>Ordenes de trabajo en espera de mantención: </h1>
+        <h1 className='title-component'>Ordenes de trabajo comenzadas en espera de mantención: </h1>
         <div className='render-section'>
         {procManLista.map((x, index) => {
           return(
@@ -234,20 +283,21 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
               Indicar detalle de respuestos y mano de obra:
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
+            <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             {aPresupuesto? 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> {
                   setModal("modal-inactive")
                   setDiagnostico("")
                   setDetallePpto("")
+                  setApresupuesto(false)
+                  setMsg("msg-mecanic")
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
-                setModal("modal-inactive") 
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientopptoHandle(id)
-                setModal("modal-inactive") 
                 }}>Enviar Presupuesto</button>
             </div>: 
             <div className='modal-buttons'>
@@ -255,14 +305,14 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
                   setModal("modal-inactive")
                   setDiagnostico("")
                   setDetallePpto("")
+                  setApresupuesto(false)
+                  setMsg("msg-mecanico")
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
-                setModal("modal-inactive") 
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientoHandle(id)
-                setModal("modal-inactive") 
                 }}>Solicitar Repuestos</button>
             </div>}
           </div>

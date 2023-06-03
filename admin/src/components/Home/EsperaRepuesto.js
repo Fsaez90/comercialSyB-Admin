@@ -35,52 +35,58 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista,
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
-      setRender(!render)
-    }, 500); 
-},[modal])
+    setRender(!render)
+  },[esperaRepuesto, modal])
 
-function repuestoAtallerHandle(n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-        nombre: nombre,
-        apellidos: apellidos,
-        rut: rut,
-        email: email,
-        telefono: telefono,
-        tipo: tipo,
-        marca: marca,
-        modelo: modelo,
-        serie: serie,
-        observaciones: observaciones,
-        espada: espada,
-        cadena: cadena,
-        funda: funda,
-        disco: disco,
-        mantencion: mantencion,
-        revision: revision,
-        mecanico: mecanico,
-        ingreso_sistema: ingresoSistema,
-        diagnostico: diagnostico,
-        comenzada: true,
-        detalle_ppto: detallePpto,
-        status: "Equipo en proceso de reparación/mantención",
-        terminada: true,
-        solicitud_repuestos: true,
-        mmto_completado: false,
-        espera_repuesto: false,
-        solicitud_repuestos: true,
-        repuestos_entregados: true,
-    })
-  })
-  setRender(!render)
-  setTimeout(() => {
-    setModal("modal-inactive")
-    navigate('/') 
-  }, 500);
-}
+  async  function repuestoAtallerHandle(n) {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            status: "Equipo en proceso de reparación/mantención",
+            terminada: true,
+            solicitud_repuestos: true,
+            mmto_completado: false,
+            espera_repuesto: false,
+            solicitud_repuestos: true,
+            repuestos_entregados: true,
+        })
+      })
+      if (response.ok) {
+        setRender(!render)
+        setTimeout(() => {
+          setModal("modal-inactive")
+          navigate('/espera-repuesto') 
+        }, 500);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  
+  
+  }
  
   if (esperaRepuesto !== 0) {
     return (
@@ -168,7 +174,6 @@ function repuestoAtallerHandle(n) {
                 <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
                 <button className='button-list' onClick={() => {
                 repuestoAtallerHandle(id)
-                setModal("modal-inactive") 
                 }}>Repuesto a Taller</button>
             </div>
           </div>

@@ -2,269 +2,60 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate} from 'react-router-dom'
 
 function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
-    const [modalRev, setModalRev] = useState("modal-inactive-revision")
-    const [id, setId] = useState()
-    const [nombre, setNombre] = useState()
-    const [apellidos, setApellidos] = useState()
-    const [telefono, setTelefono] = useState()
-    const [email, setEmail] = useState()
-    const [rut, setRut] = useState()
-    const [tipo, setTipo] = useState()
-    const [marca, setMarca] = useState()
-    const [modelo, setModelo] = useState()
-    const [serie, setSerie] = useState()
-    const [observaciones, setObservaciones] = useState()
-    const [espada, setEspada] = useState()
-    const [cadena, setCadena] = useState()
-    const [ingresoSistema, setIngresoSistema] = useState()
-    const [funda, setFunda] = useState()
-    const [disco, setDisco] = useState()
-    const [mantencion, setMantencion] = useState()
-    const [revision, setRevision] = useState()
-    const [mecanico, setMecanico] = useState() 
-    const [diagnostico, setDiagnostico] = useState()
-    const [detallePpto, setDetallePpto] = useState()
-    const [diagnosticoGar, setDiagnosticoGar] = useState()
-    const [detallePptoGar, setDetallePptoGar] = useState()
-    const [aplGarantia, setAplGarantia] = useState()
-    const [isGarantia, setIsGarantia] = useState()
-    const [status, setStatus] = useState()
-    const [trabajoPrevio, setTrabajoPrevio] = useState(false)
-    const [repMecanico, setRepMecanico] = useState(null)  
-    const  navigate  = useNavigate();
+  const [modalRev, setModalRev] = useState("modal-inactive-revision")
+  const [id, setId] = useState()
+  const [nombre, setNombre] = useState()
+  const [apellidos, setApellidos] = useState()
+  const [telefono, setTelefono] = useState()
+  const [email, setEmail] = useState()
+  const [rut, setRut] = useState()
+  const [tipo, setTipo] = useState()
+  const [marca, setMarca] = useState()
+  const [modelo, setModelo] = useState()
+  const [serie, setSerie] = useState()
+  const [observaciones, setObservaciones] = useState()
+  const [espada, setEspada] = useState()
+  const [cadena, setCadena] = useState()
+  const [ingresoSistema, setIngresoSistema] = useState()
+  const [funda, setFunda] = useState()
+  const [disco, setDisco] = useState()
+  const [mantencion, setMantencion] = useState()
+  const [revision, setRevision] = useState()
+  const [mecanico, setMecanico] = useState() 
+  const [diagnostico, setDiagnostico] = useState()
+  const [detallePpto, setDetallePpto] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState(null)
+  const [detallePptoGar, setDetallePptoGar] = useState(null)
+  const [aplGarantia, setAplGarantia] = useState()
+  const [isGarantia, setIsGarantia] = useState()
+  const [status, setStatus] = useState()
+  const [trabajoPrevio, setTrabajoPrevio] = useState(false)
+  const [repMecanico, setRepMecanico] = useState(null) 
+  const [msg, setMsg] = useState("msg-mecanic") 
 
-    useEffect(() => {
-      setTimeout(() => {
-        setRender(!render)
-      }, 500); 
-  },[modalRev]) 
+  const  navigate  = useNavigate();
 
-  function enProcesoHandleRev(n) {
-     if ( aplGarantia === "si") {
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                nombre: nombre,
-                apellidos: apellidos,
-                rut: rut,
-                email: email,
-                telefono: telefono,
-                tipo: tipo,
-                marca: marca,
-                modelo: modelo,
-                serie: serie,
-                observaciones: observaciones,
-                espada: espada,
-                cadena: cadena,
-                funda: funda,
-                disco: disco,
-                mantencion: mantencion,
-                revision: revision,
-                mecanico: mecanico,
-                ingreso_sistema: ingresoSistema,
-                status: "Equipo en Garantia en proceso de revisión",
-                diagnostico: diagnostico,
-                comenzada: true,
-                detalle_ppto: detallePpto,
-                hora_trabajo: clock,
-                fecha_trabajo: date,
-                validez_garantia: aplGarantia,
-                entregada: false,
-                terminada: false,
-                revisado: false,
-                reparada: false,
-                diagnostico_garantia: diagnosticoGar,
-                detalle_garantia: detallePptoGar
-            })
-          })
-          setRender(!render)
-          setTimeout(() => {
-            setModalRev("modal-inactive-revision")
-            navigate('/taller') 
-          }, 500);
-    } else {
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                nombre: nombre,
-                apellidos: apellidos,
-                rut: rut,
-                email: email,
-                telefono: telefono,
-                tipo: tipo,
-                marca: marca,
-                modelo: modelo,
-                serie: serie,
-                observaciones: observaciones,
-                espada: espada,
-                cadena: cadena,
-                funda: funda,
-                disco: disco,
-                mantencion: mantencion,
-                revision: revision,
-                mecanico: mecanico,
-                ingreso_sistema: ingresoSistema,
-                status: "Equipo en Garantia en proceso de revisión",
-                diagnostico: diagnostico,
-                comenzada: true,
-                detalle_ppto: detallePpto,
-                hora_trabajo: clock,
-                fecha_trabajo: date,
-                validez_garantia: aplGarantia,
-                entregada: false,
-                terminada: false,
-                revisado: false,
-                reparada: false,
-                diagnostico_garantia: diagnosticoGar,
-                detalle_garantia: detallePptoGar
-            })
-          })
-          setRender(!render)
-          setTimeout(() => {
-            setModalRev("modal-inactive-revision")
-            navigate('/taller') 
-          }, 500);
-    } 
+  useEffect(() => {
+    setRender(!render)
+},[garantia, modalRev])
 
-  }
-
-  function solicitudRepuestosHandle(n){
-    if (repMecanico === "1"){
-      Promise.all([
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+async function enProcesoHandleRev(n) {
+  if((aplGarantia === "si" && status === "Equipo reingresado por garantía") && (detallePptoGar === null || diagnosticoGar === "" || detallePptoGar === "" || diagnosticoGar === null)) {
+    setMsg("msg-mecanic-act")
+  } else if ((aplGarantia === "si" && status !== "Equipo reingrsado por garantía") && (detallePpto === null || diagnostico ===  null || detallePpto === "" || diagnostico ===  "") ) {
+    setMsg("msg-mecanic-act")
+  } else if ((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (detallePptoGar === null || diagnosticoGar === "" || detallePptoGar === "" || diagnosticoGar === null)) {
+    setMsg("msg-mecanic-act")
+  } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (detallePpto === null || diagnostico === "" || detallePpto === "" || diagnostico === null)) {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      let response;
+      if (aplGarantia === "si") {
+        response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
-              nombre: nombre,
-              apellidos: apellidos,
-              rut: rut,
-              email: email,
-              telefono: telefono,
-              tipo: tipo,
-              marca: marca,
-              modelo: modelo,
-              serie: serie,
-              observaciones: observaciones,
-              espada: espada,
-              cadena: cadena,
-              funda: funda, 
-              disco: disco,
-              mantencion: mantencion,
-              revision: revision,
-              mecanico: mecanico,
-              ingreso_sistema: ingresoSistema,
-              status: "Trabajo Garantía en proceso",
-              diagnostico: diagnostico,
-              comenzada: true,
-              detalle_ppto: detallePpto,
-              hora_trabajo: clock,
-              fecha_trabajo: date,
-              revisado: true,
-              terminada: true,
-              reparada: false,
-              entregada: false,
-              cliente_notificado_retiro: false,
-              cliente_noresponde: false,
-              solicitud_repuestos: true,
-              repuestos_entregados: false,
-              espera_repuestos: false,
-              cliente_notificado_ppto: false,
-              validez_garantia: aplGarantia,
-              diagnostico_garantia: diagnosticoGar,
-              detalle_garantia: detallePptoGar
-          })
-        }),
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
-          method: "PUT",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            lista_ordenes: null,
-            garantias: `${n}`
-          })
-        })
-      ]).then(responses => {
-        // handle responses
-        setRender(!render)
-        setTimeout(() => {
-        setModalRev("modal-inactive-revision")
-        navigate('/taller') 
-       }, 500);
-      }).catch(error => {
-        console.error(error);
-      });
-    } else {
-      Promise.all([
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-          method: "POST",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-              nombre: nombre,
-              apellidos: apellidos,
-              rut: rut,
-              email: email,
-              telefono: telefono,
-              tipo: tipo,
-              marca: marca,
-              modelo: modelo,
-              serie: serie,
-              observaciones: observaciones,
-              espada: espada,
-              cadena: cadena,
-              funda: funda, 
-              disco: disco,
-              mantencion: mantencion,
-              revision: revision,
-              mecanico: mecanico,
-              ingreso_sistema: ingresoSistema,
-              status: "Trabajo Garantía en proceso",
-              diagnostico: diagnostico,
-              comenzada: true,
-              detalle_ppto: detallePpto,
-              hora_trabajo: clock,
-              fecha_trabajo: date,
-              revisado: true,
-              terminada: true,
-              reparada: false,
-              entregada: false,
-              cliente_notificado_retiro: false,
-              cliente_noresponde: false,
-              solicitud_repuestos: true,
-              repuestos_entregados: false,
-              espera_repuestos: false,
-              cliente_notificado_ppto: false,
-              validez_garantia: aplGarantia,
-              diagnostico_garantia: diagnosticoGar,
-              detalle_garantia: detallePptoGar
-          })
-        }),
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
-          method: "PUT",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-              lista_ordenes: null,
-              garantias: `${n}`
-          })
-        })
-      ]).then(responses => {
-        // handle responses
-        setRender(!render)
-        setTimeout(() => {
-        setModalRev("modal-inactive-revision")
-        navigate('/taller') 
-       }, 500);
-      }).catch(error => {
-        console.error(error);
-      });
-    }
-  }
-
-  function pptoHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -280,33 +71,218 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
             funda: funda,
             disco: disco,
             mantencion: mantencion,
-            revision: true,
+            revision: revision,
             mecanico: mecanico,
             ingreso_sistema: ingresoSistema,
-            status: "Garantía no válida, notificar presupuesto a cliente",
-            diagnostico: diagnosticoGar,
+            status: "Equipo en Garantia en proceso de revisión",
+            diagnostico: diagnostico,
             comenzada: true,
-            detalle_ppto: detallePptoGar,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
             validez_garantia: aplGarantia,
+            entregada: false,
+            terminada: false,
+            revisado: false,
+            reparada: false,
+            diagnostico_garantia: diagnosticoGar,
+            detalle_garantia: detallePptoGar
+          })
+        });
+      } else {
+        response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            status: "Equipo en Garantia en proceso de revisión",
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
+            validez_garantia: aplGarantia,
+            entregada: false,
+            terminada: false,
+            revisado: false,
+            reparada: false,
+            diagnostico_garantia: diagnosticoGar,
+            detalle_garantia: detallePptoGar
+          })
+        });
+      }
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic")
+        setTimeout(() => {
+          setModalRev("modal-inactive-revision");
+          setAplGarantia(null)
+          setDiagnostico("")
+          setDetallePpto("")
+          setDetallePptoGar("")
+          setDiagnosticoGar("")
+          navigate('/garantia');
+        }, 500);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+async function solicitudRepuestosHandle(n) {
+  if((aplGarantia === "si" && status === "Equipo reingresado por garantía") && (detallePptoGar === null || diagnosticoGar === "" || detallePptoGar === "" || diagnosticoGar === null)) {
+    setMsg("msg-mecanic-act")
+  } else if ((aplGarantia === "si" && status !== "Equipo reingrsado por garantía") && (detallePpto === null || diagnostico ===  null || detallePpto === "" || diagnostico ===  "") ){
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            status: "Trabajo Garantía en proceso",
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
             hora_trabajo: clock,
             fecha_trabajo: date,
             revisado: true,
             terminada: true,
             reparada: false,
             entregada: false,
-            cliente_notificado_ppto: false,
+            cliente_notificado_retiro: false,
             cliente_noresponde: false,
-            valorizacion: "", 
+            solicitud_repuestos: true,
+            repuestos_entregados: false,
+            espera_repuestos: false,
+            cliente_notificado_ppto: false,
+            validez_garantia: aplGarantia,
             diagnostico_garantia: diagnosticoGar,
             detalle_garantia: detallePptoGar
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModalRev("modal-inactive-revision")
-        navigate('/taller') 
-      }, 500);
+          })
+        });
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic")
+        setTimeout(() => {
+          setModalRev("modal-inactive-revision");
+          setAplGarantia(null)
+          setDiagnostico("")
+          setDetallePpto("")
+          setDetallePptoGar("")
+          setDiagnosticoGar("")
+          navigate('/garantia');
+        }, 500);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
+}
+
+async function pptoHandle(n) {
+  if((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (detallePptoGar === null || diagnosticoGar === "" || detallePptoGar === "" || diagnosticoGar === null)) {
+    setMsg("msg-mecanic-act")
+  } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (detallePpto === null || diagnostico === "" || detallePpto === "" || diagnostico === null)) {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          nombre: nombre,
+          apellidos: apellidos,
+          rut: rut,
+          email: email,
+          telefono: telefono,
+          tipo: tipo,
+          marca: marca,
+          modelo: modelo,
+          serie: serie,
+          observaciones: observaciones,
+          espada: espada,
+          cadena: cadena,
+          funda: funda,
+          disco: disco,
+          mantencion: mantencion,
+          revision: true,
+          mecanico: mecanico,
+          ingreso_sistema: ingresoSistema,
+          status: "Garantía no válida, notificar presupuesto a cliente",
+          diagnostico: diagnosticoGar,
+          comenzada: true,
+          garantia: false,
+          detalle_ppto: detallePptoGar,
+          validez_garantia: aplGarantia,
+          hora_trabajo: clock,
+          fecha_trabajo: date,
+          revisado: true,
+          terminada: true,
+          reparada: false,
+          entregada: false,
+          cliente_notificado_ppto: false,
+          cliente_noresponde: false,
+          valorizacion: "", 
+          diagnostico_garantia: diagnosticoGar,
+          detalle_garantia: detallePptoGar
+        })
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic")
+        setTimeout(() => {
+          setModalRev("modal-inactive-revision");
+          setAplGarantia(null)
+          setDiagnostico("")
+          setDetallePpto("")
+          setDetallePptoGar("")
+          setDiagnosticoGar("")
+          navigate('/garantia');
+        }, 500);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
 
     if (garantia !== 0) {  
         return (
@@ -342,8 +318,6 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
                         setIngresoSistema(x.ingreso_sistema)
                         setIsGarantia(x.garantia)
                         setStatus(x.status)
-                        setDetallePptoGar(x.detalle_garantia)
-                        setDiagnosticoGar(x.dignostico_garantia)
                         setRepMecanico(x.reparada_por)
                       }
                         }>Comenzar</button>
@@ -425,32 +399,34 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
                     Detalle de repuestos:
                     <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto || ''}/> 
                   </div>
+                  <div className={msg}>Completar nuevo diagnóstico y nuevo detalle repuestos</div> 
                 </>
                 }
                 <div className='modal-buttons'>
                     <button className='button-list' onClick={()=> {
-                        setModalRev("modal-inactive-revision")
-                        setAplGarantia(null)
-                        }}>Volver</button>
+                            setModalRev("modal-inactive-revision")
+                            setAplGarantia(null)
+                            setMsg("msg-mecanic")
+                            setDiagnostico("")
+                            setDetallePpto("")
+                            setDetallePptoGar("")
+                            setDiagnosticoGar("")
+                            }}>Volver</button>
                     {(aplGarantia === "si")?
                     <>
                         <button className='button-list' onClick={() => {
                         enProcesoHandleRev(id)
-                        setModalRev("modal-inactive-revision") 
                         }}>Guardar y continuar después</button>
                         <button className='button-list' onClick={() => {
                         solicitudRepuestosHandle(id)
-                        setModalRev("modal-inactive-revision") 
                         }} >Solicitar Repuestos</button>
                     </>: (aplGarantia === "no")?
                     <>
                         <button className='button-list' onClick={() => {
                         enProcesoHandleRev(id)
-                        setModalRev("modal-inactive-revision") 
                         }}>Guardar y continuar después</button>
                         <button className='button-list' onClick={() => {
                         pptoHandle(id)
-                        setModalRev("modal-inactive-revision") 
                         }} >Enviar PPTO</button>
                     </>: null
                     }

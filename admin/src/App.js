@@ -105,29 +105,35 @@ function App() {
   const [year, setYear] = useState()
   const [adminEsp, setAdminEsp] = useState(false)
 
-  useEffect(() => {   
+  useEffect(() => {    
+    fetchData();
+  },[render]) 
+
     const fetchData = async () => {
-      
-      setInterval(() => {
-        const date = new Date();
-        setClock(date.toLocaleTimeString());
-        setDate(date.toLocaleDateString());
-        setMonth(date.toLocaleString('default', { month: 'long' }));
-        setYear(date.getFullYear().toString());
-      }, 1000);
+
+      const date = new Date();
+      setClock(date.toLocaleTimeString());
+      setDate(date.toLocaleDateString());
+      setMonth(date.toLocaleString('default', { month: 'long' }));
+      setYear(date.getFullYear().toString());
 
       const [response, response1, response2] = await Promise.all([
         fetch('https://comercialsyb-backend-production.up.railway.app/comercial/orden-list/'),
         fetch('https://comercialsyb-backend-production.up.railway.app/comercial/reporte-mecanico1/'),
         fetch('https://comercialsyb-backend-production.up.railway.app/comercial/reporte-mecanico2/')
       ]);
-      
+  
       const data = await response.json();
       setOrden(data);
       if (Array.isArray(data) && data.length > 0) {
         const lastObject = data[data.length - 1]; // Use '-1' to get the last object
         setLastid(lastObject.id);
       }
+      let lista = orden.filter(function(x){
+        return x.ingreso_sistema === false
+      })
+      setNotificaciones(lista.length)
+      setListaOt(lista)
 
       let listaPrioridad = orden.filter(function(x){
         return x.prioritaria === true && x.comenzada === false && x.entregada === false
@@ -136,7 +142,7 @@ function App() {
         return x.revision === true && x.comenzada === false && x.prioritaria === false && x.entregada === false
       })
       let listaMantencion = orden.filter(function(x){
-        return x.mantencion === true && x.comenzada === false && x.prioritaria === false && x.entregada === false
+        return x.mantencion === true && x.comenzada === false && x.prioritaria === false && x.entregada === false && x.solicitud_repuestos === false
       })
       let listaAprobadas = orden.filter(function(x){
         return x.aprobada === true && x.terminada === true && x.cliente_notificado_ppto === true && x.reparada === false && x.espera_repuesto === false && x.entregada === false
@@ -243,12 +249,6 @@ function App() {
       
       const data2 = await response2.json();
       setReportesMensuales2(data2);
-
-      let lista = orden.filter(function(x){
-        return x.ingreso_sistema === false
-      })
-      setNotificaciones(lista.length)
-      setListaOt(lista)
       
       //Admin data fetch
       let reportCurrentMonth1 = reportesMensuales1.filter(function(x){
@@ -266,12 +266,7 @@ function App() {
       setReporteMensualIds2(reportCurrentMonth2[0].lista_ordenes)
       setReporteMensualIdsGar1(reportCurrentMonth1[0].garantias)
       setReporteMensualIdsGar2(reportCurrentMonth2[0].garantias)
-    };
-    setTimeout(() => {
-      fetchData(); 
-    }, 100); 
-    },[render])  
-
+    }; 
   return (
     <div className="App">
       <Router>
@@ -286,7 +281,7 @@ function App() {
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
         <Route path='/estado' element={<BusquedaConsulta date={date} />}/>
-        <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
+        <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} notificaciones={notificaciones} render={render} setRender={setRender} />}/>
         <Route path='/entrega' element={<Entrega date={date} clock={clock} setRender={setRender} render={render} />}/>
         <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista} setAdminEsp={setAdminEsp} adminEsp={adminEsp}/>}/>
 

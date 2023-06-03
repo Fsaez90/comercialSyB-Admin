@@ -26,16 +26,19 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   const [mecanico, setMecanico] = useState(procRevLista.mecanico)
   const [diagnostico, setDiagnostico] = useState(procRevLista.diagnostico)
   const [detallePpto, setDetallePpto] = useState(procRevLista.detalle_ppto)
+  const [msg, setMsg] = useState("msg-mecanic") 
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
-      setRender(!render)
-    }, 500); 
-  },[modal])
+    setRender(!render)
+},[revComenzadas, modal])
 
-  function enProcesoHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+async function enProcesoHandle(n) {
+  if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === ""){
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -64,16 +67,35 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
             hora_trabajo: clock,
             fecha_trabajo: date
         })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
-      }, 500);
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic")
+        setTimeout(() => {
+          setModal("modal-inactive");
+          setDiagnostico("")
+          setDetallePpto("")
+          navigate('/proceso-revision');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  function revisionHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+
+}
+
+
+async function revisionHandle(n) {
+  if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -104,13 +126,25 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
             revisado: true,
             terminada: true,
         })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
-      }, 500);
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setMsg("msg-mecanic-act")
+        setTimeout(() => {
+          setModal("modal-inactive");
+          setDiagnostico("")
+          setDetallePpto("")
+          navigate('/proceso-revision');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
+}
   
   if (revComenzadas !== 0) {
     return (
@@ -185,15 +219,19 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
               Indicar detalle de respuestos y mano de obra:
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
+            <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
+                <button className='button-list' onClick={()=> {
+                    setModal("modal-inactive")
+                    setDiagnostico("")
+                    setDetallePpto("")
+                    setMsg("msg-mecanic")
+                    }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
-                setModal("modal-inactive") 
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 revisionHandle(id)
-                setModal("modal-inactive") 
                 }}
                 >Enviar PPTO</button>
             </div>

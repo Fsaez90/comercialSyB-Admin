@@ -25,6 +25,9 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
   const [ingresoSistema, setIngresoSistema] = useState()
   const [fechaRevision, setFechaRevision] = useState()
   const [horaRevision, setHoraRevision] = useState()
+  const [detallePptoGar, setDetallePptoGar] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState()
+  const [isGarantia, setIsGarantia] = useState()
   const [diagnostico, setDiagnostico] = useState("")
   const [presupuesto, setPresupuesto] = useState("")
   const [valorizacion, setValorizacion] = useState("$")
@@ -34,101 +37,116 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      setRender(!render)
-    }, 500); 
-  },[modal])
+    setRender(!render)
+},[eqarmados, modal])
 
-  function NotificadoHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
-            fecha_trabajo: date,
-            hora_trabajo: clock,
-            revisado: true,
-            status: "Equipo armado, listo para retiro (Cliente notificado).",
-            terminada: true,
-            valorizacion: valorizacion,
-            aprobada: true,
-            prioritaria: prioritaria,
-            cliente_notificado_ppto: true,
-            armada: true,
-            cliente_notificado_retiro: true,
-            cliente_noresponde: false
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
-  }
-
-  function NoRespondeHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+async function NotificadoHandle(n){
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          hora_trabajo: clock,
-          fecha_trabajo: date,
-          mmto_completado: true,
-          status: "Equipo con ppto rechazado listo para retiro, cliente no responde",
-          terminada: true,
-          valorizacion: valorizacion,
-          prioritaria: prioritaria,
-          cliente_noresponde: true,
-          armada: true
+        nombre: nombre,
+        apellidos: apellidos,
+        rut: rut,
+        email: email,
+        telefono: telefono,
+        tipo: tipo,
+        marca: marca,
+        modelo: modelo,
+        serie: serie,
+        observaciones: observaciones,
+        espada: espada,
+        cadena: cadena,
+        funda: funda,
+        disco: disco,
+        mantencion: mantencion,
+        revision: revision,
+        mecanico: mecanico,
+        ingreso_sistema: ingresoSistema,
+        diagnostico: diagnostico,
+        comenzada: true,
+        detalle_ppto: presupuesto,
+        fecha_trabajo: date,
+        hora_trabajo: clock,
+        revisado: true,
+        status: "Equipo armado, listo para retiro (Cliente notificado).",
+        terminada: true,
+        valorizacion: valorizacion,
+        aprobada: true,
+        prioritaria: prioritaria,
+        cliente_notificado_ppto: true,
+        armada: true,
+        cliente_notificado_retiro: true,
+        cliente_noresponde: false
       })
-    })
-    setRender(!render)
+    });
+
+  if(response.ok) {
+    setRender(!render);
     setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
+      setModal("modal-inactive");
+      navigate('/equipos-armados');
     }, 500);
   }
+
+   } catch (error) {
+    console.error(error);
+    // Handle the error here
+  }
+}
+
+async function NoRespondeHandle(n){
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        nombre: nombre,
+        apellidos: apellidos,
+        rut: rut,
+        email: email,
+        telefono: telefono,
+        tipo: tipo,
+        marca: marca,
+        modelo: modelo,
+        serie: serie,
+        observaciones: observaciones,
+        espada: espada,
+        cadena: cadena,
+        funda: funda,
+        disco: disco,
+        mantencion: mantencion,
+        revision: revision,
+        mecanico: mecanico,
+        ingreso_sistema: ingresoSistema,
+        diagnostico: diagnostico,
+        comenzada: true,
+        detalle_ppto: presupuesto,
+        hora_trabajo: clock,
+        fecha_trabajo: date,
+        mmto_completado: true,
+        status: "Equipo con ppto rechazado listo para retiro, cliente no responde",
+        terminada: true,
+        valorizacion: valorizacion,
+        prioritaria: prioritaria,
+        cliente_noresponde: true,
+        armada: true
+      })
+    });
+    
+    if(response.ok) {
+      setRender(!render);
+      setTimeout(() => {
+        setModal("modal-inactive");
+        navigate('/equipos-armados');
+      }, 500);
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
+}
   
   if (eqarmados !== 0) {
       return (
@@ -167,6 +185,9 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
                   setValorizacion(x.valorizacion)
                   setIngresoSistema(x.ingreso_sistema)
                   setFechaReparacion(x.fecha_reparacion)
+                  setDetallePptoGar(x.detalle_garantia)
+                  setDiagnosticoGar(x.diagnostico_garantia)
+                  setIsGarantia(x.garantia)
                 }
                   }>Notificar cliente</button>         
             </div> 
@@ -195,18 +216,36 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
                   <p>Fecha de armado: <span className='data-modal-taller'>{fechaReparacion}</span></p>
                 </div>
               </div>
-              <div className='detalle-observaciones'>
-                Diagnóstico:
-                <textarea className='diagnostico-field' value={diagnostico}/>
-              </div>
-              <div className='detalle-observaciones'>
-                Detalle de reparación:
-                <textarea className='detalle-field' value={presupuesto}/>
-                <div>
-                  <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
-                  <label for="valorizacion">Favor indicar valorización de presupuesto</label>
+              {isGarantia?
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
                 </div>
-              </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                </div>
+              </>:
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnostico}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={presupuesto}/>
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                </div>
+              </>
+              }
               <div className='modal-buttons-notificaciones'>
                 <div>
                   <button className='button-list-aprobada' onClick={() => {

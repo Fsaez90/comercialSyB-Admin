@@ -33,100 +33,116 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
-      setRender(!render)
-    }, 500); 
-  },[modal])
+    setRender(!render)
+},[rechazadas,modal])
 
-  function ArmadaHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
-            fecha_trabajo: fechaRevision,
-            hora_trabajo: horaRevision,
-            revisado: true,
-            status: "Equipo Armado (sin reparar), listo para retiro",
-            terminada: true,
-            valorizacion: valorizacion,
-            rechazado: true,
-            prioritaria: prioritaria,
-            cliente_notificado_ppto: true,
-            armada: true,
-            fecha_reparacion: date
-        })
+async function ArmadaHandle(n) {
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          nombre: nombre,
+          apellidos: apellidos,
+          rut: rut,
+          email: email,
+          telefono: telefono,
+          tipo: tipo,
+          marca: marca,
+          modelo: modelo,
+          serie: serie,
+          observaciones: observaciones,
+          espada: espada,
+          cadena: cadena,
+          funda: funda,
+          disco: disco,
+          mantencion: mantencion,
+          revision: revision,
+          mecanico: mecanico,
+          ingreso_sistema: ingresoSistema,
+          diagnostico: diagnostico,
+          comenzada: true,
+          detalle_ppto: presupuesto,
+          fecha_trabajo: fechaRevision,
+          hora_trabajo: horaRevision,
+          revisado: true,
+          status: "Equipo Armado (sin reparar), listo para retiro",
+          terminada: true,
+          valorizacion: valorizacion,
+          rechazado: true,
+          prioritaria: prioritaria,
+          cliente_notificado_ppto: true,
+          armada: true,
+          fecha_reparacion: date
       })
-      setRender(!render)
+    });
+
+    if (response.ok) {
+      setRender(!render);
       setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
+        setModal("modal-inactive");
+        navigate('/rechazadas');
       }, 500);
+    } else {
+      throw new Error("Failed to update data.");
+    }
+  } catch (error) {
+    console.error(error);
   }
-  
-  function GuardarHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
-            fecha_trabajo: date,
-            hora_trabajo: clock,
-            revisado: true,
-            status: "Equipo en proceso armado (presupuesto rechazado).",
-            terminada: true,
-            valorizacion: valorizacion,
-            rechazado: true,
-            prioritaria: prioritaria,
-            cliente_notificado_ppto: true,
-        })
+}
+
+async function GuardarHandle(n) {
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          nombre: nombre,
+          apellidos: apellidos,
+          rut: rut,
+          email: email,
+          telefono: telefono,
+          tipo: tipo,
+          marca: marca,
+          modelo: modelo,
+          serie: serie,
+          observaciones: observaciones,
+          espada: espada,
+          cadena: cadena,
+          funda: funda,
+          disco: disco,
+          mantencion: mantencion,
+          revision: revision,
+          mecanico: mecanico,
+          ingreso_sistema: ingresoSistema,
+          diagnostico: diagnostico,
+          comenzada: true,
+          detalle_ppto: presupuesto,
+          fecha_trabajo: date,
+          hora_trabajo: clock,
+          revisado: true,
+          status: "Equipo en proceso armado (presupuesto rechazado).",
+          terminada: true,
+          valorizacion: valorizacion,
+          rechazado: true,
+          prioritaria: prioritaria,
+          cliente_notificado_ppto: true,
       })
-      setRender(!render)
+    });
+
+    if (response.ok) {
+      setRender(!render);
       setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
+        setModal("modal-inactive");
+        navigate('/rechazadas');
       }, 500);
+    } else {
+      throw new Error("Failed to update data.");
+    }
+  } catch (error) {
+    console.error(error);
   }
+}
 
   if (rechazadas !== 0) {
     return (

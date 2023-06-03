@@ -67,12 +67,12 @@ function Ingreso({setRender, render, date, lastId}) {
     })
     .then(response => {
       if (response.ok) {
+        setRender(!render);
         // Success
         setSuccess("overlay-active");
         setSuccessMsg("success-msg-active");
         setTimeout(() => {
-          setRender(!render);
-          navigate("/");
+          navigate("/app");
         }, 2500);
       } else {
         // Handle the error case

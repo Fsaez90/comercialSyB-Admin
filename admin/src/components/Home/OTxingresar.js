@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import "../static/modalIngreso.css";
 import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function OTxingresar({listaOt, render, setRender}) {
+function OTxingresar({listaOt, render, setRender, notificaciones}) {
 
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
@@ -28,17 +28,15 @@ function OTxingresar({listaOt, render, setRender}) {
   const  navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      setRender(!render)
-    }, 500); 
-},[modal])
+    setRender(!render)
+ },[notificaciones, modal]) 
 
-
-function Ingresar (n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
+ async function Ingresar(n) {
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         nombre: nombre,
         apellidos: apellidos,
         rut: rut,
@@ -56,16 +54,23 @@ function Ingresar (n) {
         mantencion: mantencion,
         revision: revision,
         mecanico: mecanico,
-        ingreso_sistema: true
-    })
-  })
-  setTimeout(() => {
-    setRender(!render)
-    setModal("modal-inactive")
-    navigate('/otxingresar') 
-  }, 200);
+        ingreso_sistema: true,
+      })
+    });
+    if (response.ok) {
+      setRender(!render);
+      setTimeout(() => {
+        setModal("modal-inactive");
+        navigate('/otxingresar');
+      }, 500);
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
 }
-  
+
+if (notificaciones !== 0){
   return (
     <div className='frame'>
       <h1 className='title-component'>Ordenes de trabajo por ingresar a PC: </h1>
@@ -134,10 +139,16 @@ function Ingresar (n) {
           </div>
         </div>
       </div>  
-      
     </div>
-
   )
+}else {
+  return (
+    <div className='frame'>
+      <h1 className='title-component'>No hay órdenes de trabajo por ingresar a PC: </h1>
+      <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink> 
+    </div>
+  )
+}
 }
 
 export default OTxingresar

@@ -56,10 +56,9 @@ function BusquModal({orden, setModal, date}) {
           <div className='cliente-data-admin'>
             <div className='elements-admin'>
               <div className='title-consulta-modal'>Observaciones:<span className='orden-data'>{orden.observaciones}</span></div>
-              {orden.revision?
-              <div className='title-consulta-modal'>Propósito:<span className='orden-data'>Revisión</span></div>:
-              <div className='title-consulta-modal'>Propósito:<span className='orden-data'>Mantenimiento</span></div>
-              }
+              {orden.revision?<div className='title-consulta'>Propósito:<span className='orden-data'>Revisión</span></div>:null}
+              {orden.mantenimiento?<div className='title-consulta'>Propósito:<span className='orden-data'>Mantenimiento</span></div>:null}
+              {orden.garantia?<div className='title-consulta'>Propósito:<span className='orden-data'>Garantia</span></div>:null}
             </div>
           </div>
             

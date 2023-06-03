@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
@@ -6,10 +6,8 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 function Home({render, setRender, notificaciones, notificacionesTotal, esperaRepuesto}) {
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[])
+  },[notificaciones, notificacionesTotal, esperaRepuesto])
 
   return (
     <div className='frame-menu'>
