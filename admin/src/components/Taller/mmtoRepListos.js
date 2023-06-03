@@ -295,7 +295,7 @@ async function garantiaTerminadaHandle(n) {
                       setRepMecanico("")
                       }}>Volver</button>
                     <button className='button-list' onClick={() => {
-                    mantenimientoHandle(id)
+                    garantiaTerminadaHandle(id) 
                     }}>Garantía Completada</button>
                 </div>
                 </>:

@@ -136,7 +136,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             setDiagnostico("")
             setDetallePpto("")
             setApresupuesto(false)
-            navigate('/proceso-mantenimiento');
+            navigate('/proceso-mantencion');
           }, 500);
         }
       } catch (error) {
@@ -194,7 +194,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             setDiagnostico("")
             setDetallePpto("")
             setApresupuesto(false)
-            navigate('/proceso-mantenimiento');
+            navigate('/proceso-mantencion');
           }, 500);
         }
       } catch (error) {
