@@ -104,6 +104,7 @@ function App() {
   const [month, setMonth] = useState()
   const [year, setYear] = useState()
   const [adminEsp, setAdminEsp] = useState(false)
+  const [Eqpendientes, setEqPendientes] = useState()
 
   useEffect(() => {    
     fetchData();
@@ -195,11 +196,15 @@ function App() {
       let ListasxRetiro = orden.filter(function(x) {
         return (x.reparada === true || x.mmto_completado === true) && x.entregada === false
       })
+      let pendientes = orden.filter(function(x){
+        return x.comenzada === false
+      })
 
       let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length 
       let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
       let totalNoContesta = NoContestappto.length + NoContestaretiro.length
- 
+
+      setEqPendientes(pendientes.length)
       setPrioridad(listaPrioridad.length) 
       setRevision(listaRevision.length)
       setMantencion(listaMantencion.length)
@@ -271,7 +276,7 @@ function App() {
     <div className="App">
       <Router>
       <Routes>
-        <Route path='/' element={<AdminHome date={date} render={render} setRender={setRender} setAdminEsp={setAdminEsp} listasRetiroTotal={listasRetiroTotal} adminEsp={adminEsp}/>}/> 
+        <Route path='/' element={<AdminHome date={date} render={render} setRender={setRender} setAdminEsp={setAdminEsp} listasRetiroTotal={listasRetiroTotal} adminEsp={adminEsp} Eqpendientes={Eqpendientes}/>}/> 
         <Route path='/app' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
         <Route path='/mecanicos' element={<Mecanicos render={render} setRender={setRender} reporteMensualTotal1={reporteMensualTotal1} reporteMensualTotal2={reporteMensualTotal2} month={month} />}/>
         <Route path='/mecanico1' element={<Mecanico1 reporteMensualIds1={reporteMensualIds1} reporteMensualIds1Gar={reporteMensualIds1Gar} render={render} setRender={setRender} month={month}/>}/> 

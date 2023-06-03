@@ -4,7 +4,7 @@ import Busqueda from './Busqueda'
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import BuildIcon from '@mui/icons-material/Build';
 
-function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal}) {
+function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal, Eqpendientes}) {
 
   useEffect(() => {
       setRender(!render)
@@ -14,7 +14,7 @@ function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal}) {
     <div className='frame-menu'>
         <h1 className='title-menu'>STIHL Los Andes - Admin</h1>
         <div>
-          <div className='subtitle-admin'>Equipos en bodega:</div>
+          <div className='subtitle-admin'>Equipos en pendientes de revisión/mantención: {Eqpendientes}</div>
         </div>
         <div>
           <Busqueda date={date} />

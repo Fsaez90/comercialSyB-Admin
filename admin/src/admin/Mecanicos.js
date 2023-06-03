@@ -43,11 +43,11 @@ function Mecanicos({render, setRender, reporteMensualTotal1, reporteMensualTotal
           <div className='subtitle-admin'>Cantidad de reparaciones en: {mes}</div>
         </div>
         <div className='menu'>
-            <NavLink className='menu-button' to="/ingreso">Meses anteriores</NavLink>
+            <div className='menu-button'>Meses anteriores</div>
         </div>
         <div className='menu'>
             <NavLink className='menu-button' to="/mecanico1">Mecánico1 {`Total: ${(reporteMensualTotal1 === null || reporteMensualTotal1 === undefined)? "0": reporteMensualTotal1}`}</NavLink>
-            <NavLink className='menu-button' to="/mecanico2">Mecánico2 {`Total:  ${(reporteMensualTotal1 === null || reporteMensualTotal2 === undefined)? "0": reporteMensualTotal2}`}</NavLink>
+            <NavLink className='menu-button' to="/mecanico2">Mecánico2 {`Total:  ${(reporteMensualTotal2 === null || reporteMensualTotal2 === undefined)? "0": reporteMensualTotal2}`}</NavLink>
         </div> 
         <br/>
         <div className='menu-admin'>
