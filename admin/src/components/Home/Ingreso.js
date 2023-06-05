@@ -8,7 +8,7 @@ import AddHomeIcon from '@mui/icons-material/AddHome';
 function Ingreso({setRender, render, date, lastId}) {
 
   const  navigate  = useNavigate();
-  
+  const [loadMessage, setLoadMessage] =useState()
   const [isDisable, setIsDisable] = useState("buttons")
   const [imageURL, setImageURL] = useState(null)
   const [success, setSuccess] = useState("overlay")
@@ -38,43 +38,51 @@ function Ingreso({setRender, render, date, lastId}) {
   const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
 
   function crearOrden (e) {
+    const requestData = {
+      nombre: name,
+      apellidos: lastname,
+      rut: rut,
+      email: email,
+      telefono: phone,
+      tipo: tipo,
+      marca: marca,
+      modelo: modelo,
+      serie: serie,
+      observaciones: observaciones,
+      espada: espada,
+      cadena: cadena,
+      funda: funda,
+      disco: disco,
+      mantencion: mantenimiento,
+      revision: revision,
+      garantia: garantia,
+      mecanico: mecanico,
+      status: status,
+      fecha_ingreso: date
+    }
     e.preventDefault();
     fetch("https://comercialsyb-backend-production.up.railway.app/comercial/crear/", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        nombre: name,
-        apellidos: lastname,
-        rut: rut,
-        email: email,
-        telefono: phone,
-        tipo: tipo,
-        marca: marca,
-        modelo: modelo,
-        serie: serie,
-        observaciones: observaciones,
-        espada: espada,
-        cadena: cadena,
-        funda: funda,
-        disco: disco,
-        mantencion: mantenimiento,
-        revision: revision,
-        garantia: garantia,
-        mecanico: mecanico,
-        status: status,
-        fecha_ingreso: date
-      })
+      body: JSON.stringify(requestData),
     })
     .then(response => {
       if (response.ok) {
+        setLoadMessage("Orden ingresada exitosamente")
         setRender(!render);
         // Success
         setSuccess("overlay-active");
         setSuccessMsg("success-msg-active");
         setTimeout(() => {
-          navigate("/app");
+          navigate("/");
         }, 2500);
       } else {
+        setLoadMessage("Porfavor intentar nuevamente")
+        setSuccess("overlay-active");
+        setSuccessMsg("success-msg-active-error");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
         // Handle the error case
         throw new Error('Error creating order'); // Throw an error to be caught in the catch block
       }
@@ -256,7 +264,7 @@ function Ingreso({setRender, render, date, lastId}) {
       <div className="return-menu">
         <NavLink to="/app"><br /><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>      </div>
       <div id={success}>
-        <p id={succesMsg}>Orden ingresada exitosamente!</p>
+        <p id={succesMsg}>{loadMessage}</p>
       </div>
     </div>
   )

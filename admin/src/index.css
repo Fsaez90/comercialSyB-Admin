@@ -115,6 +115,12 @@ body, html {
     opacity: 1;
 }
 
+#success-msg-active-error {
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(213, 15, 15);
+    font-size: 40px;
+    opacity: 1;
+}
 
 /**Modulo de Firma **/
 
