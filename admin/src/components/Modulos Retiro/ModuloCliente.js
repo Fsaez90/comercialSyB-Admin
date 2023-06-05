@@ -16,6 +16,9 @@ function ModuloCliente({orden, setModalFormaCliente, anular, setModal, date, sta
   const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
 
   async function EntregaHandle(n) {
+    const button = document.getElementById('btn-entrega-cliente'); 
+    button.disabled = true;
+
     const uploadData = new FormData();
     uploadData.append('firma', imageURL)
     uploadData.append('fecha_retiro', date)
@@ -69,7 +72,7 @@ function ModuloCliente({orden, setModalFormaCliente, anular, setModal, date, sta
                     </div>
                 </div>)}
                 </Popup>
-                {imageURL?(<button onClick={() => {EntregaHandle(orden.id)}} className='buttons'>Entregar</button>): null}
+                {imageURL?(<button id="btn-entrega-cliente" onClick={() => {EntregaHandle(orden.id)}} className='buttons'>Entregar</button>): null}
                 <button className='buttons' onClick={() => {setModalFormaCliente("modal-inactive"); setModal("modal"); setImageURL(null); setIsDisable("buttons")}}>Volver</button>
             </div>
         </div>

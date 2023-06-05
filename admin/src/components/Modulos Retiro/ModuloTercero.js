@@ -23,6 +23,9 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
     console.log(reverso)
 
     async function EntregaHandle(n) {
+        const button = document.getElementById('btn-entrega'); 
+        button.disabled = true;
+
         const uploadData = new FormData();
         uploadData.append('foto_carnet_frontal', frontal, frontal.name)
         uploadData.append('foto_carnet_reverso', reverso, reverso.name)
@@ -93,7 +96,7 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
                     </div>
                 </div>)}
                 </Popup>
-                {imageURL?(<button onClick={() => EntregaHandle(orden.id)} onTouchEnd={() => EntregaHandle(orden.id)} className='buttons' >Entregar</button>): null}
+                {imageURL?(<button id="btn-entrega" onClick={() => EntregaHandle(orden.id)} onTouchEnd={() => EntregaHandle(orden.id)} className='buttons' >Entregar</button>): null}
                 <button className='buttons' onClick={() => {setModalFormaTercero("modal-inactive"); setModal("modal"); setImageURL(null); setIsDisable("buttons")}}>Volver</button>
             </div>
             </div>
