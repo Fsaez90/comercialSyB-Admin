@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalTaller.css"
 
 function SolicitudRepuestos({render, setRender, solicitudRepuestos, solicitudRepuestosLista}) {
+  const [msg, setMsg] = useState("msg-mecanic") 
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -39,50 +40,54 @@ function SolicitudRepuestos({render, setRender, solicitudRepuestos, solicitudRep
 },[solicitudRepuestos, modal])
 
 async function EnesperaRepuesto(n) {
-  try {
-    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          status: "Equipo en proceso de Mantencion/Garantia en Espera de Repuesto",
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: detallePpto,
-          espera_repuesto: esperaRepuesto,
-          repuesto_faltante: repuestoField 
-      })
-    });
-    if (response.ok) {
-      setRender(!render);
-      setTimeout(() => {
-        setModal("modal-inactive");
-        navigate('/mmto-solicitud-rep');
-      }, 500);
-    } else {
-      // Handle error case
-      console.error("Error updating data");
+  if(!repuestoField || !repuestoField.trim()) {
+    setMsg("msg-mecanic-act")
+  } else {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            status: "Equipo en proceso de Mantencion/Garantia en Espera de Repuesto",
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            espera_repuesto: esperaRepuesto,
+            repuesto_faltante: repuestoField 
+        })
+      });
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/mmto-solicitud-rep');
+        }, 500);
+      } else {
+        // Handle error case
+        console.error("Error updating data");
+      }
+    } catch (error) {
+      // Handle network error
+      console.error("Network error:", error);
     }
-  } catch (error) {
-    // Handle network error
-    console.error("Network error:", error);
   }
 }
 
@@ -228,11 +233,15 @@ async function respuestosEnviadosHandle(n) {
                 {esperaRepuesto? <div className='detalle-observaciones'>
                   Indicar repuestos faltantes + código:
                 <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
-              </div>: null} 
+              </div>: null}
+              <div className={msg}>Indicar repuestos faltantes</div> 
             </div>
             {esperaRepuesto? 
             <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
+                <button className='button-list' onClick={()=> {
+                  setModal("modal-inactive")
+                  setMsg("msg-mecanic")
+                  }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 EnesperaRepuesto(id)
                 }}>Espera Repuesto</button>

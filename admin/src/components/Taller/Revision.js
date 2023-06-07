@@ -34,8 +34,8 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
 },[revisiones, modal])
 
 async function enProcesoHandle(n) {
-  if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
-    setMsg("msg-mecanic-act")
+  if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+      setMsg("msg-mecanic-act")
   } else {
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -77,7 +77,7 @@ async function enProcesoHandle(n) {
           setDiagnostico("")
           setDetallePpto("")
           navigate('/revision');
-        }, 500);
+        }, 1500);
       } else {
         throw new Error("Failed to update data.");
       }
@@ -89,7 +89,7 @@ async function enProcesoHandle(n) {
 }
 
 function revisionHandle(n) {
-  if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+  if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
     setMsg("msg-mecanic-act")
   } else {
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -133,7 +133,7 @@ function revisionHandle(n) {
           setDiagnostico("")
           setDetallePpto("")
           navigate('/revision');
-        }, 500);
+        }, 1500);
       } else {
         throw new Error("Failed to update data.");
       }

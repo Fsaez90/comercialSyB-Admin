@@ -40,13 +40,13 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
   },[proGarLista, modalRev])
     
   async function enProcesoHandleRev(n) {
-    if((aplGarantia === "si" && status === "Equipo reingresado por garantía") && (detallePptoGar === null || diagnosticoGar === "" || detallePptoGar === "" || diagnosticoGar === null)) {
+    if((aplGarantia === "si" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar)) {
       setMsg("msg-mecanic-act")
-    } else if ((aplGarantia === "si" && status !== "Equipo reingrsado por garantía") && (detallePpto === null || diagnostico ===  null || detallePpto === "" || diagnostico ===  "") ) {
+    } else if ((aplGarantia === "si" && status !== "Equipo reingrsado por garantía") && (!detallePpto || !diagnostico || !detallePpto.trim() || !diagnostico.trim()) ) {
       setMsg("msg-mecanic-act")
-    } else if ((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (detallePptoGar === null || diagnosticoGar === "" || detallePptoGar === "" || diagnosticoGar === null)) {
+    } else if ((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar)) {
       setMsg("msg-mecanic-act")
-    } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (detallePpto === null || diagnostico === "" || detallePpto === "" || diagnostico === null)) {
+    } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (!detallePpto || !diagnostico.trim() || !detallePpto.trim() || !diagnostico)) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -139,7 +139,7 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
             setDetallePptoGar("")
             setDiagnosticoGar("")
             navigate('/proceso-garantia');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         console.error(error);
@@ -148,9 +148,9 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
   }
   
   async function solicitudRepuestosHandle(n) {
-    if((aplGarantia === "si" && status === "Equipo reingresado por garantía") && (detallePptoGar === null || diagnosticoGar === "" || detallePptoGar === "" || diagnosticoGar === null)) {
+    if((aplGarantia === "si" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar)) {
       setMsg("msg-mecanic-act")
-    } else if ((aplGarantia === "si" && status !== "Equipo reingrsado por garantía") && (detallePpto === null || diagnostico ===  null || detallePpto === "" || diagnostico ===  "") ){
+    } else if ((aplGarantia === "si" && status !== "Equipo reingrsado por garantía") && (!detallePpto || !diagnostico || !detallePpto.trim() || !diagnostico.trim()) ){
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -208,7 +208,7 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
             setDetallePptoGar("")
             setDiagnosticoGar("")
             navigate('/proceso-garantia');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         console.error(error);
@@ -217,9 +217,9 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
   }
 
   async function pptoHandle(n) {
-    if((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (detallePptoGar === null || diagnosticoGar === "" || detallePptoGar === "" || diagnosticoGar === null)) {
+    if((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar)) {
       setMsg("msg-mecanic-act")
-    } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (detallePpto === null || diagnostico === "" || detallePpto === "" || diagnostico === null)) {
+    } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (!detallePpto || !diagnostico.trim() || !detallePpto.trim() || !diagnostico)) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -276,7 +276,7 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
             setDetallePptoGar("")
             setDiagnosticoGar("")
             navigate('/proceso-garantia');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         console.error(error);

@@ -44,7 +44,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
 },[pptoslistos, modal])
 
 async function AprobadaHandle(n) {
-  if (valorizacion === "$") {
+  if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
     setMsg("msg-mecanic-act");
   } else {
     try {
@@ -102,7 +102,7 @@ async function AprobadaHandle(n) {
 }
 
 async function AprobadaEsperaRepuestoHandle(n) {
-  if (valorizacion === "$") {
+  if (!repuestoField || !repuestoField.trim() || !valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
     setMsg("msg-mecanic-act");
   } else {
     try {
@@ -161,7 +161,7 @@ async function AprobadaEsperaRepuestoHandle(n) {
 }
 
 async function RechazadaHandle(n) {
-  if (valorizacion === "$") {
+  if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
     setMsg("msg-mecanic-act");
   } else {
     try {
@@ -218,8 +218,10 @@ async function RechazadaHandle(n) {
 }
 
 async function GuardarHandle(n) {
-  if (valorizacion === "$") {
+  if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
     setMsg("msg-mecanic-act");
+  } else if (esperaRepuesto === true && (!repuestoField || !repuestoField.trim() || !valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.")) {
+    setMsg("msg-mecanic-act")
   } else {
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -273,8 +275,10 @@ async function GuardarHandle(n) {
 }
 
 async function NoRespondeHandle(n) {
-  if (valorizacion === "$") {
+  if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
     setMsg("msg-mecanic-act");
+  } else if (esperaRepuesto === true && (!repuestoField || !repuestoField.trim() || !valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.")) {
+    setMsg("msg-mecanic-act")
   } else {
     try {
       const [updateResponse, emailResponse] = await Promise.all([
@@ -455,7 +459,7 @@ async function NoRespondeHandle(n) {
                   Indicar repuestos faltantes + código:
                 <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
               </div>: null} 
-              <div className={msg}>Indicar valorización de trabajo realizado.</div>
+              <div className={msg}>{esperaRepuesto?"Indicar valorización más repuestos faltantes":"Indicar valorización del presupuesto"}</div>
             </div>
             {esperaRepuesto?
             <div className='modal-buttons-notificaciones'>

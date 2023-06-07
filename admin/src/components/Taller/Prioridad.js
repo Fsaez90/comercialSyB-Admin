@@ -36,9 +36,9 @@ function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
 },[prioridad, modalRev, modalMan])
 
 async function enProcesoHandleMan(n) {
-  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+  if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -85,7 +85,7 @@ async function enProcesoHandleMan(n) {
           setDetallePpto("")
           setApresupuesto(false)
           navigate('/proceso-prioridad');
-        }, 500);
+        }, 1500);
       } else {
         throw new Error("Failed to update data.");
       }
@@ -96,9 +96,9 @@ async function enProcesoHandleMan(n) {
 }
 
 async function mantenimientoHandle(n) {
-  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+  if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -143,7 +143,7 @@ async function mantenimientoHandle(n) {
           setDetallePpto("")
           setApresupuesto(false)
           navigate('/proceso-prioridad');
-        }, 500);
+        }, 1500);
       } else {
         throw new Error("Failed to update data.");
       }
@@ -155,9 +155,9 @@ async function mantenimientoHandle(n) {
 }
 
 async function mantenimientopptoHandle(n) {
-  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+  if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -204,7 +204,7 @@ async function mantenimientopptoHandle(n) {
           setDetallePpto("")
           setApresupuesto(false)
           navigate('/proceso-prioridad');
-        }, 500);
+        }, 1500);
       } else {
         throw new Error("Failed to update data.");
       }
@@ -215,7 +215,7 @@ async function mantenimientopptoHandle(n) {
 }
 
 async function enProcesoHandleRev(n) {
-  if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+  if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -259,20 +259,18 @@ async function enProcesoHandleRev(n) {
           setDetallePpto("")
           setApresupuesto(false)
           navigate('/proceso-prioridad');
-        }, 500);
+        }, 1500);
       } else {
         throw new Error("Failed to update data.");
       }
     } catch (error) {
       console.error(error);
     }
-
   }
-
 }
 
 async function revisionHandle(n) {
-  if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+  if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -318,7 +316,7 @@ async function revisionHandle(n) {
           setDetallePpto("")
           setApresupuesto(false)
           navigate('/proceso-prioridad');
-        }, 500);
+        }, 1500);
       } else {
         throw new Error("Failed to update data.");
       }

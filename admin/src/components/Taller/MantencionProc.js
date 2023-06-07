@@ -34,9 +34,9 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   },[manComenzadas, modal])
 
   async function enProcesoHandle(n) {
-    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -80,7 +80,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             setDetallePpto("")
             setApresupuesto(false)
             navigate("/proceso-mantencion")
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         console.error(error);
@@ -89,9 +89,9 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   }
   
   async function mantenimientoHandle(n) {
-    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
     }else {
       try {
@@ -136,8 +136,8 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             setDiagnostico("")
             setDetallePpto("")
             setApresupuesto(false)
-            navigate('/proceso-mantencion');
-          }, 500);
+            navigate('/proceso-mantenimiento');
+          }, 1500);
         }
       } catch (error) {
         console.error(error);
@@ -146,9 +146,9 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   }
   
   async function mantenimientopptoHandle(n) {
-    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -194,8 +194,8 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             setDiagnostico("")
             setDetallePpto("")
             setApresupuesto(false)
-            navigate('/proceso-mantencion');
-          }, 500);
+            navigate('/proceso-mantenimiento');
+          }, 1500);
         }
       } catch (error) {
         console.error(error);

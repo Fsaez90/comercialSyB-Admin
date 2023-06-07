@@ -47,7 +47,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   },[mmtoslistos, modal]) 
 
   async function NotificadoHandle(n){
-    if(valorizacion === "$" && aplGarantia === "no") {
+    if(aplGarantia === "no" && (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.")) {
       setMsg("msg-mecanic-act");
     } else {
       try {
@@ -105,7 +105,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   }
 
   async function AprobadaHandle(n) {
-    if (valorizacion === "$") {
+    if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
       setMsg("msg-mecanic-act");
     } else {
       try {
@@ -164,7 +164,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   }
   
   async function AprobadaEsperaRepuestoHandle(n){
-    if (valorizacion === "$") {
+    if (!repuestoField || !repuestoField.trim() || !valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
       setMsg("msg-mecanic-act");
     } else {
       try {
@@ -224,7 +224,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   }
   
   async function RechazadaHandle(n){
-    if (valorizacion === "$") {
+    if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
       setMsg("msg-mecanic-act");
     } else {
       try {
@@ -283,8 +283,10 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   }
 
   async function NoRespondePptoHandle(n){
-    if (valorizacion === "$") {
+    if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
       setMsg("msg-mecanic-act");
+    } else if (esperaRepuesto === true && (!repuestoField || !repuestoField.trim() || !valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.")) {
+      setMsg("msg-mecanic-act")
     } else {
       try {
         const response = await Promise.all([
@@ -357,7 +359,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   }
   
   async function NoRespondeNotifHandle(n) {
-    if (valorizacion === "$" && aplGarantia === "no") {
+    if (aplGarantia === "no" && (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.")) {
       setMsg("msg-mecanic-act");
     } else {
       try {
@@ -416,7 +418,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   }
   
   async function GuardarHandle(n) {
-    if (valorizacion === null) {
+    if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
       setMsg("msg-mecanic-act");
     } else {
       try {
@@ -594,7 +596,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
                     <label for="valorizacion">Valorización de presupuesto</label>
                   </div>
                 </div>
-                <div className={msg}>Indicar valorización de trabajo realizado.</div>
+                <div className={msg}>{esperaRepuesto?"Indicar valorización más repuestos faltantes":"Indicar valorización del presupuesto"}</div>
               </>
               }
               {aPresupuesto?

@@ -106,7 +106,8 @@ function App() {
   const [adminEsp, setAdminEsp] = useState(false)
   const [Eqpendientes, setEqPendientes] = useState()
 
-  useEffect(() => {    
+
+  useEffect(() => {   
     fetchData();
   },[render]) 
 

@@ -34,9 +34,9 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
  },[mantenciones, modal]) 
 
  async function enProcesoHandle(n) {
-  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+  if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -80,7 +80,7 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
           setDetallePpto("")
           setApresupuesto(false)
           navigate('/mantenimiento');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       console.error(error);
@@ -89,9 +89,9 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
 }
 
 async function mantenimientoHandle(n) {
-  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+  if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
   }else {
     try {
@@ -137,7 +137,7 @@ async function mantenimientoHandle(n) {
           setDetallePpto("")
           setApresupuesto(false)
           navigate('/mantenimiento');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       console.error(error);
@@ -146,9 +146,9 @@ async function mantenimientoHandle(n) {
 }
 
 async function mantenimientopptoHandle(n) {
-  if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+  if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -195,7 +195,7 @@ async function mantenimientopptoHandle(n) {
           setDetallePpto("")
           setApresupuesto(false)
           navigate('/mantenimiento');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       console.error(error);
