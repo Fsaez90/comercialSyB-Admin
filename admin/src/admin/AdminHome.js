@@ -4,11 +4,11 @@ import Busqueda from './Busqueda'
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import BuildIcon from '@mui/icons-material/Build';
 
-function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal, Eqpendientes}) {
+function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal, Eqpendientes, esperaRepuesto}) {
 
   useEffect(() => {
       setRender(!render)
-  },[setAdminEsp, listasRetiroTotal])
+  },[Eqpendientes, listasRetiroTotal, esperaRepuesto, setAdminEsp])
   
   return (
     <div className='frame-menu'>
@@ -21,7 +21,7 @@ function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal, Eqp
         </div>
         <div className='menu'>
             <NavLink className='menu-button' to="/listas-retiro">Maquinas para retiro ({listasRetiroTotal})</NavLink>
-            <NavLink onClick={() => setAdminEsp(true)} className='menu-button' to="/espera-repuesto">O.T espera repuesto</NavLink>
+            <NavLink onClick={() => setAdminEsp(true)} className='menu-button' to="/espera-repuesto">O.T espera repuesto ({esperaRepuesto})</NavLink>
             <NavLink className='menu-button' to="/mecanicos">Mecánicos</NavLink>
         </div>
         <br/>

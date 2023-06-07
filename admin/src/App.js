@@ -277,7 +277,7 @@ function App() {
     <div className="App">
       <Router>
       <Routes>
-        <Route path='/' element={<AdminHome date={date} render={render} setRender={setRender} setAdminEsp={setAdminEsp} listasRetiroTotal={listasRetiroTotal} adminEsp={adminEsp} Eqpendientes={Eqpendientes}/>}/> 
+        <Route path='/' element={<AdminHome date={date} render={render} setRender={setRender} setAdminEsp={setAdminEsp} listasRetiroTotal={listasRetiroTotal} esperaRepuesto={esperaRepuesto} adminEsp={adminEsp} Eqpendientes={Eqpendientes}/>}/> 
         <Route path='/app' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
         <Route path='/mecanicos' element={<Mecanicos render={render} setRender={setRender} reporteMensualTotal1={reporteMensualTotal1} reporteMensualTotal2={reporteMensualTotal2} month={month} />}/>
         <Route path='/mecanico1' element={<Mecanico1 reporteMensualIds1={reporteMensualIds1} reporteMensualIds1Gar={reporteMensualIds1Gar} render={render} setRender={setRender} month={month}/>}/> 
