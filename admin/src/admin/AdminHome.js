@@ -14,7 +14,7 @@ function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal, Eqp
     <div className='frame-menu'>
         <h1 className='title-menu'>STIHL Los Andes - Admin</h1>
         <div>
-          <div className='subtitle-admin'>Equipos en pendientes de revisión/mantención: {Eqpendientes}</div>
+          <div className='subtitle-admin'>Total equipos pendientes de revisión/mantención: {Eqpendientes}</div>
         </div>
         <div>
           <Busqueda date={date} />
