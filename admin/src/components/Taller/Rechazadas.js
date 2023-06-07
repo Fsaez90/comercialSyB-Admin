@@ -69,7 +69,7 @@ async function ArmadaHandle(n) {
           status: "Equipo Armado (sin reparar), listo para retiro",
           terminada: true,
           valorizacion: valorizacion,
-          rechazado: true,
+          rechazada: true,
           prioritaria: prioritaria,
           cliente_notificado_ppto: true,
           armada: true,
@@ -82,7 +82,7 @@ async function ArmadaHandle(n) {
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/rechazadas');
-      }, 500);
+      }, 1500);
     } else {
       throw new Error("Failed to update data.");
     }
@@ -124,7 +124,7 @@ async function GuardarHandle(n) {
           status: "Equipo en proceso armado (presupuesto rechazado).",
           terminada: true,
           valorizacion: valorizacion,
-          rechazado: true,
+          rechazada: true,
           prioritaria: prioritaria,
           cliente_notificado_ppto: true,
       })
@@ -135,7 +135,7 @@ async function GuardarHandle(n) {
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/rechazadas');
-      }, 500);
+      }, 1500);
     } else {
       throw new Error("Failed to update data.");
     }
