@@ -90,47 +90,114 @@ async function NotificadoHandle(n){
 }
 
 
-function NoRespondeHandle(n){
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-        nombre: nombre,
-        apellidos: apellidos,
-        rut: rut,
-        email: email,
-        telefono: telefono,
-        tipo: tipo,
-        marca: marca,
-        modelo: modelo,
-        serie: serie,
-        observaciones: observaciones,
-        espada: espada,
-        cadena: cadena,
-        funda: funda,
-        disco: disco,
-        mantencion: mantencion,
-        revision: revision,
-        mecanico: mecanico,
-        ingreso_sistema: ingresoSistema,
-        diagnostico: diagnostico,
-        comenzada: true,
-        detalle_ppto: presupuesto,
-        mmto_completado: true,
-        status: "Equipo listo para retiro, cliente no responde",
-        terminada: true,
-        valorizacion: valorizacion,
-        prioritaria: prioritaria,
-        cliente_noresponde: true,
-        reparada: true
-    })
-  })
-  setRender(!render)
-  setTimeout(() => {
-    setModal("modal-inactive")
-    navigate('/equipos-reparados') 
-  }, 500);
-}
+  // function NoRespondeHandle(n){
+  //   fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+  //     method: "POST",
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: JSON.stringify({
+  //         nombre: nombre,
+  //         apellidos: apellidos,
+  //         rut: rut,
+  //         email: email,
+  //         telefono: telefono,
+  //         tipo: tipo,
+  //         marca: marca,
+  //         modelo: modelo,
+  //         serie: serie,
+  //         observaciones: observaciones,
+  //         espada: espada,
+  //         cadena: cadena,
+  //         funda: funda,
+  //         disco: disco,
+  //         mantencion: mantencion,
+  //         revision: revision,
+  //         mecanico: mecanico,
+  //         ingreso_sistema: ingresoSistema,
+  //         diagnostico: diagnostico,
+  //         comenzada: true,
+  //         detalle_ppto: presupuesto,
+  //         mmto_completado: true,
+  //         status: "Equipo listo para retiro, cliente no responde",
+  //         terminada: true,
+  //         valorizacion: valorizacion,
+  //         prioritaria: prioritaria,
+  //         cliente_noresponde: true,
+  //         reparada: true
+  //     })
+  //   })
+  //   setRender(!render)
+  //   setTimeout(() => {
+  //     setModal("modal-inactive")
+  //     navigate('/equipos-reparados') 
+  //   }, 500);
+  // }
+
+  async function NoRespondeHandl(n) {
+    try {
+      const [updateResponse, emailResponse] = await Promise.all([
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            mmto_completado: true,
+            status: "Equipo listo para retiro, cliente no responde, email enviado",
+            terminada: true,
+            valorizacion: valorizacion,
+            prioritaria: prioritaria,
+            cliente_noresponde: true,
+            reparada: true
+          })
+        }),
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email-retiro/`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: id,
+            name: nombre,
+            lastname: apellidos,
+            email: email,
+            tipo: tipo,
+            modelo: modelo,
+          })
+        })
+      ]);
+
+      if (updateResponse.ok && emailResponse.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$") 
+          navigate('/pptos-listos');
+        }, 1500);
+      }
+    } catch (error) {
+      // Handle the error here
+      console.log(error);
+    }
+  }
 
 
     if (eqreparados !== 0) {
@@ -246,7 +313,7 @@ function NoRespondeHandle(n){
                 </div>
                 <div>
                   <button className='button-list-noResponde' onClick={() => {
-                    NoRespondeHandle(id) 
+                    NoRespondeHandl(id) 
                     }}>No responde</button>
                   <button className='button-list-volver' onClick={()=> {
                      setModal("modal-inactive")

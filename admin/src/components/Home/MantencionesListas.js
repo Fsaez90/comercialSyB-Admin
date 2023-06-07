@@ -358,63 +358,135 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
     }
   }
   
-  async function NoRespondeNotifHandle(n) {
+  // async function NoRespondeNotifHandle(n) {
+  //   if (aplGarantia === "no" && (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.")) {
+  //     setMsg("msg-mecanic-act");
+  //   } else {
+  //     try {
+  //       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+  //         method: "POST",
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({
+  //           nombre: nombre,
+  //           apellidos: apellidos,
+  //           rut: rut,
+  //           email: email,
+  //           telefono: telefono,
+  //           tipo: tipo,
+  //           marca: marca,
+  //           modelo: modelo,
+  //           serie: serie,
+  //           observaciones: observaciones,
+  //           espada: espada,
+  //           cadena: cadena,
+  //           funda: funda,
+  //           disco: disco,
+  //           mantencion: mantencion,
+  //           revision: revision,
+  //           mecanico: mecanico,
+  //           ingreso_sistema: ingresoSistema,
+  //           diagnostico: diagnostico,
+  //           comenzada: true,
+  //           detalle_ppto: presupuesto,
+  //           mmto_completado: true,
+  //           status: "Mantenimiento terminado, cliente no contesta",
+  //           terminada: true,
+  //           valorizacion: valorizacion,
+  //           prioritaria: prioritaria,
+  //           cliente_noresponde: true,
+  //           cliente_notificado_ppto: true
+  //         })
+  //       });
+  
+  //       if (response.ok) {
+  //         setRender(!render);
+  //         setTimeout(() => {
+  //           setModal("modal-inactive");
+  //           setRepuestoField("")
+  //           setPresupuesto("")
+  //           setDiagnostico("")
+  //           setValorizacion("$")
+  //           setMsg("msg-mecanic")
+  //           navigate('/mantenciones-listas');
+  //         }, 500);
+  //       }
+  //     } catch (error) {
+  //       // Handle the error here
+  //       console.log(error);
+  //     }
+  //   }
+  // }
+
+  async function NoRespondeNotifHandl(n) {
     if (aplGarantia === "no" && (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.")) {
       setMsg("msg-mecanic-act");
     } else {
       try {
-        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-          method: "POST",
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
-            mmto_completado: true,
-            status: "Mantenimiento terminado, cliente no contesta",
-            terminada: true,
-            valorizacion: valorizacion,
-            prioritaria: prioritaria,
-            cliente_noresponde: true,
-            cliente_notificado_ppto: true
+        const [updateResponse, emailResponse] = await Promise.all([
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda,
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: presupuesto,
+              mmto_completado: true,
+              status: "Mantenimiento terminado, cliente no contesta",
+              terminada: true,
+              valorizacion: valorizacion,
+              prioritaria: prioritaria,
+              cliente_noresponde: true,
+              cliente_notificado_ppto: true
+            })
+          }),
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email-retiro/`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: id,
+              name: nombre,
+              lastname: apellidos,
+              email: email,
+              tipo: tipo,
+              modelo: modelo,
+            })
           })
-        });
+        ]);
   
-        if (response.ok) {
+        if (updateResponse.ok && emailResponse.ok) {
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
-            setRepuestoField("")
             setPresupuesto("")
             setDiagnostico("")
-            setValorizacion("$")
-            setMsg("msg-mecanic")
-            navigate('/mantenciones-listas');
-          }, 500);
+            setValorizacion("$") 
+            navigate('/pptos-listos');
+          }, 1500);
         }
       } catch (error) {
         // Handle the error here
         console.log(error);
       }
     }
+
   }
   
   async function GuardarHandle(n) {
@@ -656,7 +728,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
                 </div>
                 <div>
                 <button className='button-list-noResponde' onClick={() => {
-                  NoRespondeNotifHandle(id) 
+                  NoRespondeNotifHandl(id) 
                   }}>No responde</button>
                 <button className='button-list-volver' onClick={()=> {
                    setEsperaRepuesto(false)
