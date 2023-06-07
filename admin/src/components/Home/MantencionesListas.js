@@ -96,7 +96,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
           setValorizacion("$")
           setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
-        }, 500);
+        }, 1500);
       }
       } catch (error) {
         console.log(error)
@@ -154,7 +154,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
           setValorizacion("$")
           setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
-        }, 500);
+        }, 1500);
       }
       } catch (error) {
         // Handle the error here
@@ -273,7 +273,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
           setValorizacion("$")
           setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
-        }, 500);
+        }, 1500);
       }
       } catch (error) {
         // Handle the error here
@@ -349,7 +349,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
           setValorizacion("$")
           setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
-        }, 500);
+        }, 1500);
       }
       } catch (error) {
         // Handle the error here
@@ -540,7 +540,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
             setValorizacion("$")
             setMsg("msg-mecanic")
             navigate('/mantenciones-listas');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         // Handle the error here

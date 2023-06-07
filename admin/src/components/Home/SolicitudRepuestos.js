@@ -79,7 +79,7 @@ async function EnesperaRepuesto(n) {
         setTimeout(() => {
           setModal("modal-inactive");
           navigate('/mmto-solicitud-rep');
-        }, 500);
+        }, 1500);
       } else {
         // Handle error case
         console.error("Error updating data");
@@ -129,7 +129,7 @@ async function respuestosEnviadosHandle(n) {
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/mmto-solicitud-rep');
-      }, 500);
+      }, 1500);
     } else {
       // Handle error case
       console.error("Error updating data");

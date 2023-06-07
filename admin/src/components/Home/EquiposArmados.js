@@ -87,7 +87,7 @@ async function NotificadoHandle(n){
     setTimeout(() => {
       setModal("modal-inactive");
       navigate('/equipos-armados');
-    }, 500);
+    }, 1500);
   }
 
    } catch (error) {
@@ -140,7 +140,7 @@ async function NoRespondeHandle(n){
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/equipos-armados');
-      }, 500);
+      }, 1500);
     }
 
   } catch (error) {

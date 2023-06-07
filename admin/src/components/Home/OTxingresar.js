@@ -62,7 +62,7 @@ function OTxingresar({listaOt, render, setRender, notificaciones}) {
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/otxingresar');
-      }, 500);
+      }, 1500);
     }
 
   } catch (error) {

@@ -83,7 +83,7 @@ function AprobadaHandle(n){
     setDiagnostico("")
     setValorizacion("$")
     navigate('/no-contesta-pptos') 
-  }, 500);
+  }, 1500);
 }
 
 async function AprobadaEsperaRepuestoHandle(n) {
@@ -135,7 +135,7 @@ async function AprobadaEsperaRepuestoHandle(n) {
         setDiagnostico("")
         setValorizacion("$")
         navigate('/no-contesta-pptos');
-      }, 500);
+      }, 1500);
     }
   } catch (error) {
     // Handle the error here
@@ -190,7 +190,7 @@ async function RechazadaHandle(n) {
         setDiagnostico("")
         setValorizacion("$")
         navigate('/no-contesta-pptos');
-      }, 500);
+      }, 1500);
     }
   } catch (error) {
     // Handle the error here
@@ -244,7 +244,7 @@ async function NoRespondeHandle(n) {
         setDiagnostico("")
         setValorizacion("$")
         navigate('/no-contesta-pptos');
-      }, 500);
+      }, 1500);
     }
   } catch (error) {
     // Handle the error here

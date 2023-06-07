@@ -92,7 +92,7 @@ async function AprobadaHandle(n) {
           setDiagnostico("")
           setValorizacion("$") 
           navigate('/pptos-listos');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       // Handle the error here
@@ -151,7 +151,7 @@ async function AprobadaEsperaRepuestoHandle(n) {
           setDiagnostico("")
           setValorizacion("$") 
           navigate('/pptos-listos');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       // Handle the error here
@@ -208,7 +208,7 @@ async function RechazadaHandle(n) {
           setDiagnostico("")
           setValorizacion("$") 
           navigate('/pptos-listos');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       // Handle the error here
@@ -265,7 +265,7 @@ async function GuardarHandle(n) {
           setDiagnostico("")
           setValorizacion("$") 
           navigate('/pptos-listos');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       // Handle the error here
@@ -339,7 +339,7 @@ async function NoRespondeHandle(n) {
           setDiagnostico("")
           setValorizacion("$") 
           navigate('/pptos-listos');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       // Handle the error here

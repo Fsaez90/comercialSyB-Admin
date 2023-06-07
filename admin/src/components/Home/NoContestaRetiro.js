@@ -83,7 +83,7 @@ async function NotificadoHandle(n) {
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/no-contesta-retiro');
-      }, 500);
+      }, 1500);
     }
   } catch (error) {
     // Handle the error here
@@ -133,7 +133,7 @@ async function NoRespondeHandle(n) {
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/no-contesta-retiro');
-      }, 500);
+      }, 1500);
     }
   } catch (error) {
     // Handle the error here
