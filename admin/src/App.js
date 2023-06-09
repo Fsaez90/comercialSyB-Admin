@@ -216,6 +216,7 @@ function App() {
       setManComenzadas(mantComenzadas.length)
       setGarantiaCom(garComenzadas.length)
       setProGarLista(garComenzadas)
+      setGarantia(Garantias.length)
       setTotalProceso(procesoTotal)
       setProcPrioLista(priComenzadas)
       setProcRevLista(revComenzadas)
