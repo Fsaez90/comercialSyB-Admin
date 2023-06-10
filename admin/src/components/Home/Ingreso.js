@@ -1,9 +1,14 @@
 import React, {useState, useRef} from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import SignaturePad from "react-signature-canvas";
 import '../static/formularioIngreso.css';
 import AddHomeIcon from '@mui/icons-material/AddHome';
+import html2pdf from 'html2pdf.js';
+import logo from "../static/img/syblogo.png"
+
 
 function Ingreso({setRender, render, date, lastId}) {
 
@@ -37,7 +42,73 @@ function Ingreso({setRender, render, date, lastId}) {
   const clear = () => sigCanvas.current.clear();
   const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
 
-  function crearOrden (e) {
+  const htmlString = ReactDOMServer.renderToStaticMarkup(
+    <div style={{ padding: '80px', fontFamily: 'arial' }}>
+      <div style={{ marginBottom: '20px', paddingTop: '1px', paddingRight: '1px', paddingBottom: '1px', paddingLeft: '1px' }}>
+        <div style={{ marginBottom: '10px', fontSize: '10px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <div style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1px' }}>
+            <h1 style={{ fontSize: '24px', marginBottom: '3px'}}>Comercial S&B</h1>
+            <p style={{ fontSize: '15px', marginBottom: '3px' }}>Servicio Técnico Autorizado</p>
+            <p style={{ fontSize: '15px', marginBottom: '3px' }}>STIHL</p>
+            <p style={{ fontSize: '15px', marginBottom: '3px' }}>Tres Carrera # 459, Los Andes</p>
+            <p style={{ fontSize: '15px', marginBottom: '3px' }} >Fono: (34)229 54 12</p>
+            <p>Email: comercialsyb@gmail.com</p>
+          </div>
+          <div>
+            <img src={logo} style={{ width: '150px', marginBottom: '10px' }} />
+          </div>
+        </div>
+        <div>
+          <div style={{ marginBottom: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+            <p style={{ marginLeft: '20px' }}>Nombre: {name} {lastname}</p>
+            <p style={{ marginLeft: '20px' }}>RUT: {rut}</p>
+            <p style={{ marginLeft: '20px', fontSize: '35', padding: '5px', borderRadius: '3px', color: 'white', backgroundColor: 'orange' }}>Orden Nº: {lastId + 1}</p>
+          </div>
+          <div style={{ marginTop: '0px', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+            {email?<p style={{ marginLeft: '20px' }}>Email: {email}</p>:<p style={{ marginLeft: '20px' }}>Email: Sin Correo</p>} 
+            <p style={{ marginLeft: '20px' }}>Teléfono: {phone}</p>
+            <p style={{ marginLeft: '20px' }}>Fecha: {date}</p>
+          </div>
+        </div>
+        <div style={{ marginBottom: '15px', marginTop: '20px', fontSize: '11px' }}>
+          <p>Las reparaciones se entregan en un plazo máximo de 10 días hábiles UNA VEZ APROBADO EL PRESUPUESTO.</p>
+          <p>Las reparaciones tienen garantía de 30 días sobre el trabajo realizado según guía de servicio.</p>
+          <p>NOTA:</p>
+          <p>Las máquinas no retiradas durante 60 días serán enviadas a bodega y la empresa no se responsabiliza por deterioros producidos.</p>
+          <p>Las máquinas no retiradas durante 1 año según el Artículo 42 de la ley de comercio, serán consideradas como abandonadas por sus propietarios, por lo que la empresa podrá disponer de ellas.</p>
+          <p>El valor del presupuesto puede sufrir modificaciones si durante su proceso de reparación se detectan defectos no advertidos en el diagnóstico original que impliquen gastos adicionales. Esta variación, en el caso de reparación, será informada al cliente antes de continuar con la reparación del equipo.</p>
+          <p>El presupuesto tiene una vigencia de 10 días desde la fecha de emisión.</p>
+          <p>
+            <strong>El presupuesto rechazado tendrá un costo de $10.000 pesos (IVA Inc.), Equipos mayores $20.000 pesos</strong>
+            <strong>(IVA Inc.).</strong>
+          </p>
+        </div>
+        <div>
+          <p>Tipo: {tipo}</p>
+          <p>Modelo: {modelo}</p>
+          <p>Marca: {marca}</p>
+          <p>Serie: {serie}</p>
+          {espada ? <p>Espada: Si</p> : null}
+          {cadena ? <p>Cadena: Si</p> : null}
+          {funda ? <p>Funda: Si</p> : null}
+          {disco ? <p>Disco: Si</p> : null}
+        </div>
+        <p>Observaciones: {observaciones}</p>
+        <p>{mantenimiento ? 'Propósito: MANTENIMIENTO' : null}</p>
+        <p>{revision ? 'Propósito: REVISION' : null}</p>
+        <p>{garantia ? 'Propósito: GARANTIA' : null}</p>
+        {garantia ? <p>GARANTÍA</p> : null}
+        <div style={{ textAlign: 'center', marginTop: '10px', marginBottom: '0px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <img src={imageURL} style={{ width: '150px', borderBottom: '1px solid #000', marginBottom: '10px' }} />
+          <p>Firma Cliente Sr/s: {name} {lastname}, Rut: {rut}</p>
+        </div>
+      </div>
+    </div>
+);
+
+async function crearOrden(e) {
+  e.preventDefault();
+  if (!email || !email.trim()) {
     const requestData = {
       nombre: name,
       apellidos: lastname,
@@ -59,16 +130,20 @@ function Ingreso({setRender, render, date, lastId}) {
       mecanico: mecanico,
       status: status,
       fecha_ingreso: date
-    }
-    e.preventDefault();
-    fetch("https://comercialsyb-backend-production.up.railway.app/comercial/crear/", {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(requestData),
-    })
-    .then(response => {
+    };
+    try {
+      const response = await fetch("https://comercialsyb-backend-production.up.railway.app/comercial/crear/", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData),
+      });
+
       if (response.ok) {
-        setLoadMessage("Orden ingresada exitosamente")
+        const pdfBlob = await html2pdf().from(htmlString).output('blob');
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        html2pdf().from(htmlString).save(`comprobante_${name}_${lastname}.pdf`);
+        window.open(pdfUrl);
+        setLoadMessage("Orden ingresada exitosamente");
         setRender(!render);
         // Success
         setSuccess("overlay-active");
@@ -77,23 +152,87 @@ function Ingreso({setRender, render, date, lastId}) {
           navigate("/");
         }, 2500);
       } else {
-        setLoadMessage("Porfavor intentar nuevamente")
+        throw new Error('Error creating order');
+      }
+    } catch (error) {
+      console.log('Error:', error);
+      setLoadMessage("Por favor, inténtelo nuevamente");
+      setSuccess("overlay-active");
+      setSuccessMsg("success-msg-active-error");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
+  } else {
+    try {
+       // Generate the PDF file using html2pdf
+      const pdfBlob = await html2pdf().from(htmlString).output('blob');
+      // Create a FormData object
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('lastname', lastname);
+      formData.append('email', email);
+      formData.append('file', pdfBlob, `comprobante_${name}_${lastname}.pdf`);
+
+      const requestData = {
+        nombre: name,
+        apellidos: lastname,
+        rut: rut,
+        email: email,
+        telefono: phone,
+        tipo: tipo,
+        marca: marca,
+        modelo: modelo,
+        serie: serie,
+        observaciones: observaciones,
+        espada: espada,
+        cadena: cadena,
+        funda: funda,
+        disco: disco,
+        mantencion: mantenimiento,
+        revision: revision,
+        garantia: garantia,
+        mecanico: mecanico,
+        status: status,
+        fecha_ingreso: date
+      };
+  
+      // Send the PDF file to the server using fetch
+      const [ingresoResponse, Emailresponse] = await Promise.all([
+        fetch("https://comercialsyb-backend-production.up.railway.app/comercial/email-ingreso/", {
+        method: "POST",
+        body: formData,
+      }),
+      fetch("https://comercialsyb-backend-production.up.railway.app/comercial/crear/", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData),
+      })
+      ])
+      if (ingresoResponse.ok && Emailresponse.ok) {
+        html2pdf().from(htmlString).save(`comprobante_${name}_${lastname}.pdf`);
+        console.log('Email sent successfully');
+        setLoadMessage("Orden ingresada exitosamente, comprobante enviado a correo");
+        setRender(!render);
         setSuccess("overlay-active");
-        setSuccessMsg("success-msg-active-error");
+        setSuccessMsg("success-msg-active");
         setTimeout(() => {
           navigate("/");
-        }, 2000);
-        // Handle the error case
-        throw new Error('Error creating order'); // Throw an error to be caught in the catch block
+        }, 2500);
+      } else {
+        throw new Error('Error sending email');
       }
-    })
-    .catch(error => {
-      // Handle the error
-      console.log('Error:', error);
-      // Additional error handling
-    });
-  // ...
+    } catch (error) {
+      console.error('Error:', error);
+      setLoadMessage("Por favor, inténtelo nuevamente");
+      setSuccess("overlay-active");
+      setSuccessMsg("success-msg-active-error");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
   }
+}
  
 
   return (
@@ -256,7 +395,6 @@ function Ingreso({setRender, render, date, lastId}) {
               </div>
             )}
           </Popup>
-
       ): null}
       <br /><br />
       {imageURL ? (<input type='submit' className='buttons-admin' onTouchEnd={(e) => crearOrden(e)} value="IMPRIMIR" />): null}
