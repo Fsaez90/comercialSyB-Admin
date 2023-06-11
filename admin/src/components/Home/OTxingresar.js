@@ -110,7 +110,10 @@ if (notificaciones !== 0){
       <div className={modal}>
         <div className='modal-content'>
           <div className='modal-details'>
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '80px'}}>
               <p>Nombre: <span className='data-modal'>{nombre}</span></p>
+              <p style={{ color: 'orange'      , fontWeight: 'bold'}}>Nro Orden: <span style={{fontSize:'30px', color: 'orange'}}>{id}</span></p>
+            </div>
               <p>Apellidos: <span className='data-modal'>{apellidos}</span></p>
               <p>RUT: <span className='data-modal'>{rut}</span></p>
               <p>Telefono: <span className='data-modal'>{telefono}</span></p>
