@@ -62,6 +62,7 @@
     padding: 5px;
     border: 2px solid rgb(65, 64, 64); 
     border-radius: 10px;
+    width: fit-content;
 }
 .machine-detail-2{
     display: flex;

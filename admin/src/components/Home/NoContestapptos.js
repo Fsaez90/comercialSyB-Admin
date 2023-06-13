@@ -33,6 +33,8 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
   const [esperaRepuesto, setEsperaRepuesto] = useState(false)
   const [fechaReparacion, setFechaReparacion] = useState()
   const [repuestoField, setRepuestoField] = useState()
+  const [categoria, setCategoria] = useState()
+
   const navigate  = useNavigate();
 
   useEffect(() => {
@@ -73,6 +75,7 @@ function AprobadaHandle(n){
         aprobada: true,
         prioritaria: prioritaria,
         cliente_notificado_ppto: true,
+        categoria: categoria
     })
   })
   setRender(!render)
@@ -123,6 +126,7 @@ async function AprobadaEsperaRepuestoHandle(n) {
         cliente_notificado_ppto: true,
         espera_repuesto: esperaRepuesto,
         repuesto_faltante: repuestoField,
+        categoria: categoria
       })
     });
 
@@ -178,6 +182,7 @@ async function RechazadaHandle(n) {
         cliente_noresponde: false,
         prioritaria: prioritaria,
         cliente_notificado_ppto: true,
+        categoria: categoria
       })
     });
 
@@ -232,6 +237,7 @@ async function NoRespondeHandle(n) {
         prioritaria: prioritaria,
         cliente_noresponde: true,
         ultimo_llamado: date,
+        categoria: categoria
       })
     });
 
@@ -290,6 +296,7 @@ async function NoRespondeHandle(n) {
                 setIngresoSistema(x.ingreso_sistema)
                 setApresupuesto(x.falla_encontrada)
                 setFechaReparacion(x.fecha_reparacion)
+                setCategoria(x.categoria)
               }
                 }>Notificar</button>         
           </div> 
@@ -309,6 +316,7 @@ async function NoRespondeHandle(n) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

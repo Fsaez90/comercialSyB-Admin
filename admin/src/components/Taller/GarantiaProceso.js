@@ -32,6 +32,7 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
   const [status, setStatus] = useState() 
   const [trabajoPrevio, setTrabajoPrevio] = useState(false)
   const [msg, setMsg] = useState("msg-mecanic") 
+  const [categoria, setCategoria] = useState()   
 
   const  navigate  = useNavigate();
 
@@ -86,7 +87,8 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
               revisado: false,
               reparada: false,
               diagnostico_garantia: diagnosticoGar,
-              detalle_garantia: detallePptoGar
+              detalle_garantia: detallePptoGar,
+              categoria: categoria
             })
           });
         } else {
@@ -124,7 +126,8 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
               revisado: false,
               reparada: false,
               diagnostico_garantia: diagnosticoGar,
-              detalle_garantia: detallePptoGar
+              detalle_garantia: detallePptoGar,
+              categoria: categoria
             })
           });
         }
@@ -194,7 +197,8 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
               cliente_notificado_ppto: false,
               validez_garantia: aplGarantia,
               diagnostico_garantia: diagnosticoGar,
-              detalle_garantia: detallePptoGar
+              detalle_garantia: detallePptoGar,
+              categoria: categoria
             })
           });
         if (response.ok) {
@@ -261,7 +265,8 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
             cliente_noresponde: false,
             valorizacion: "", 
             diagnostico_garantia: diagnosticoGar,
-            detalle_garantia: detallePptoGar
+            detalle_garantia: detallePptoGar,
+            categoria: categoria
           })
         });
     
@@ -321,6 +326,7 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
                     setStatus(x.status)
                     setDetallePptoGar(x.detalle_garantia)
                     setDiagnosticoGar(x.dignostico_garantia)
+                    setCategoria(x.categoria)
                   }
                     }>Continuar</button>         
               </div> 
@@ -340,6 +346,7 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
                   <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                   <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                   <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                  <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
                 </div>
                 <div className='machine-detail-2'>
                   <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

@@ -30,6 +30,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
   const [diagnosticoGar, setDiagnosticoGar] = useState()
   const [isGarantia, setIsGarantia] = useState() 
   const [msg, setMsg] = useState("msg-mecanic") 
+  const [categoria, setCategoria] = useState()  
 
   const  navigate  = useNavigate();
   
@@ -73,7 +74,8 @@ async function mantenimientoHandle(n) {
             solicitud_repuestos: true,
             mmto_completado: true,
             fecha_reparacion: date,
-            reparada_por: repMecanico
+            reparada_por: repMecanico,
+            categoria: categoria
           })
         }),
         fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
@@ -132,7 +134,8 @@ async function mantenimientoHandle(n) {
             solicitud_repuestos: true,
             mmto_completado: true,
             fecha_reparacion: date,
-            reparada_por: repMecanico
+            reparada_por: repMecanico,
+            categoria: categoria
           })
         }),
         fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
@@ -195,6 +198,7 @@ async function garantiaTerminadaHandle(n) {
         solicitud_repuestos: true,
         mmto_completado: true,
         fecha_reparacion: date,
+        categoria: categoria
       })
     });
 
@@ -245,6 +249,7 @@ async function garantiaTerminadaHandle(n) {
                     setIsGarantia(x.garantia)
                     setDetallePptoGar(x.detalle_garantia)
                     setDiagnosticoGar(x.diagnostico_garantia)
+                    setCategoria(x.categoria)
                   }
                     }>Comenzar</button>         
               </div> 
@@ -264,6 +269,7 @@ async function garantiaTerminadaHandle(n) {
                   <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                   <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                   <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                  <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
                 </div>
                 <div className='machine-detail-2'>
                   <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

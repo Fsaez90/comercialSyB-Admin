@@ -24,6 +24,7 @@ function OTxingresar({listaOt, render, setRender, notificaciones}) {
   const [mantencion, setMantencion] = useState()
   const [revision, setRevision] = useState()
   const [mecanico, setMecanico] = useState()
+  const [categoria, setCategoria] = useState()
   const [isGarantia, setIsGarantia] = useState()
   const  navigate  = useNavigate();
 
@@ -55,6 +56,7 @@ function OTxingresar({listaOt, render, setRender, notificaciones}) {
         revision: revision,
         mecanico: mecanico,
         ingreso_sistema: true,
+        categoria: categoria
       })
     });
     if (response.ok) {
@@ -100,6 +102,7 @@ if (notificaciones !== 0){
                 setRevision(x.revision)
                 setMecanico(x.mecanico)
                 setIsGarantia(x.garantia)
+                setCategoria(x.categoria)
               }
                 }>Comenzar</button>         
           </div> 
@@ -124,6 +127,7 @@ if (notificaciones !== 0){
               <p>Modelo: <span className='data-modal'>{modelo}</span></p>
               <p>Marca: <span className='data-modal'>{marca}</span></p>
               <p>Serie: <span className='data-modal'>{serie}</span></p>
+              <p>Categoría: <span className='data-modal'>{categoria}</span></p>
               {espada? <p>Espada: <span className='data-modal'>Sí</span></p>: null}
               {cadena? <p>Cadena: <span className='data-modal'>Sí</span></p>: null}
               {funda? <p>Funda: <span className='data-modal'>Sí</span></p>: null}

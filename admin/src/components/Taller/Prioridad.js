@@ -27,7 +27,8 @@ function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
   const [mecanico, setMecanico] = useState()
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
-  const [msg, setMsg] = useState("msg-mecanic") 
+  const [msg, setMsg] = useState("msg-mecanic")
+  const [categoria, setCategoria] = useState()  
   
   const  navigate  = useNavigate();
   
@@ -72,7 +73,8 @@ async function enProcesoHandleMan(n) {
             fecha_trabajo: "pendiente",
             falla_encontrada: aPresupuesto,
             diagnostico: diagnostico,
-            detalle_ppto: detallePpto 
+            detalle_ppto: detallePpto,
+            categoria: categoria 
         })
       });
   
@@ -131,7 +133,8 @@ async function mantenimientoHandle(n) {
             fecha_trabajo: date,
             falla_encontrada: aPresupuesto,
             status: "Equipo en proceso de Mantención",
-            terminada: true
+            terminada: true,
+            categoria: categoria
         })
       });
   
@@ -191,7 +194,8 @@ async function mantenimientopptoHandle(n) {
             falla_encontrada: aPresupuesto,
             status: "Falla encontrada, notificar PPTO a cliente",
             terminada: true,
-            mmto_completado: true
+            mmto_completado: true,
+            categoria: categoria
         })
       });
   
@@ -246,7 +250,8 @@ async function enProcesoHandleRev(n) {
             comenzada: true,
             detalle_ppto: detallePpto,
             hora_trabajo: "pendiente",
-            fecha_trabajo: "pendiente"
+            fecha_trabajo: "pendiente",
+            categoria: categoria
         })
       });
   
@@ -304,6 +309,7 @@ async function revisionHandle(n) {
             fecha_trabajo: date,
             revisado: true,
             terminada: true,
+            categoria: categoria
         })
       });
   
@@ -357,6 +363,7 @@ if (prioridad !== 0) {
                     setRevision(x.revision)
                     setMecanico(x.mecanico)
                     setIngresoSistema(x.ingreso_sistema)
+                    setCategoria(x.categoria)
                   }
                     }>Comenzar</button>: <button className='button-list' onClick={() => 
                       {setModalMan("modal")
@@ -378,6 +385,7 @@ if (prioridad !== 0) {
                       setMantencion(x.mantencion)
                       setRevision(x.revision)
                       setMecanico(x.mecanico)
+                      setCategoria(x.categoria)
                     }
                       }>Comenzar</button> }
               </div>  
@@ -397,6 +405,7 @@ if (prioridad !== 0) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

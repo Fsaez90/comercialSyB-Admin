@@ -34,6 +34,8 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
   const [isGarantia, setIsGarantia] = useState()
   const [rechazada, setRechazada] = useState()
   const [estado, setEstado] = useState()
+  const [categoria, setCategoria] = useState()
+
   const navigate  = useNavigate();
 
   useEffect(() => {
@@ -79,7 +81,8 @@ async function NotificadoHandle(n) {
         prioritaria: prioritaria,
         cliente_notificado_ppto: true,
         cliente_noresponde: false,
-        cliente_notificado_retiro: true
+        cliente_notificado_retiro: true,
+        categoria: categoria
       })
     });
 
@@ -135,6 +138,7 @@ async function NoRespondeHandle(n) {
         prioritaria: prioritaria,
         cliente_noresponde: true,
         ultimo_llamado: date,
+        categoria: categoria
       })
     });
 
@@ -191,6 +195,7 @@ async function NoRespondeHandle(n) {
                 setDiagnosticoGar(x.diagnostico_garantia)
                 setIsGarantia(x.garantia)
                 setRechazada(x.rechazada)
+                setCategoria(x.categoria)
               }
                 }>Notificar</button>         
           </div> 
@@ -210,6 +215,7 @@ async function NoRespondeHandle(n) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

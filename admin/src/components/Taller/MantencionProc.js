@@ -27,6 +27,8 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   const [mecanico, setMecanico] = useState()
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
+  const [categoria, setCategoria] = useState()  
+
   const  navigate  = useNavigate();
 
   useEffect(() => {
@@ -69,6 +71,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             hora_trabajo: "pendiente",
             fecha_trabajo: "pendiente",
             falla_encontrada: aPresupuesto,
+            categoria: categoria
           })
         });
         if (response.ok) {
@@ -126,6 +129,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             status: "Equipo en proceso de Mantencion",
             terminada: true,
             solicitud_repuestos: true,
+            categoria: categoria
           })
         });
         if (response.ok) {
@@ -182,7 +186,8 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             falla_encontrada: aPresupuesto,
             status: "Falla encontrada, notificar PPTO a cliente",
             terminada: true,
-            mmto_completado: true
+            mmto_completado: true,
+            categoria: categoria
           })
         });
     
@@ -237,6 +242,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
                   setDetallePpto(x.detalle_ppto)
                   setApresupuesto(x.falla_encontrada)
                   setIngresoSistema(x.ingreso_sistema)
+                  setCategoria(x.categoria)
                 }
                   }>Continuar</button>         
             </div> 
@@ -256,6 +262,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

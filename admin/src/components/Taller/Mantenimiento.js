@@ -27,6 +27,8 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
   const [mecanico, setMecanico] = useState()
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
+  const [categoria, setCategoria] = useState()  
+
   const  navigate  = useNavigate();
 
   useEffect(() => {
@@ -69,6 +71,7 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
           hora_trabajo: "pendiente",
           fecha_trabajo: "pendiente",
           falla_encontrada: aPresupuesto,
+          categoria: categoria
         })
       });
       if (response.ok) {
@@ -126,6 +129,7 @@ async function mantenimientoHandle(n) {
           status: "Equipo en proceso de Mantencion",
           terminada: true,
           solicitud_repuestos: true,
+          categoria: categoria
         })
       });
       if (response.ok) {
@@ -182,7 +186,8 @@ async function mantenimientopptoHandle(n) {
           falla_encontrada: aPresupuesto,
           status: "Falla encontrada, notificar PPTO a cliente",
           terminada: true,
-          mmto_completado: true
+          mmto_completado: true,
+          categoria: categoria
         })
       });
   
@@ -235,6 +240,7 @@ async function mantenimientopptoHandle(n) {
                   setRevision(x.revision)
                   setMecanico(x.mecanico)
                   setIngresoSistema(x.ingreso_sistema)
+                  setCategoria(x.categoria)
                 }
                   }>Comenzar</button>         
             </div> 
@@ -254,6 +260,7 @@ async function mantenimientopptoHandle(n) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

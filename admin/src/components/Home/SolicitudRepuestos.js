@@ -32,6 +32,7 @@ function SolicitudRepuestos({render, setRender, solicitudRepuestos, solicitudRep
   const [horaRevision, setHoraRevision] = useState()
   const [detallePptoGar, setDetallePptoGar] = useState()
   const [isGarantia, setIsGarantia] = useState() 
+  const [categoria, setCategoria] = useState()
 
   const  navigate  = useNavigate();
   
@@ -71,7 +72,8 @@ async function EnesperaRepuesto(n) {
             comenzada: true,
             detalle_ppto: detallePpto,
             espera_repuesto: esperaRepuesto,
-            repuesto_faltante: repuestoField 
+            repuesto_faltante: repuestoField,
+            categoria: categoria 
         })
       });
       if (response.ok) {
@@ -122,6 +124,7 @@ async function respuestosEnviadosHandle(n) {
           terminada: true,
           solicitud_repuestos: true,
           repuestos_entregados: true,
+          categoria: categoria
       })
     });
     if (response.ok) {
@@ -176,6 +179,7 @@ async function respuestosEnviadosHandle(n) {
                   setHoraRevision(x.hora_trabajo)
                   setDetallePptoGar(x.detalle_garantia)
                   setIsGarantia(x.garantia)
+                  setCategoria(x.categoria)
                 }
                   }>Comenzar</button>         
             </div> 
@@ -195,6 +199,7 @@ async function respuestosEnviadosHandle(n) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

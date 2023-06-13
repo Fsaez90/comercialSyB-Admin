@@ -51,6 +51,7 @@ function BusquModal({orden, setModal, date}) {
             <div className='elements-admin'>
               <div className='title-consulta-modal'>Marca:<span className='orden-data'>{orden.marca}</span></div>
               <div className='title-consulta-modal'>Serie:<span className='orden-data'>{orden.serie}</span></div>
+              <div className='title-consulta-modal'>Categoría:<span className='orden-data'>{orden.categoria}</span></div>
             </div>
           </div>
           <div className='cliente-data-admin'>

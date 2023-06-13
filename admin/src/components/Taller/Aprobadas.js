@@ -35,6 +35,8 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
   const [isGarantia, setIsGarantia] = useState()
   const [repMecanico, setRepMecanico] =useState("")
   const [msg, setMsg] = useState("msg-mecanic")
+  const [categoria, setCategoria] = useState()    
+
   const navigate  = useNavigate();
   
   useEffect(() => {
@@ -81,7 +83,8 @@ async function ReparadaHandle(n) {
               cliente_notificado_ppto: true,
               reparada: true,
               fecha_reparacion: date,
-              reparada_por: repMecanico
+              reparada_por: repMecanico,
+              categoria: categoria
           })
         }),
         fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
@@ -148,6 +151,7 @@ async function ReparadaHandle(n) {
               cliente_notificado_ppto: true,
               reparada: true,
               fecha_reparacion: date,
+              categoria: categoria
           })
         }),
         fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
@@ -216,6 +220,7 @@ async function GuardarHandle(n) {
           aprobada: true,
           prioritaria: prioritaria,
           cliente_notificado_ppto: true,
+          categoria: categoria
       })
     });
 
@@ -275,6 +280,7 @@ if (aprobadas !== 0) {
               setIsGarantia(x.garantia)
               setDetallePptoGar(x.detalle_garantia)
               setDiagnosticoGar(x.diagnostico_garantia)
+              setCategoria(x.categoria)
             }
               }>Reparar</button>         
         </div> 
@@ -294,6 +300,7 @@ if (aprobadas !== 0) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

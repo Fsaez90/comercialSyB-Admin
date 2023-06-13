@@ -30,6 +30,8 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
   const [diagnostico, setDiagnostico] = useState("")
   const [prioritaria, setPrioritaria] = useState()
   const [valorizacion, setValorizacion] = useState()
+  const [categoria, setCategoria] = useState() 
+
   const  navigate  = useNavigate();
   
   useEffect(() => {
@@ -73,7 +75,8 @@ async function ArmadaHandle(n) {
           prioritaria: prioritaria,
           cliente_notificado_ppto: true,
           armada: true,
-          fecha_reparacion: date
+          fecha_reparacion: date,
+          categoria: categoria
       })
     });
 
@@ -127,6 +130,7 @@ async function GuardarHandle(n) {
           rechazada: true,
           prioritaria: prioritaria,
           cliente_notificado_ppto: true,
+          categoria: categoria
       })
     });
 
@@ -179,7 +183,8 @@ async function GuardarHandle(n) {
                   setHoraRevision(x.hora_trabajo)
                   setPrioritaria(x.prioritaria)
                   setValorizacion(x.valorizacion)
-                  setIngresoSistema(x.ingreso_sistema) 
+                  setIngresoSistema(x.ingreso_sistema)
+                  setCategoria(x.categoria) 
                 }
                   }>Armar</button>         
             </div> 
@@ -199,6 +204,7 @@ async function GuardarHandle(n) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

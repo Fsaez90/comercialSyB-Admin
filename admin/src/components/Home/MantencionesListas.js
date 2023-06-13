@@ -38,6 +38,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   const [aplGarantia, setAplGarantia] = useState()
   const [detallePptoGar, setDetallePptoGar] = useState()
   const [diagnosticoGar, setDiagnosticoGar] = useState()
+  const [categoria, setCategoria] = useState()
 
 
   const navigate  = useNavigate();
@@ -83,6 +84,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
             valorizacion: valorizacion,
             cliente_notificado_retiro: true,
             prioritaria: prioritaria,
+            categoria: categoria
           })
         });
   
@@ -142,6 +144,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
             valorizacion: valorizacion,
             cliente_notificado_ppto: true,
             prioritaria: prioritaria,
+            categoria: categoria
           })
         });
       if (response.ok) {
@@ -202,6 +205,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
             cliente_notificado_ppto: true,
             espera_repuesto: esperaRepuesto,
             repuesto_faltante: repuestoField,
+            categoria: categoria
           })
         });
       if (response.ok) {
@@ -261,6 +265,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
             valorizacion: valorizacion,
             cliente_notificado_ppto: true,
             prioritaria: prioritaria,
+            categoria: categoria
           })
         });
       if (response.ok) {
@@ -321,6 +326,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
               valorizacion: valorizacion,
               prioritaria: prioritaria,
               cliente_noresponde: true,
+              categoria: categoria
             })
           }),
           fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
@@ -454,7 +460,8 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
               valorizacion: valorizacion,
               prioritaria: prioritaria,
               cliente_noresponde: true,
-              cliente_notificado_ppto: true
+              cliente_notificado_ppto: true,
+              categoria: categoria
             })
           }),
           fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email-retiro/`, {
@@ -526,7 +533,8 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
             valorizacion: valorizacion,
             prioritaria: prioritaria,
             espera_repuesto: esperaRepuesto,
-            repuesto_faltante: repuestoField
+            repuesto_faltante: repuestoField,
+            categoria: categoria
           })
         });
   
@@ -592,6 +600,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
                 setDiagnosticoGar(x.diagnostico_garantia)
                 setEsperaRepuesto(false)
                 setStatus(x.status)
+                setCategoria(x.categoria)
               }
                 }>Notificar</button>         
           </div> 
@@ -611,6 +620,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

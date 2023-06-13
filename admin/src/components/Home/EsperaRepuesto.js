@@ -30,7 +30,7 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista,
   const [diagnostico, setDiagnostico] = useState()
   const [detallePpto, setDetallePpto] = useState()
   const [esperaRepuestoField, setEsperaRepuestoField] = useState()
-
+  const [categoria, setCategoria] = useState()
 
   const  navigate  = useNavigate();
   
@@ -72,6 +72,7 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista,
             espera_repuesto: false,
             solicitud_repuestos: true,
             repuestos_entregados: true,
+            categoria: categoria
         })
       })
       if (response.ok) {
@@ -123,6 +124,7 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista,
                   setEsperaRepuestoField(x.repuesto_faltante)
                   setHoraRevision(x.hora_trabajo)
                   setFechaRevision(x.fecha_trabajo)
+                  setCategoria(x.categoria)
                 }
                   }>Comenzar</button>         
             </div> 
@@ -143,6 +145,7 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista,
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

@@ -33,6 +33,7 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
   const [valorizacion, setValorizacion] = useState("$")
   const [prioritaria, setPrioritaria] = useState()
   const [fechaReparacion, setFechaReparacion] = useState()
+  const [categoria, setCategoria] = useState()
     
   const navigate  = useNavigate();
 
@@ -77,7 +78,8 @@ async function NotificadoHandle(n){
         cliente_notificado_ppto: true,
         armada: true,
         cliente_notificado_retiro: true,
-        cliente_noresponde: false
+        cliente_noresponde: false,
+        categoria: categoria
       })
     });
 
@@ -130,7 +132,8 @@ async function NoRespondeHandle(n){
         valorizacion: valorizacion,
         prioritaria: prioritaria,
         cliente_noresponde: true,
-        armada: true
+        armada: true,
+        categoria: categoria
       })
     });
     
@@ -187,6 +190,7 @@ async function NoRespondeHandle(n){
                   setDetallePptoGar(x.detalle_garantia)
                   setDiagnosticoGar(x.diagnostico_garantia)
                   setIsGarantia(x.garantia)
+                  setCategoria(x.categoria)
                 }
                   }>Notificar cliente</button>         
             </div> 
@@ -206,6 +210,7 @@ async function NoRespondeHandle(n){
                   <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                   <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                   <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                  <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
                 </div>
                 <div className='machine-detail-2'>
                   <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

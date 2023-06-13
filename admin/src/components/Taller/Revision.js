@@ -25,7 +25,8 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
   const [mecanico, setMecanico] = useState(revLista.mecanico)
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
-  const [msg, setMsg] = useState("msg-mecanic") 
+  const [msg, setMsg] = useState("msg-mecanic")
+  const [categoria, setCategoria] = useState() 
 
   const  navigate  = useNavigate();
   
@@ -65,7 +66,8 @@ async function enProcesoHandle(n) {
             comenzada: true,
             detalle_ppto: detallePpto,
             hora_trabajo: "pendiente",
-            fecha_trabajo: "pendiente"
+            fecha_trabajo: "pendiente",
+            categoria: categoria
         })
       });
   
@@ -122,6 +124,7 @@ function revisionHandle(n) {
           fecha_trabajo: date,
           revisado: true,
           terminada: true,
+          categoria: categoria
       })
     })
     .then(response => {
@@ -174,6 +177,7 @@ function revisionHandle(n) {
                   setRevision(x.revision)
                   setMecanico(x.mecanico)
                   setIngresoSistema(x.ingreso_sistema)
+                  setCategoria(x.categoria)
                 }
                   }>Comenzar</button>         
             </div> 
@@ -193,6 +197,7 @@ function revisionHandle(n) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

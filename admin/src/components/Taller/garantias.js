@@ -31,7 +31,8 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
   const [status, setStatus] = useState()
   const [trabajoPrevio, setTrabajoPrevio] = useState(false)
   const [repMecanico, setRepMecanico] = useState(null) 
-  const [msg, setMsg] = useState("msg-mecanic") 
+  const [msg, setMsg] = useState("msg-mecanic")
+  const [categoria, setCategoria] = useState()   
 
   const  navigate  = useNavigate();
 
@@ -86,7 +87,8 @@ async function enProcesoHandleRev(n) {
             revisado: false,
             reparada: false,
             diagnostico_garantia: diagnosticoGar,
-            detalle_garantia: detallePptoGar
+            detalle_garantia: detallePptoGar,
+            categoria: categoria
           })
         });
       } else {
@@ -124,7 +126,8 @@ async function enProcesoHandleRev(n) {
             revisado: false,
             reparada: false,
             diagnostico_garantia: diagnosticoGar,
-            detalle_garantia: detallePptoGar
+            detalle_garantia: detallePptoGar,
+            categoria: categoria
           })
         });
       }
@@ -194,7 +197,8 @@ async function solicitudRepuestosHandle(n) {
             cliente_notificado_ppto: false,
             validez_garantia: aplGarantia,
             diagnostico_garantia: diagnosticoGar,
-            detalle_garantia: detallePptoGar
+            detalle_garantia: detallePptoGar,
+            categoria: categoria
           })
         });
       if (response.ok) {
@@ -261,7 +265,8 @@ async function pptoHandle(n) {
           cliente_noresponde: false,
           valorizacion: "", 
           diagnostico_garantia: diagnosticoGar,
-          detalle_garantia: detallePptoGar
+          detalle_garantia: detallePptoGar,
+          categoria: categoria
         })
       });
   
@@ -319,6 +324,7 @@ async function pptoHandle(n) {
                         setIsGarantia(x.garantia)
                         setStatus(x.status)
                         setRepMecanico(x.reparada_por)
+                        setCategoria(x.categoria)
                       }
                         }>Comenzar</button>
                   </div>  
@@ -338,6 +344,7 @@ async function pptoHandle(n) {
                     <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                     <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                     <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                    <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
                   </div>
                   <div className='machine-detail-2'>
                     <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

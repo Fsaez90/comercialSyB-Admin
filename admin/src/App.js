@@ -130,6 +130,8 @@ function App() {
       if (Array.isArray(data) && data.length > 0) {
         const lastObject = data[data.length - 1]; // Use '-1' to get the last object
         setLastid(lastObject.id);
+      } else {
+        setLastid(0)
       }
       let lista = orden.filter(function(x){
         return x.ingreso_sistema === false
