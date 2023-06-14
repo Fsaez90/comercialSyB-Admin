@@ -27,6 +27,7 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
   const [detallePpto, setDetallePpto] = useState(null)
   const [msg, setMsg] = useState("msg-mecanic")
   const [categoria, setCategoria] = useState() 
+  const [pptoMec, setPptoMec] = useState("seleccionar")
 
   const  navigate  = useNavigate();
   
@@ -35,8 +36,8 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
 },[revisiones, modal])
 
 async function enProcesoHandle(n) {
-  if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
-      setMsg("msg-mecanic-act")
+  if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim() || pptoMec === "seleccionar") {
+    setMsg("msg-mecanic-act")
   } else {
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -67,7 +68,8 @@ async function enProcesoHandle(n) {
             detalle_ppto: detallePpto,
             hora_trabajo: "pendiente",
             fecha_trabajo: "pendiente",
-            categoria: categoria
+            categoria: categoria,
+            ppto_mecanico: pptoMec
         })
       });
   
@@ -91,7 +93,7 @@ async function enProcesoHandle(n) {
 }
 
 function revisionHandle(n) {
-  if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+  if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim() || pptoMec === "seleccionar") {
     setMsg("msg-mecanic-act")
   } else {
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -124,7 +126,8 @@ function revisionHandle(n) {
           fecha_trabajo: date,
           revisado: true,
           terminada: true,
-          categoria: categoria
+          categoria: categoria,
+          ppto_mecanico: pptoMec
       })
     })
     .then(response => {
@@ -220,7 +223,16 @@ function revisionHandle(n) {
               <p>Indicar detalle de respuestos y mano de obra:</p>
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
-            <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
+            <div className='detalle-observaciones'>
+              Presupuesto hecho por:
+              <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+                <option value="seleccionar">Seleccionar</option>
+                <option value="1">Técnico 1</option>
+                <option value="2">Técnico 2</option>
+                <option value="Admin">Admin</option>
+              </select>
+            <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+            </div>
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> {
                       setModal("modal-inactive")

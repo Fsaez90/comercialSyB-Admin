@@ -36,6 +36,7 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
   const [repMecanico, setRepMecanico] =useState("")
   const [msg, setMsg] = useState("msg-mecanic")
   const [categoria, setCategoria] = useState()    
+  const [pptoMec, setPptoMec] = useState()    
 
   const navigate  = useNavigate();
   
@@ -103,7 +104,7 @@ async function ReparadaHandle(n) {
           setModal("modal-inactive");
           setRepMecanico("")
           navigate('/aprobadas');
-        }, 500);
+        }, 1500);
       } else {
         // Handle error case
         console.error("Error updating data");
@@ -170,7 +171,7 @@ async function ReparadaHandle(n) {
           setModal("modal-inactive");
           setRepMecanico("")
           navigate('/aprobadas');
-        }, 500);
+        }, 1500);
       } else {
         // Handle error case
         console.error("Error updating data");
@@ -230,7 +231,7 @@ async function GuardarHandle(n) {
         setModal("modal-inactive");
         setRepMecanico("")
         navigate('/aprobadas');
-      }, 500);
+      }, 1500);
     } else {
       // Handle error case
       console.error("Error updating data");
@@ -281,6 +282,7 @@ if (aprobadas !== 0) {
               setDetallePptoGar(x.detalle_garantia)
               setDiagnosticoGar(x.diagnostico_garantia)
               setCategoria(x.categoria)
+              setPptoMec(x.ppto_mecanico)
             }
               }>Reparar</button>         
         </div> 
@@ -308,6 +310,7 @@ if (aprobadas !== 0) {
                 {revision? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Revisión</span></p>: null}
                 {isGarantia? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Garantía</span></p>: null}
                 <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
+                <p className='sub-detail'>Presupuesto hecho por: <span className='data-modal-taller'>Mec: {pptoMec}</span></p>
               </div>
             </div>
             {isGarantia?

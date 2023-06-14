@@ -33,6 +33,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
   const [repMecanico, setRepMecanico] = useState(null) 
   const [msg, setMsg] = useState("msg-mecanic")
   const [categoria, setCategoria] = useState()   
+  const [pptoMec, setPptoMec] = useState("seleccionar")
 
   const  navigate  = useNavigate();
 
@@ -45,9 +46,9 @@ async function enProcesoHandleRev(n) {
     setMsg("msg-mecanic-act")
   } else if ((aplGarantia === "si" && status !== "Equipo reingrsado por garantía") && (!detallePpto || !diagnostico || !detallePpto.trim() || !diagnostico.trim()) ) {
     setMsg("msg-mecanic-act")
-  } else if ((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar)) {
+  } else if ((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar || pptoMec === "seleccionar" || pptoMec === null)) {
     setMsg("msg-mecanic-act")
-  } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (!detallePpto || !diagnostico.trim() || !detallePpto.trim() || !diagnostico)) {
+  } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (!detallePpto || !diagnostico.trim() || !detallePpto.trim() || !diagnostico || pptoMec === "seleccionar" || pptoMec === null)) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -127,7 +128,8 @@ async function enProcesoHandleRev(n) {
             reparada: false,
             diagnostico_garantia: diagnosticoGar,
             detalle_garantia: detallePptoGar,
-            categoria: categoria
+            categoria: categoria,
+            ppto_mecanico: pptoMec
           })
         });
       }
@@ -221,9 +223,9 @@ async function solicitudRepuestosHandle(n) {
 }
 
 async function pptoHandle(n) {
-  if((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar)) {
+  if((aplGarantia === "no" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar || pptoMec === "seleccionar" || pptoMec === null)) {
     setMsg("msg-mecanic-act")
-  } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (!detallePpto || !diagnostico.trim() || !detallePpto.trim() || !diagnostico)) {
+  } else if ((aplGarantia === "no" && status !== "Equipo reingresado por garantía") && (!detallePpto || !diagnostico.trim() || !detallePpto.trim() || !diagnostico || pptoMec === "seleccionar" || pptoMec === null)) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -266,7 +268,8 @@ async function pptoHandle(n) {
           valorizacion: "", 
           diagnostico_garantia: diagnosticoGar,
           detalle_garantia: detallePptoGar,
-          categoria: categoria
+          categoria: categoria,
+          ppto_mecanico: pptoMec
         })
       });
   
@@ -409,8 +412,37 @@ async function pptoHandle(n) {
                   <div className={msg}>Completar nuevo diagnóstico y nuevo detalle repuestos</div> 
                 </>
                 }
-                <div className='modal-buttons'>
-                    <button className='button-list' onClick={()=> {
+                    {(aplGarantia === "si")?
+                    <div className='modal-buttons'>
+                        <button className='button-list' onClick={()=> {
+                          setModalRev("modal-inactive-revision")
+                          setAplGarantia(null)
+                          setMsg("msg-mecanic")
+                          setDiagnostico("")
+                          setDetallePpto("")
+                          setDetallePptoGar("")
+                          setDiagnosticoGar("")
+                        }}>Volver</button>
+                        <button className='button-list' onClick={() => {
+                        enProcesoHandleRev(id)
+                        }}>Guardar y continuar después</button>
+                        <button className='button-list' onClick={() => {
+                        solicitudRepuestosHandle(id)
+                        }} >Solicitar Repuestos</button>
+                    </div>: (aplGarantia === "no")?
+                    <>
+                    <div className='detalle-observaciones'>
+                      Presupuesto hecho por:
+                      <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+                        <option value="seleccionar">Seleccionar</option>
+                        <option value="1">Técnico 1</option>
+                        <option value="2">Técnico 2</option>
+                        <option value="Admin">Admin</option>
+                      </select>
+                    <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+                    </div>
+                    <div className='modal-buttons'>
+                        <button className='button-list' onClick={()=> {
                             setModalRev("modal-inactive-revision")
                             setAplGarantia(null)
                             setMsg("msg-mecanic")
@@ -418,26 +450,15 @@ async function pptoHandle(n) {
                             setDetallePpto("")
                             setDetallePptoGar("")
                             setDiagnosticoGar("")
-                            }}>Volver</button>
-                    {(aplGarantia === "si")?
-                    <>
-                        <button className='button-list' onClick={() => {
-                        enProcesoHandleRev(id)
-                        }}>Guardar y continuar después</button>
-                        <button className='button-list' onClick={() => {
-                        solicitudRepuestosHandle(id)
-                        }} >Solicitar Repuestos</button>
-                    </>: (aplGarantia === "no")?
-                    <>
+                        }}>Volver</button>
                         <button className='button-list' onClick={() => {
                         enProcesoHandleRev(id)
                         }}>Guardar y continuar después</button>
                         <button className='button-list' onClick={() => {
                         pptoHandle(id)
                         }} >Enviar PPTO</button>
-                    </>: null
+                    </div></>: null
                     }
-                </div>
                 </div>
               </div>
             </div>

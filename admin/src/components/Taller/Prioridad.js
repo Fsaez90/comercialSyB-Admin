@@ -28,7 +28,8 @@ function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
   const [msg, setMsg] = useState("msg-mecanic")
-  const [categoria, setCategoria] = useState()  
+  const [categoria, setCategoria] = useState() 
+  const [pptoMec, setPptoMec] = useState("seleccionar") 
   
   const  navigate  = useNavigate();
   
@@ -39,10 +40,13 @@ function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
 async function enProcesoHandleMan(n) {
   if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
     setMsg("msg-mecanic-act")
   } else {
     try {
+      if (pptoMec === "seleccionar") {
+        setPptoMec(null)
+      }
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
@@ -73,8 +77,9 @@ async function enProcesoHandleMan(n) {
             fecha_trabajo: "pendiente",
             falla_encontrada: aPresupuesto,
             diagnostico: diagnostico,
-            detalle_ppto: detallePpto,
-            categoria: categoria 
+            detalle_ppto: detallePpto ,
+            categoria: categoria,
+            ppto_mecanico: pptoMec
         })
       });
   
@@ -160,7 +165,7 @@ async function mantenimientoHandle(n) {
 async function mantenimientopptoHandle(n) {
   if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -195,7 +200,8 @@ async function mantenimientopptoHandle(n) {
             status: "Falla encontrada, notificar PPTO a cliente",
             terminada: true,
             mmto_completado: true,
-            categoria: categoria
+            categoria: categoria,
+            ppto_mecanico: pptoMec
         })
       });
   
@@ -219,7 +225,7 @@ async function mantenimientopptoHandle(n) {
 }
 
 async function enProcesoHandleRev(n) {
-  if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+  if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim() || pptoMec === "seleccionar") {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -251,7 +257,8 @@ async function enProcesoHandleRev(n) {
             detalle_ppto: detallePpto,
             hora_trabajo: "pendiente",
             fecha_trabajo: "pendiente",
-            categoria: categoria
+            categoria: categoria,
+            ppto_mecanico: pptoMec
         })
       });
   
@@ -275,7 +282,7 @@ async function enProcesoHandleRev(n) {
 }
 
 async function revisionHandle(n) {
-  if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+  if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim() || pptoMec === "seleccionar") {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -309,7 +316,8 @@ async function revisionHandle(n) {
             fecha_trabajo: date,
             revisado: true,
             terminada: true,
-            categoria: categoria
+            categoria: categoria,
+            ppto_mecanico: pptoMec
         })
       });
   
@@ -428,6 +436,16 @@ if (prioridad !== 0) {
               Indicar detalle de respuestos y mano de obra:
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
+            <div className='detalle-observaciones'>
+              Presupuesto hecho por:
+              <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+                <option value="seleccionar">Seleccionar</option>
+                <option value="1">Técnico 1</option>
+                <option value="2">Técnico 2</option>
+                <option value="Admin">Admin</option>
+              </select>
+            <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+            </div> 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> {
                       setModalRev("modal-inactive-revision")
@@ -435,7 +453,7 @@ if (prioridad !== 0) {
                       setDiagnostico("")
                       setDetallePpto("")
                       setApresupuesto(false)
-                      setMsg("msg-mecanic")
+                      setPptoMec("seleccionar")
                       }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleRev(id)
@@ -473,7 +491,7 @@ if (prioridad !== 0) {
               <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
             </div>
             <div className='opcion-presupuesto'>
-              <input type="checkbox" id="a-presupuesto" onChange={(e) => setApresupuesto(!aPresupuesto)} value={aPresupuesto}/>
+              <input type="checkbox" id="a-presupuesto" onChange={(e) => setApresupuesto(!aPresupuesto)} checked={aPresupuesto} value={aPresupuesto}/>
               <label for="a-presupuesto">Falla encontrada (realizar presupuesto)</label>
               {aPresupuesto? <div className='detalle-observaciones'>
                 Indicar diagnóstico:
@@ -486,23 +504,42 @@ if (prioridad !== 0) {
             </div>
             <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             {aPresupuesto? 
+            <>
+            <div className='detalle-observaciones'>
+              Presupuesto hecho por:
+              <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+                <option value="seleccionar">Seleccionar</option>
+                <option value="1">Técnico 1</option>
+                <option value="2">Técnico 2</option>
+                <option value="Admin">Admin</option>
+              </select>
+            <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+            </div> 
             <div className='modal-buttons'>
-                  <button className='button-list' onClick={()=> {
-                    setModalMan("modal-inactive-mantencion")
-                    setDiagnostico("")
-                    setDetallePpto("")
-                    setApresupuesto(false)
-                    setMsg("msg-mecanic")
-                    }}>Volver</button>
+                <button className='button-list' onClick={()=> {
+                  setModalMan("modal-inactive-mantencion")
+                  setDiagnostico("")
+                  setDetallePpto("")
+                  setApresupuesto(false)
+                  setMsg("msg-mecanic")
+                  setPptoMec("seleccionar")
+                  }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientopptoHandle(id)
                 }}>Enviar Presupuesto</button>
-            </div>: 
+            </div>
+            </>: 
             <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> setModalMan("modal-inactive-mantencion")}>Volver</button>
+                <button className='button-list' onClick={()=> {
+                  setModalMan("modal-inactive-mantencion")
+                  setMsg("msg-mecanic")
+                  setDiagnostico("")
+                  setDetallePpto("")
+                  setApresupuesto(false)
+                  }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
                 }}>Guardar y continuar después</button>

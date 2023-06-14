@@ -20,7 +20,7 @@ function AdminHome({render, setRender, date, setAdminEsp, listasRetiroTotal, Eqp
           <Busqueda date={date} />
         </div>
         <div className='menu'>
-            <NavLink className='menu-button' to="/listas-retiro">Maquinas para retiro ({listasRetiroTotal})</NavLink>
+            <NavLink className='menu-button' to="/listas-retiro">Máquinas para retiro ({listasRetiroTotal})</NavLink>
             <NavLink onClick={() => setAdminEsp(true)} className='menu-button' to="/espera-repuesto">O.T espera repuesto ({esperaRepuesto})</NavLink>
             <NavLink className='menu-button' to="/mecanicos">Mecánicos</NavLink>
         </div>

@@ -24,7 +24,8 @@ function BusquModal({orden, setModal, date}) {
               cliente_notificado_ppto: false,
               fecha_reingreso: date,
               falla_encontrada: false,
-              status: "Equipo reingresado por garantía"
+              status: "Equipo reingresado por garantía",
+              ppto_mecanico: null
           })
         })
         setOk("gar-active") 
@@ -68,6 +69,7 @@ function BusquModal({orden, setModal, date}) {
               <div className='title-consulta-modal'>Fecha Ingreso:<span className='orden-data'>{orden.fecha_ingreso}</span></div>
               {orden.fecha_reingreso? <div className='title-consulta-modal'>Fecha ingreso garantía:<span className='orden-data'>{orden.fecha_reingreso}</span></div>: null}
               {orden.fecha_trabajo? <div className='title-consulta-modal'>Fecha Revisión/comienzo:<span className='orden-data'>{orden.fecha_trabajo}</span></div>: null}
+              {orden.ppto_mecanico !== null?<div className='title-consulta'>Ppto hecho por:<span className='orden-data'>Mec: {orden.ppto_mecanico}</span></div>: null }
               {orden.fecha_reparacion? <div className='title-consulta-modal'>Fecha Reparación/término:<span className='orden-data'>{orden.fecha_reparacion}</span></div>: null}
               {orden.fecha_retiro? <div className='title-consulta-modal'>Fecha Retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>: null}
               {orden.diagnostico? <div className='title-consulta-modal'>Diagnóstico:<span className='orden-diagnostico'>{orden.diagnostico}</span></div>: null}

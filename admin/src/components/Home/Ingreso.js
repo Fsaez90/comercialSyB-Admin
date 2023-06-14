@@ -306,7 +306,7 @@ async function crearOrden(e) {
             <label for="categoría">Categoría:</label>
           <select onChange={(e) => setCategoria(e.target.value)} id="categoria" required>
             <option value="" disabled selected>Seleccionar</option>
-            <option value="Ocacional">Ocacional</option>
+            <option value="Ocasional">Ocacional</option>
             <option value="Semiprofesional">Semiprofesional</option>
             <option value="Profesional">Profesional</option>
           </select>

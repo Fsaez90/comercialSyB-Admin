@@ -28,6 +28,7 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
   const [categoria, setCategoria] = useState()  
+  const [pptoMec, setPptoMec] = useState("seleccionar")
 
   const  navigate  = useNavigate();
 
@@ -94,9 +95,12 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
 async function mantenimientoHandle(n) {
   if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
     setMsg("msg-mecanic-act")
   }else {
+    if(pptoMec === "seleccionar"){
+      setPptoMec(null)
+    }
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
@@ -139,6 +143,7 @@ async function mantenimientoHandle(n) {
           setModal("modal-inactive");
           setDiagnostico("")
           setDetallePpto("")
+          setPptoMec("seleccionar")
           setApresupuesto(false)
           navigate('/mantenimiento');
         }, 1500);
@@ -152,7 +157,7 @@ async function mantenimientoHandle(n) {
 async function mantenimientopptoHandle(n) {
   if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
     setMsg("msg-mecanic-act")
   } else {
     try {
@@ -187,7 +192,8 @@ async function mantenimientopptoHandle(n) {
           status: "Falla encontrada, notificar PPTO a cliente",
           terminada: true,
           mmto_completado: true,
-          categoria: categoria
+          categoria: categoria,
+          ppto_mecanico: pptoMec
         })
       });
   
@@ -289,6 +295,17 @@ async function mantenimientopptoHandle(n) {
             </div>
             <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             {aPresupuesto? 
+            <>
+            <div className='detalle-observaciones'>
+              Presupuesto hecho por:
+              <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+                <option value="seleccionar">Seleccionar</option>
+                <option value="1">Técnico 1</option>
+                <option value="2">Técnico 2</option>
+                <option value="Admin">Admin</option>
+              </select>
+            <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+            </div>
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> {
                   setDiagnostico("")
@@ -296,14 +313,16 @@ async function mantenimientopptoHandle(n) {
                   setModal("modal-inactive")
                   setApresupuesto(false)
                   setMsg("msg-mecanic")
+                  setPptoMec("seleccionar")
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
-                enProcesoHandle(id)
+                  enProcesoHandle(id)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
-                mantenimientopptoHandle(id)
+                  mantenimientopptoHandle(id)
                 }}>Enviar Presupuesto</button>
-            </div>: 
+            </div> 
+            </>: 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
