@@ -158,10 +158,10 @@ function App() {
         return x.prioritaria === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
       })
       let revComenzadas = orden.filter(function(x){
-        return x.revision === true && x.comenzada === true && x.prioridad === false && x.revisado === false && x.terminada === false && x.entregada === false && x.garantia === false
+        return x.revision === true && x.comenzada === true && x.prioritaria === false && x.revisado === false && x.terminada === false && x.entregada === false && x.garantia === false
       })
       let mantComenzadas = orden.filter(function(x){
-        return x.mantencion === true && x.comenzada === true && x.prioridad === false && x.revisado === false && x.terminada === false && x.entregada === false
+        return x.mantencion === true && x.comenzada === true && x.prioritaria === false && x.revisado === false && x.terminada === false && x.entregada === false
       })
       let garComenzadas = orden.filter(function(x){
         return x.garantia === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
