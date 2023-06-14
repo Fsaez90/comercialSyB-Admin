@@ -49,16 +49,18 @@ function garantiaHandle (n) {
     method: "PUT",
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-        garantia: true,
-        mantencion: null,
-        revision: null,
-        mmto_completado: false,
-        cliente_notificado_retiro: false,
-        cliente_notificado_ppto: false,
-        fecha_reingreso: date,
-        falla_encontrada: false,
-        status: "Equipo reingresado por garantía",
-        ppto_mecanico: null
+      garantia: true,
+      mantencion: null,
+      revision: null,
+      mmto_completado: false,
+      reparada: false,
+      cliente_notificado_retiro: false,
+      cliente_notificado_ppto: false,
+      fecha_reingreso: date,
+      fecha_reparacion: null,
+      falla_encontrada: false,
+      status: "Equipo reingresado por garantía",
+      ppto_mecanico: null
     })
   })
   setOk("gar-active") 
