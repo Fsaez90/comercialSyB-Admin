@@ -197,7 +197,7 @@ function App() {
         return x.garantia === true && x.validez_garantia === null
       }) 
       let ListasxRetiro = orden.filter(function(x) {
-        return (x.reparada === true || x.mmto_completado === true || x.terminada === true) && x.entregada === false && (x.reparada === true || x.armada === true || x.terminada === true)
+        return (x.reparada === true || x.mmto_completado === true || x.armada === true) && x.entregada === false 
       })
       let pendientes = orden.filter(function(x){
         return x.comenzada === false
