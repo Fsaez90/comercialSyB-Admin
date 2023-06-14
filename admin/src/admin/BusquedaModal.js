@@ -89,10 +89,9 @@ function garantiaHandle (n) {
     <div className='cliente-data-admin'>
       <div className='elements-admin'>
         <div className='title-consulta-modal'>Observaciones:<span className='orden-data'>{orden.observaciones}</span></div>
-        {orden.revision?
-        <div className='title-consulta-modal'>Propósito:<span className='orden-data'>Revisión</span></div>:
-        <div className='title-consulta-modal'>Propósito:<span className='orden-data'>Mantenimiento</span></div>
-        }
+        {orden.revision === true?<div className='title-consulta-modal'>Propósito:<span className='orden-data'>Revisión</span></div>:null}
+        {orden.mantenimiento === true?<div className='title-consulta-modal'>Propósito:<span className='orden-data'>Mantenimiento</span></div>:null}
+        {orden.garantia === true?<div className='title-consulta-modal'>Propósito:<span className='orden-data'>Garantia</span></div>:null}
       </div>
     </div>  
     <div className='work-data-admin'> 
@@ -103,7 +102,9 @@ function garantiaHandle (n) {
         {orden.ppto_mecanico !== null?<div className='title-consulta-modal'>Ppto hecho por:<span className='orden-data'>Mec: {orden.ppto_mecanico}</span></div>: null }
         {orden.fecha_retiro? <div className='title-consulta-modal'>Fecha Retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>: null}
         {orden.diagnostico? <div className='title-consulta-modal'>Diagnóstico:<span className='orden-diagnostico'>{orden.diagnostico}</span></div>: null}
-        {orden.valorizacion? <div className='title-consulta-modal'>Valorización:<span className='orden-data'>{orden.valorizacion}</span></div>: null}
+        {orden.diagnostico_garantia? <div className='title-consulta-modal'>Diagnóstico garantía:<span className='orden-diagnostico'>{orden.diagnostico_garantia}</span></div>: null}
+        {orden.valorizacion && orden.validez_garantia === "no"? <div className='title-consulta-modal'>Valorización:<span className='orden-data'>{orden.valorizacion}</span></div>: null}
+        {orden.validez_garantia === "si"?<div className='title-consulta-modal'>Valorización:<span className='orden-data'>Garantía válida</span></div>:null}
       </div>
       {orden.espera_repuesto?
         <div className='elements-admin'>

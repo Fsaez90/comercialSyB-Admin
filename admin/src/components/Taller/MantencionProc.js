@@ -188,10 +188,10 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             detalle_ppto: detallePpto,
             hora_trabajo: clock,
             fecha_trabajo: date,
+            mmto_completado: true,
             falla_encontrada: aPresupuesto,
             status: "Falla encontrada, notificar PPTO a cliente",
             terminada: true,
-            mmto_completado: true,
             categoria: categoria,
             ppto_mecanico: pptoMec
           })
