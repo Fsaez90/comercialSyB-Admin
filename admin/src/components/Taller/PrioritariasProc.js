@@ -376,7 +376,7 @@ async function revisionHandle(n) {
                     setDetallePpto(x.detalle_ppto)
                     setIngresoSistema(x.ingreso_sistema)
                     setCategoria(x.categoria)
-                    setPptoMec(ppto_mecanico)
+                    setPptoMec(x.ppto_mecanico)
                   }
                     }>Comenzar</button>: <button className='button-list' onClick={() => 
                       {setModalMan("modal")
