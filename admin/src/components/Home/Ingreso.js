@@ -44,9 +44,9 @@ function Ingreso({setRender, render, date, lastId}) {
   const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
 
   const htmlString = ReactDOMServer.renderToStaticMarkup(
-<div style={{ padding: '80px', fontFamily: 'arial' }}>
-<div style={{ padding: '80px', fontFamily: 'arial', width: '595px', height: '842px', boxSizing: 'border-box', overflow: 'hidden' }}>
-  <div style={{ marginBottom: '20px', paddingTop: '1px', paddingRight: '1px', paddingBottom: '1px', paddingLeft: '1px' }}>
+<div style={{ padding: '50px', fontFamily: 'arial' }}>
+<div style={{ fontFamily: 'arial', boxSizing: 'border-box' }}>
+  <div style={{ marginBottom: '5px', width: '100%'}}>
     <div style={{ marginBottom: '10px', fontSize: '10px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
       <div style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', lineHeight: '1px' }}>
         <h1 style={{ fontSize: '24px', marginBottom: '3px' }}>Comercial S&B</h1>
@@ -60,23 +60,22 @@ function Ingreso({setRender, render, date, lastId}) {
         <img src={logo} style={{ width: '150px', marginBottom: '10px' }} />
       </div>
     </div>
-    <div>
-      <div style={{ marginBottom: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
-        <p style={{ marginLeft: '20px' }}>Nombre: {name} {lastname}</p>
-        <p style={{ marginLeft: '20px' }}>RUT: {rut}</p>
-        <p style={{ marginLeft: '20px', fontSize: '35px', padding: '5px', borderRadius: '3px', color: 'white', backgroundColor: 'orange' }}>Orden Nº: {lastId + 1}</p>
+    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px'}}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+        <p style={{ marginLeft: '20px', marginTop: '0px', marginBottom: '0px' }}>Nombre: {name} {lastname}</p>
+        <p style={{ marginLeft: '20px', marginTop: '0px', marginBottom: '0px' }}>RUT: {rut}</p>
+        <p style={{ marginLeft: '20px', fontSize: '25px', borderRadius: '3px', color: 'white', backgroundColor: 'orange' }}>Orden Nº: {lastId + 1}</p>
       </div>
-      <div style={{ marginTop: 'none', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
-        {email ? <p style={{ marginLeft: '20px' }}>Email: {email}</p> : <p style={{ marginLeft: '20px' }}>Email: Sin Correo</p>}
-        <p style={{ marginLeft: '20px' }}>Teléfono: {phone}</p>
-        <p style={{ marginLeft: '20px' }}>Fecha: {date}</p>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
+        {email ? <p style={{ marginLeft: '20px', marginTop: '0px', marginBottom: '0px' }}>Email: {email}</p> : <p style={{ marginLeft: '20px' }}>Email: Sin Correo</p>}
+        <p style={{ marginLeft: '20px', marginTop: '0px', marginBottom: '0px' }}>Teléfono: {phone}</p>
+        <p style={{ marginLeft: '20px', marginTop: '0px', marginBottom: '0px' }}>Fecha: {date}</p>
       </div>
     </div>
-    <div style={{ marginBottom: '10px', marginTop: '20px', fontSize: '6px' }}>
+    <div style={{ marginBottom: '10px', marginTop: '20px', fontSize: '0.55rem' }}>
       <p>Las reparaciones se entregan en un plazo máximo de 10 días hábiles UNA VEZ APROBADO EL PRESUPUESTO.</p>
       <p>Las reparaciones tienen garantía de 30 días sobre el trabajo realizado según guía de servicio.</p>
-      <p>NOTA:</p>
-      <p>Las máquinas no retiradas durante 60 días serán enviadas a bodega y la empresa no se responsabiliza por deterioros producidos.</p>
+      <p>NOTA: Las máquinas no retiradas durante 60 días serán enviadas a bodega y la empresa no se responsabiliza por deterioros producidos.</p>
       <p>Las máquinas no retiradas durante 1 año según el Artículo 42 de la ley de comercio, serán consideradas como abandonadas por sus propietarios, por lo que la empresa podrá disponer de ellas.</p>
       <p>El valor del presupuesto puede sufrir modificaciones si durante su proceso de reparación se detectan defectos no advertidos en el diagnóstico original que impliquen gastos adicionales. Esta variación, en el caso de reparación, será informada al cliente antes de continuar con la reparación del equipo.</p>
       <p>El presupuesto tiene una vigencia de 10 días desde la fecha de emisión.</p>
@@ -87,26 +86,26 @@ function Ingreso({setRender, render, date, lastId}) {
     </div>
     <div style={{ marginBottom: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'space-around', gap: '50px' }}>
       <div>
-        <p>Tipo: {tipo}</p>
-        <p>Modelo: {modelo}</p>
-        <p>Marca: {marca}</p>
-        <p>Serie: {serie}</p>
-        <p>Categoría: {categoria}</p>
+        <p style={{ fontSize: '13px' }}>Tipo: {tipo}</p>
+        <p style={{ fontSize: '13px' }}>Modelo: {modelo}</p>
+        <p style={{ fontSize: '13px' }}>Marca: {marca}</p>
+        <p style={{ fontSize: '13px' }}>Serie: {serie}</p>
+        <p style={{ fontSize: '13px' }}>Categoría: {categoria}</p>
       </div>
       <div>
-        {espada ? <p>Espada: Si</p> : null}
-        {cadena ? <p>Cadena: Si</p> : null}
-        {funda ? <p>Funda: Si</p> : null}
-        {disco ? <p>Disco: Si</p> : null}
-        <p>{mantenimiento ? 'Propósito: MANTENIMIENTO' : null}</p>
-        <p>{revision ? 'Propósito: REVISION' : null}</p>
-        <p>{garantia ? 'Propósito: GARANTIA' : null}</p>
-        {garantia ? <p>GARANTÍA</p> : null}
+        {espada ? <p style={{ fontSize: '13px' }}>Espada: Si</p> : null}
+        {cadena ? <p style={{ fontSize: '13px' }}>Cadena: Si</p> : null}
+        {funda ? <p style={{ fontSize: '13px' }}>Funda: Si</p> : null}
+        {disco ? <p style={{ fontSize: '13px' }}>Disco: Si</p> : null}
+        <p style={{ fontSize: '13px' }}>{mantenimiento ? 'Propósito: MANTENIMIENTO' : null}</p>
+        <p style={{ fontSize: '13px' }}>{revision ? 'Propósito: REVISION' : null}</p>
+        <p style={{ fontSize: '13px' }}>{garantia ? 'Propósito: GARANTIA' : null}</p>
+        {garantia ? <p style={{ fontSize: '13px' }}>GARANTÍA</p> : null}
       </div>
     </div>
-    <p style={{ fontSize: '6px' }}>Observaciones: {observaciones}</p>
+    <p style={{ fontSize: '13px' }}>Observaciones: {observaciones}</p>
     <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '0px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <img src={imageURL} style={{ width: '150px', height: '100px', borderBottom: '1px solid #000', marginBottom: '10px' }} />
+      <img src={imageURL} style={{ width: '150px', height: '100px', borderBottom: '1px solid #000', marginTop: '10px' }} />
       <p>Firma Cliente Sr/s: {name} {lastname}, Rut: {rut}</p>
     </div>
   </div>
