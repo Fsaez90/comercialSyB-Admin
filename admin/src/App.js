@@ -131,7 +131,7 @@ function App() {
         const lastObject = data[data.length - 1]; // Use '-1' to get the last object
         setLastid(lastObject.id);
       } else {
-        setLastid(0)
+        setLastid(6675)
       }
       let lista = orden.filter(function(x){
         return x.ingreso_sistema === false
