@@ -4,7 +4,7 @@ import "../static/busqueda.css"
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import BusquModal from "./BusquModal";
 
-function BusquedaConsulta({date}) {
+function BusquedaConsulta({date, render, setRender}) {
     const [param, setParam] = useState("")
     const [orden, setOrden] = useState()
     const [modal, setModal] = useState("modal-inactive")
@@ -46,7 +46,7 @@ function BusquedaConsulta({date}) {
             })}
             </div>
             <div className={modal}>
-                <BusquModal orden={modalData} date={date} setModal={setModal}/>
+                <BusquModal render={render} setRender={setRender} orden={modalData} date={date} setModal={setModal}/>
             </div>        
           </div>
           <button className='button-list-admin' onClick={() => {

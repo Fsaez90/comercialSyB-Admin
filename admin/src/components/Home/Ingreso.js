@@ -117,6 +117,8 @@ function Ingreso({setRender, render, date, lastId}) {
 
 async function crearOrden(e) {
   e.preventDefault();
+  const button = document.getElementById('btn-imprimir'); 
+  button.disabled = true;
   if (!email || !email.trim()) {
     const requestData = {
       nombre: name,
@@ -414,7 +416,7 @@ async function crearOrden(e) {
           </Popup>
       ): null}
       <br /><br />
-      {imageURL ? (<input type='submit' className='buttons-admin' onTouchEnd={(e) => crearOrden(e)} value="IMPRIMIR" />): null}
+      {imageURL ? (<input type='submit' className='buttons-admin' id='btn-imprimir' onTouchEnd={(e) => crearOrden(e)} value="IMPRIMIR" />): null}
       </form>
       <div className="return-menu">
         <NavLink to="/app"><br /><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>      </div>

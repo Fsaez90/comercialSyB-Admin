@@ -1,10 +1,26 @@
 import React, { useState } from 'react'
 import ComprobanteRetiro from './ComprobanteRetiro'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ModalEditar from './ModalEditar';
 
-function BusquModal({orden, setModal, date}) {
+function BusquModal({orden, setModal, date, render, setRender}) {
     const [modalComprobanteRetiro, setModalComprobanteRetiro] = useState("modal-inactive")
+    const [modalEditar, setModalEditar] = useState("modal-inactive")
     const [ok, setOk] = useState("prio-inactive")
+
+    const [name, setName] = useState();
+    const [lastname, setLastname] = useState();
+    const [rut, setRut] = useState();
+    const [telefono, setTelefono] = useState();
+    const [email, setEmail] = useState();
+    const [tipo, setTipo] = useState();
+    const [marca, setMarca] = useState();
+    const [modelo, setModelo] = useState();
+    const [serie, setSerie] = useState();
+    const [categoria, setCategoria] = useState();
+    const [mecanico, setMecanico] = useState();
+    const [revision, setRevision] = useState();
+    const [mantenimiento, setMantenimiento] = useState()
 
     const dateOfToday = new Date();
     const date2 = new Date(dateOfToday);
@@ -95,11 +111,63 @@ function BusquModal({orden, setModal, date}) {
               <div className='elements-admin-btn'>
                 <button className='buttons-admin' onClick={() => setModalComprobanteRetiro("modal-comprobante-admin")}>Ver comprobante Retiro</button>
               </div>: null}
+            <div className='elements-admin-btn'>
+              <button className="button-editar-main" onClick={() => {
+                setModalEditar("modal")
+                setName(orden.nombre)
+                setLastname(orden.apellidos)
+                setRut(orden.rut)
+                setTelefono(orden.telefono)
+                setEmail(orden.email)
+                setTipo(orden.tipo)
+                setMarca(orden.marca)
+                setModelo(orden.modelo)
+                setSerie(orden.serie)
+                setCategoria(orden.categoria)
+                setMecanico(orden.mecanico)
+                setRevision(orden.revision)
+                setMantenimiento(orden.mantencion)
+                }}>Editar</button>
+            </div>
           </div> 
           <button className='button-close' onClick={()=> setModal("modal-inactive")}>Cerrar</button>
         </div>
         <br/>
         <br/>
+        <div className={modalEditar}>
+              <ModalEditar 
+                render={render}
+                setRender={setRender}
+                orden={orden} 
+                setModalEditar={setModalEditar} 
+                name={name} 
+                setName={setName}
+                lastname={lastname}
+                setLastname={setLastname}
+                rut={rut}
+                setRut={setRut}
+                telefono={telefono}
+                setTelefono={setTelefono}
+                email={email}
+                setEmail={setEmail}
+                tipo={tipo}
+                setTipo={setTipo}
+                marca={marca}
+                setMarca={setMarca}
+                serie={serie}
+                setSerie={setSerie}
+                modelo={modelo}
+                setModelo={setModelo}
+                categoria={categoria}
+                setCategoria={setCategoria}
+                mecanico={mecanico}
+                setMecanico={setMecanico}
+                revision={revision}
+                setRevision={setRevision}
+                mantenimiento={mantenimiento}
+                setMantenimiento={setMantenimiento}
+                />
+        </div>
         <div className={modalComprobanteRetiro}>
               <ComprobanteRetiro orden={orden} setModalComprobanteRetiro={setModalComprobanteRetiro}/>
         </div>

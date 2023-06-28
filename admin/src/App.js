@@ -289,7 +289,7 @@ function App() {
 
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
-        <Route path='/estado' element={<BusquedaConsulta date={date} />}/>
+        <Route path='/estado' element={<BusquedaConsulta date={date} setRender={setRender} render={render}/>}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} notificaciones={notificaciones} render={render} setRender={setRender} />}/>
         <Route path='/entrega' element={<Entrega date={date} clock={clock} setRender={setRender} render={render} />}/>
         <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista} setAdminEsp={setAdminEsp} adminEsp={adminEsp}/>}/>
