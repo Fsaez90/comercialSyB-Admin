@@ -105,7 +105,7 @@ function garantiaHandle (n) {
         {orden.fecha_retiro? <div className='title-consulta-modal'>Fecha Retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>: null}
         {orden.diagnostico? <div className='title-consulta-modal'>Diagnóstico:<span className='orden-diagnostico'>{orden.diagnostico}</span></div>: null}
         {orden.diagnostico_garantia? <div className='title-consulta-modal'>Diagnóstico garantía:<span className='orden-diagnostico'>{orden.diagnostico_garantia}</span></div>: null}
-        {orden.valorizacion && orden.validez_garantia === "no"? <div className='title-consulta-modal'>Valorización:<span className='orden-data'>{orden.valorizacion}</span></div>: null}
+        {orden.valorizacion !== null && (orden.validez_garantia === "no" || orden.validez_garantia === null)? <div className='title-consulta-modal'>Valorización:<span className='orden-data'>{orden.valorizacion}</span></div>: null}
         {orden.validez_garantia === "si"?<div className='title-consulta-modal'>Valorización:<span className='orden-data'>Garantía válida</span></div>:null}
       </div>
       {orden.espera_repuesto?
