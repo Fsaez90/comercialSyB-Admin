@@ -139,7 +139,7 @@ function ModalEditar({orden, render, setRender, setModalEditar, name, setName, l
                             <div className='title-consulta-modal'>Categoría:<span className='orden-data'>{orden.categoria}</span></div>
                             <select onChange={(e) => setCategoria(e.target.value)} value={categoria} id="categoria" required>
                                 <option value="" disabled selected>Seleccionar</option>
-                                <option value="Ocacional">Ocasional</option>
+                                <option value="Ocasional">Ocasional</option>
                                 <option value="Semiprofesional">Semiprofesional</option>
                                 <option value="Profesional">Profesional</option>
                             </select>
