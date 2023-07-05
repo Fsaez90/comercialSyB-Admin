@@ -23,7 +23,7 @@ function Mecanicos({render, setRender, reporteMensualTotal1, reporteMensualTotal
         mes = "MAYO"
     } else if (month === "June") {
         mes = "JUNIO"
-    } else if (month === "July") {
+    } else if (month === "July" || month === "Julio") {
         mes = "JULIO"
     } else if (month === "August") {
         mes = "AGOSTO"
