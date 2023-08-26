@@ -37,31 +37,32 @@ function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender
       }
 
       let mes = ""
-    if (month === "January") {
+    if (month === "January" || month === "Enero" || month === "enero") {
         mes = "ENERO"
-    } else if (month === "February") {
+    } else if (month === "February" || month === "Febrero" || month === "febrero") {
         mes = "FEBRERO"
-    } else if (month === "March") {
+    } else if (month === "March" || month === "Marzo" || month === "marzo") {
         mes = "MARZO"
-    } else if (month === "April") {
+    } else if (month === "April" || month === "Abril" || month === "abril") {
         mes = "ABRIL"
-    } else if (month === "May") {
+    } else if (month === "May" || month === "Mayo" || month === "mayo") {
         mes = "MAYO"
-    } else if (month === "June") {
+    } else if (month === "June" || month === "Junio" || month === "junio") {
         mes = "JUNIO"
-    } else if (month === "July") {
+    } else if (month === "July" || month === "Julio" || month === "julio" ) {
         mes = "JULIO"
-    } else if (month === "August") {
+    } else if (month === "August" || month === "Agosto" || month === "agosto") {
         mes = "AGOSTO"
-    } else if (month === "September") {
+    } else if (month === "September" || month === "Septiembre" || month === "septiembre") {
         mes = "SEPTIEMBRE"
-    } else if (month === "October") {
+    } else if (month === "October" || month === "Octubre" || month === "octubre") {
         mes = "OCTUBRE"
-    }else if (month === "November") {
+    }else if (month === "November" || month === "Noviembre" || month === "noviembre") {
         mes = "NOVIEMBRE"
     } else {
         mes = "DICIEMBRE"
     }
+    
   return (
     <div className='frame-admin'>
     <div className='busqueda-modal-admin'>

@@ -14,32 +14,33 @@ function Mecanico2({reporteMensualIds2, reporteMensualIds2Gar, render, setRender
           setRender(!render) 
         }, 500);  
       },[render])
+
       let mes = ""
-    if (month === "January") {
-        mes = "ENERO"
-    } else if (month === "February") {
-        mes = "FEBRERO"
-    } else if (month === "March") {
-        mes = "MARZO"
-    } else if (month === "April") {
-        mes = "ABRIL"
-    } else if (month === "May") {
-        mes = "MAYO"
-    } else if (month === "June") {
-        mes = "JUNIO"
-    } else if (month === "July") {
-        mes = "JULIO"
-    } else if (month === "August") {
-        mes = "AGOSTO"
-    } else if (month === "September") {
-        mes = "SEPTIEMBRE"
-    } else if (month === "October") {
-        mes = "OCTUBRE"
-    }else if (month === "November") {
-        mes = "NOVIEMBRE"
-    } else {
-        mes = "DICIEMBRE"
-    }
+      if (month === "January" || month === "Enero" || month === "enero") {
+          mes = "ENERO"
+      } else if (month === "February" || month === "Febrero" || month === "febrero") {
+          mes = "FEBRERO"
+      } else if (month === "March" || month === "Marzo" || month === "marzo") {
+          mes = "MARZO"
+      } else if (month === "April" || month === "Abril" || month === "abril") {
+          mes = "ABRIL"
+      } else if (month === "May" || month === "Mayo" || month === "mayo") {
+          mes = "MAYO"
+      } else if (month === "June" || month === "Junio" || month === "junio") {
+          mes = "JUNIO"
+      } else if (month === "July" || month === "Julio" || month === "julio" ) {
+          mes = "JULIO"
+      } else if (month === "August" || month === "Agosto" || month === "agosto") {
+          mes = "AGOSTO"
+      } else if (month === "September" || month === "Septiembre" || month === "septiembre") {
+          mes = "SEPTIEMBRE"
+      } else if (month === "October" || month === "Octubre" || month === "octubre") {
+          mes = "OCTUBRE"
+      }else if (month === "November" || month === "Noviembre" || month === "noviembre") {
+          mes = "NOVIEMBRE"
+      } else {
+          mes = "DICIEMBRE"
+      }
 
     function getOrdenData(x) {
         fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/orden/${x}/`)
