@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function ClientesXnotificar({render, setRender, pptoslistos, mmtoslistos, eqreparados, eqarmados, nocontestaTotal, solicitudRepuestos}) {
-
-  useEffect(() => {
-      setRender(!render)
-  },[pptoslistos, mmtoslistos, eqreparados, eqarmados, nocontestaTotal, solicitudRepuestos])
-
+function ClientesXnotificar({ pptosListos, mmtosListos, eqRep, eqArm, noContesta, solRep}) {
   
   return (
     <div className='frame-menu'>
@@ -16,29 +11,29 @@ function ClientesXnotificar({render, setRender, pptoslistos, mmtoslistos, eqrepa
       <div>
         <div className='frame-menu not'>
           <NavLink className='menu-button' to="/pptos-listos">Presupuestos Listos</NavLink>
-          {pptoslistos > 0? <p id='not-count'>{pptoslistos}</p>: null}
+          {pptosListos > 0? <p id='not-count'>{pptosListos}</p>: null}
         </div>
         <br />
         <div className='frame-menu not'>
           <NavLink className='menu-button' to="/mmto-solicitud-rep">Solicitud Repuestos Mantenciones</NavLink>
-          {solicitudRepuestos > 0? <p id='not-count'>{solicitudRepuestos}</p>: null}
+          {solRep > 0? <p id='not-count'>{solRep}</p>: null}
         </div>
         <br />
         <div className='frame-menu not'>
           <NavLink className='menu-button' to="/mantenciones-listas">Mantenciones/Garantías Listas</NavLink>
-          {mmtoslistos > 0? <p id='not-count'>{mmtoslistos}</p>: null}
+          {mmtosListos > 0? <p id='not-count'>{mmtosListos}</p>: null}
         </div>
         <div className='frame-menu not'>
           <NavLink className='menu-button' to="/equipos-reparados">Equipos Reparados</NavLink>
-          {eqreparados > 0? <p id='not-count'>{eqreparados}</p>: null}
+          {eqRep > 0? <p id='not-count'>{eqRep}</p>: null}
         </div>
         <br />
         <div className='frame-menu not'>
-          <NavLink className='menu-button' to="/equipos-armados">Equipos Armados ({eqarmados})</NavLink>
+          <NavLink className='menu-button' to="/equipos-armados">Equipos Armados ({eqArm})</NavLink>
         </div>
         <br />
         <div className='frame-menu not'>
-          <NavLink className='menu-button' to="/no-contesta">No Contesta ({nocontestaTotal})</NavLink>
+          <NavLink className='menu-button' to="/no-contesta">No Contesta ({noContesta})</NavLink>
           {/* {(noContestappto + noContestaretiro) > 0? <p id="not-count">{noContestappto + noContestaretiro}</p>: null} */}
         </div>
       </div>

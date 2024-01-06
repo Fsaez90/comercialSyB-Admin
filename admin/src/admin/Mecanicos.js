@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom' 
 import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function Mecanicos({render, setRender, reporteMensualTotal1, reporteMensualTotal2, month}) {
-    
-    useEffect(() => {
-        setTimeout(() => {
-          setRender(!render) 
-        }, 500);  
-      },[render])
+function Mecanicos({reportMec1, reportMec2, month}) {
     
       let mes = ""
     if (month === "January" || month === "Enero" || month === "enero") {
@@ -46,8 +40,8 @@ function Mecanicos({render, setRender, reporteMensualTotal1, reporteMensualTotal
             <div className='menu-button'>Meses anteriores</div>
         </div>
         <div className='menu'>
-            <NavLink className='menu-button' to="/mecanico1">Mecánico1 {`Total: ${(reporteMensualTotal1 === null || reporteMensualTotal1 === undefined)? "0": reporteMensualTotal1}`}</NavLink>
-            <NavLink className='menu-button' to="/mecanico2">Mecánico2 {`Total:  ${(reporteMensualTotal2 === null || reporteMensualTotal2 === undefined)? "0": reporteMensualTotal2}`}</NavLink>
+            <NavLink className='menu-button' to="/mecanico1">Mecánico1 {`Total: ${(reportMec1 === null || reportMec1 === undefined)? "0": reportMec1}`}</NavLink>
+            <NavLink className='menu-button' to="/mecanico2">Mecánico2 {`Total:  ${(reportMec2 === null || reportMec2 === undefined)? "0": reportMec2}`}</NavLink>
         </div> 
         <br/>
         <div className='menu-admin'>

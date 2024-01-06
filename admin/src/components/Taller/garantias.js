@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate} from 'react-router-dom'
+import { Audio } from 'react-loader-spinner'
 
-function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
+function Garantias({render, setRender, date, clock}) {
+  const [lista, setLista] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(true);
   const [modalRev, setModalRev] = useState("modal-inactive-revision")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -34,12 +38,24 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
   const [msg, setMsg] = useState("msg-mecanic")
   const [categoria, setCategoria] = useState()   
   const [pptoMec, setPptoMec] = useState("seleccionar")
-
   const  navigate  = useNavigate();
 
   useEffect(() => {
-    setRender(!render)
-},[garantia, modalRev])
+    getData()
+},[refresh])
+
+const getData = async () => {
+  try {
+    setLoading(true)
+    const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/garantias/')
+    const data = await result.json();
+    setLista(data)
+    setLoading(false)
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    setLoading(false); // Ensure loading indicator is hidden in case of an error
+  }
+}
 
 async function enProcesoHandleRev(n) {
   if((aplGarantia === "si" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar)) {
@@ -136,15 +152,14 @@ async function enProcesoHandleRev(n) {
       if (response.ok) {
         setRender(!render);
         setMsg("msg-mecanic")
-        setTimeout(() => {
-          setModalRev("modal-inactive-revision");
-          setAplGarantia(null)
-          setDiagnostico("")
-          setDetallePpto("")
-          setDetallePptoGar("")
-          setDiagnosticoGar("")
-          navigate('/garantia');
-        }, 1500);
+        setRefresh(!refresh)
+        setModalRev("modal-inactive-revision");
+        setAplGarantia(null)
+        setDiagnostico("")
+        setDetallePpto("")
+        setDetallePptoGar("")
+        setDiagnosticoGar("")
+        navigate('/garantia');
       }
     } catch (error) {
       console.error(error);
@@ -205,16 +220,15 @@ async function solicitudRepuestosHandle(n) {
         });
       if (response.ok) {
         setRender(!render);
+        setRefresh(!refresh)
         setMsg("msg-mecanic")
-        setTimeout(() => {
-          setModalRev("modal-inactive-revision");
-          setAplGarantia(null)
-          setDiagnostico("")
-          setDetallePpto("")
-          setDetallePptoGar("")
-          setDiagnosticoGar("")
-          navigate('/garantia');
-        }, 1500);
+        setModalRev("modal-inactive-revision");
+        setAplGarantia(null)
+        setDiagnostico("")
+        setDetallePpto("")
+        setDetallePptoGar("")
+        setDiagnosticoGar("")
+        navigate('/garantia');
       }
     } catch (error) {
       console.error(error);
@@ -276,15 +290,14 @@ async function pptoHandle(n) {
       if (response.ok) {
         setRender(!render);
         setMsg("msg-mecanic")
-        setTimeout(() => {
-          setModalRev("modal-inactive-revision");
-          setAplGarantia(null)
-          setDiagnostico("")
-          setDetallePpto("")
-          setDetallePptoGar("")
-          setDiagnosticoGar("")
-          navigate('/garantia');
-        }, 1500);
+        setRefresh(!refresh)  
+        setModalRev("modal-inactive-revision");
+        setAplGarantia(null)
+        setDiagnostico("")
+        setDetallePpto("")
+        setDetallePptoGar("")
+        setDiagnosticoGar("")
+        navigate('/garantia');
       }
     } catch (error) {
       console.error(error);
@@ -292,12 +305,26 @@ async function pptoHandle(n) {
   }
 }
 
-    if (garantia !== 0) {  
+    if (lista.length !== 0) {  
         return (
-          <div className='frame'>
+          <div>
+            {loading ? (
+            <div className='frame'>
+              <Audio
+                height="70"
+                width="70"
+                radius="9"
+                color="white"
+                ariaLabel="loading"
+                wrapperStyle
+                wrapperClass
+              />  
+            </div>  
+            ) : (
+            <div className='frame'>
               <h1 className='title-component'>Ordenes de trabajo en Garantía:</h1>
               <div >
-              {garantiaLista.map((x, index) => {
+              {lista.map((x, index) => {
                 return(
                   <div className="list-section" key={index}>
                       <p className='number-list'>Orden Nº {x.id}</p>
@@ -462,15 +489,33 @@ async function pptoHandle(n) {
                 </div>
               </div>
             </div>
+            )}
+          </div>
           )
       } else {
           return (
+            <div>
+              {loading ? (
             <div className='frame'>
-              <h1 className='title-component'>Ordenes de trabajo con Garantía:</h1>
-              <div>
-                <p className='not-exist'>No hay ordenes pendientes</p>
+              <Audio
+                height="70"
+                width="70"
+                radius="9"
+                color="white"
+                ariaLabel="loading"
+                wrapperStyle
+                wrapperClass
+              />  
+            </div>
+              ) : (
+              <div className='frame'>
+                <h1 className='title-component'>Ordenes de trabajo con Garantía:</h1>
+                <div>
+                  <p className='not-exist'>No hay ordenes pendientes</p>
+                </div>
+                <NavLink to="/taller">Menú</NavLink>
               </div>
-              <NavLink to="/taller">Menú</NavLink>
+              )}
             </div>
           )
     }

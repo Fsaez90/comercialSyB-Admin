@@ -1,19 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { NavLink } from 'react-router-dom'; 
 import BusquedaModalMec from './BusquedaModalMec';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender, month}) {
+function Mecanico1({idReport1, idReport1Gar, month}) {
     const [orden, setOrden] = useState({})
-    const[notExist, setNotExist] = useState("")
     const [modal, setModal] = useState("modal-inactive")
-
-
-    useEffect(() => {
-        setTimeout(() => {
-          setRender(!render) 
-        }, 500);  
-      },[render])
 
     function getOrdenData(x) {
         fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/orden/${x}/`)
@@ -32,7 +24,6 @@ function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender
         })
         .catch(error => {
           console.error("Fetch error:", error)
-          setNotExist(error.message)
         })
       }
 
@@ -68,7 +59,7 @@ function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender
     <div className='busqueda-modal-admin'>
     <div className='subtitle-admin'>Reparaciones mecánico 1 - {mes}</div>
       <div className='cliente-data-admin'>
-        {reporteMensualIds1?.map((x, index) => {
+        {idReport1?.map((x, index) => {
             const orderId = parseInt(x); 
             return (
                 <div key={index} className='modal-elements-admin-mecanics' onClick={() => {
@@ -87,7 +78,7 @@ function Mecanico1({reporteMensualIds1, reporteMensualIds1Gar, render, setRender
     <div className='busqueda-modal-admin'>
     <div className='subtitle-admin'>Garantías (-)</div>
       <div className='cliente-data-admin'>
-        {reporteMensualIds1Gar?.map((x, index) => {
+        {idReport1Gar?.map((x, index) => {
             const orderId = parseInt(x); 
             return (
                 <div key={index} className='modal-elements-admin-mecanics' onClick={() => {

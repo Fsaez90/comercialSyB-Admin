@@ -3,17 +3,10 @@ import { NavLink } from 'react-router-dom'
 import BusquedaModalMec from './BusquedaModalMec';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function Mecanico2({reporteMensualIds2, reporteMensualIds2Gar, render, setRender, month}) {
+function Mecanico2({idReport2Gar, idReport2, month}) {
     const [orden, setOrden] = useState({})
     const[notExist, setNotExist] = useState("")
     const [modal, setModal] = useState("modal-inactive")
-
-
-    useEffect(() => {
-        setTimeout(() => {
-          setRender(!render) 
-        }, 500);  
-      },[render])
 
       let mes = ""
       if (month === "January" || month === "Enero" || month === "enero") {
@@ -56,7 +49,7 @@ function Mecanico2({reporteMensualIds2, reporteMensualIds2Gar, render, setRender
     <div className='busqueda-modal-admin'>
     <div className='subtitle-admin'>Reparaciones mecánico 2 - {mes}</div>
       <div className='cliente-data-admin'>
-        {reporteMensualIds2?.map((x, index) => {
+        {idReport2?.map((x, index) => {
             const orderId = parseInt(x); 
             return (
                 <div key={index} className='modal-elements-admin-mecanics' onClick={() => {
@@ -75,7 +68,7 @@ function Mecanico2({reporteMensualIds2, reporteMensualIds2Gar, render, setRender
     <div className='busqueda-modal-admin'>
     <div className='subtitle-admin'>Garantías (-)</div>
       <div className='cliente-data-admin'>
-        {reporteMensualIds2Gar?.map((x, index) => {
+        {idReport2Gar?.map((x, index) => {
             const orderId = parseInt(x[index]); 
             return (
                 <div key={index} className='modal-elements-admin-mecanics' onClick={() => {

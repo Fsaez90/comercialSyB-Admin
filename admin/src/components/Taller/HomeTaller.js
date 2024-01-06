@@ -1,13 +1,9 @@
-import React, { useEffect} from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
-function HomeTaller({render, setRender, prioridad, garantia, revision, mantencion, aprobadas, rechazadas, totalProceso, repRecibidosMmto }) {
+function HomeTaller({prioridad, garantia, revision, mantencion, aprobadas, rechazadas, totalProceso, repRecibidos }) {
   
-  useEffect(() => {
-      setRender(!render)
-  },[prioridad, garantia, revision, mantencion,aprobadas, rechazadas, totalProceso, repRecibidosMmto])
-
   return (
     <div>
         <h1 className='title-menu'>STIHL Panel Taller</h1>
@@ -28,7 +24,7 @@ function HomeTaller({render, setRender, prioridad, garantia, revision, mantencio
             <NavLink className='menu-button' to="/revision">X Revisar ({revision})</NavLink>
             <NavLink className='menu-button' to="/mantenimiento">Mantención ({mantencion})</NavLink>
             <br/><br/>
-            <NavLink className='menu-button' to="/mmto-rep-listos">Mantención+Rep ({repRecibidosMmto})</NavLink>
+            <NavLink className='menu-button' to="/mmto-rep-listos">Mantención+Rep ({repRecibidos})</NavLink>
             <NavLink className='menu-button' to="/aprobadas">Aprobadas ({aprobadas})</NavLink>
             <NavLink className='menu-button' to="/rechazadas">Rechazadas ({rechazadas})</NavLink>
         </div>

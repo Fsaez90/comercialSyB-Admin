@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 
-function Home({render, setRender, notificaciones, notificacionesTotal, esperaRepuesto}) {
-
-  useEffect(() => {
-      setRender(!render)
-  },[notificaciones, notificacionesTotal, esperaRepuesto])
+function Home({not, nototal, esperarep}) {
 
   return (
     <div className='frame-menu'>
@@ -16,14 +12,14 @@ function Home({render, setRender, notificaciones, notificacionesTotal, esperaRep
             <NavLink className='menu-button' to="/ingreso">Ingreso Equipo</NavLink>
             <div className='frame-menu not'>
               <NavLink className='menu-button' to="/notificaciones">Notificaciones</NavLink>
-              {notificacionesTotal > 0? <p id='not-count'>{notificacionesTotal}</p>: null}
+              {nototal > 0? <p id='not-count'>{nototal}</p>: null}
             </div>
             <div className='frame-menu not'>
               <NavLink className='menu-button' to="/otxingresar">Ingresos OT a PC</NavLink>
-              {notificaciones > 0? <p id='not-count'>{notificaciones}</p>: null}
+              {not > 0? <p id='not-count'>{not}</p>: null}
             </div>
             <NavLink className='menu-button' to="/estado">Estado de orden</NavLink>
-            <NavLink className='menu-button' to="/espera-repuesto">Espera Repuesto ({esperaRepuesto})</NavLink>
+            <NavLink className='menu-button' to="/espera-repuesto">Espera Repuesto ({esperarep})</NavLink>
             <NavLink className='menu-button' to="/entrega">Entrega Equipo</NavLink>
         </div>
         <br/>

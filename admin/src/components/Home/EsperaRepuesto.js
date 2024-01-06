@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalTaller.css"
 import AddHomeIcon from '@mui/icons-material/AddHome';
+import { Audio } from 'react-loader-spinner';
 
-
-function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista, setAdminEsp, adminEsp}) {
+function EsperaRepuesto({render, setRender, setAdminEsp, adminEsp}) {
+  const [lista, setLista] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -31,12 +34,24 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista,
   const [detallePpto, setDetallePpto] = useState()
   const [esperaRepuestoField, setEsperaRepuestoField] = useState()
   const [categoria, setCategoria] = useState()
-
   const  navigate  = useNavigate();
   
-  useEffect(() => {
-    setRender(!render)
-  },[esperaRepuesto, modal])
+  useEffect(() => {  
+    getData();
+  },[refresh])
+
+  const getData = async () => {
+    try {
+      setLoading(true)
+      const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/esp_repuesto/')
+      const data = await result.json();
+      setLista(data);
+      setLoading(false)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false); // Ensure loading indicator is hidden in case of an error
+    }
+  }
 
   async  function repuestoAtallerHandle(n) {
     try {
@@ -77,110 +92,121 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista,
       })
       if (response.ok) {
         setRender(!render)
-        setTimeout(() => {
-          setModal("modal-inactive")
-          navigate('/espera-repuesto') 
-        }, 1500);
+        setRefresh(!refresh)
+        setModal("modal-inactive")
+        navigate('/espera-repuesto') 
       }
     } catch (error) {
       console.log(error)
     }
-  
-  
   }
  
-  if (esperaRepuesto !== 0) {
+  if (lista.length !== 0) {
     return (
-      <div className='frame'>
-        <h1 className='title-component'>Ordenes en espera de repuestos: </h1>
-        <div className='render-section'>
-        {esperaRepuestoLista.map((x, index) => {
-          return(
-            <div className="list-section" key={index}>
-                <p className='number-list'>Orden Nº {x.id}</p>
-                <button className='button-list' onClick={() => 
-                  {setModal("modal")
-                  setId(x.id)
-                  setNombre(x.nombre)
-                  setApellidos(x.apellidos)
-                  setRut(x.rut)
-                  setTelefono(x.telefono)
-                  setEmail(x.email)
-                  setTipo(x.tipo)
-                  setMarca(x.marca)
-                  setModelo(x.modelo)
-                  setSerie(x.serie)
-                  setEspada(x.espada)
-                  setCadena(x.cadena)
-                  setFunda(x.funda)
-                  setDisco(x.disco)
-                  setObservaciones(x.observaciones)
-                  setMantencion(x.mantencion)
-                  setRevision(x.revision)
-                  setMecanico(x.mecanico)
-                  setDiagnostico(x.diagnostico)
-                  setDetallePpto(x.detalle_ppto)  
-                  setIngresoSistema(x.ingreso_sistema)
-                  setEsperaRepuestoField(x.repuesto_faltante)
-                  setHoraRevision(x.hora_trabajo)
-                  setFechaRevision(x.fecha_trabajo)
-                  setCategoria(x.categoria)
-                }
-                  }>Comenzar</button>         
-            </div> 
-            )
-        })}
-        </div>
-        {(adminEsp === true)?<NavLink onClick={() => setAdminEsp(false)} to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
-        :<NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>}
-        <div className={modal}>
-          <div className='modal-content'>
-            <div className='modal-details-taller'>
-                <p className='sub-title'>Orden Nº:<span className='data-modal-taller'>{id}</span></p>
-                <p className='sub-title'>Nombre:<span className='data-modal-taller'>{nombre} {apellidos} </span></p>
-            </div>
-            <div className='modal-machine-details-taller'>
-               <div className='machine-detail-1'> 
-                <p className='sub-detail'>Tipo:<span className='data-modal-taller'>{tipo}</span></p>
-                <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
-                <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
-                <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
-                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
-              </div>
-              <div className='machine-detail-2'>
-                <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
-                {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
-                {revision? <p className='sub-detail'>Equipo a Revisión</p>: null}
-                {espada? <p className='sub-detail'>Espada:<span className='data-modal-taller'>Sí</span></p>: null}
-                {cadena? <p className='sub-detail'>Cadena:<span className='data-modal-taller'>Sí</span></p>: null}
-                {funda? <p className='sub-detail'>Funda:<span className='data-modal-taller'>Sí</span></p>: null}
-                {disco? <p className='sub-detail'>Disco de corte:<span className='data-modal-taller'>Sí</span></p>: null}
-              </div>
-            </div>
-            <div className='observaciones-taller'>
-              <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
-            </div>
-            {mantencion? <div className='detalle-observaciones'>
-              Repuestos solicitados:
-              <textarea className='detalle-field' value={detallePpto}/>
-            </div>: 
-            <div className='detalle-observaciones'>
-              Diagnóstico:
-              <textarea className='detalle-field' value={diagnostico}/>
-            </div>}
-            <div className='detalle-observaciones'>
-              Repuestos faltantes:
-              <textarea className='detalle-field' value={esperaRepuestoField}/>
-            </div>
-            
-            <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
-                <button className='button-list' onClick={() => {
-                repuestoAtallerHandle(id)
-                }}>Repuesto a Taller</button>
-            </div>
+      <div>
+        {loading ? (
+        <Audio
+          height="70"
+          width="70"
+          radius="9"
+          color="white"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+        ) : (
+          <div className='frame'>
+          <h1 className='title-component'>Ordenes en espera de repuestos: </h1>
+          <div className='render-section'>
+          {lista.map((x, index) => {
+            return(
+              <div className="list-section" key={index}>
+                  <p className='number-list'>Orden Nº {x.id}</p>
+                  <button className='button-list' onClick={() => 
+                    {setModal("modal")
+                    setId(x.id)
+                    setNombre(x.nombre)
+                    setApellidos(x.apellidos)
+                    setRut(x.rut)
+                    setTelefono(x.telefono)
+                    setEmail(x.email)
+                    setTipo(x.tipo)
+                    setMarca(x.marca)
+                    setModelo(x.modelo)
+                    setSerie(x.serie)
+                    setEspada(x.espada)
+                    setCadena(x.cadena)
+                    setFunda(x.funda)
+                    setDisco(x.disco)
+                    setObservaciones(x.observaciones)
+                    setMantencion(x.mantencion)
+                    setRevision(x.revision)
+                    setMecanico(x.mecanico)
+                    setDiagnostico(x.diagnostico)
+                    setDetallePpto(x.detalle_ppto)  
+                    setIngresoSistema(x.ingreso_sistema)
+                    setEsperaRepuestoField(x.repuesto_faltante)
+                    setHoraRevision(x.hora_trabajo)
+                    setFechaRevision(x.fecha_trabajo)
+                    setCategoria(x.categoria)
+                  }
+                    }>Comenzar</button>         
+              </div> 
+              )
+          })}
           </div>
-        </div>  
+          {(adminEsp === true)?<NavLink onClick={() => setAdminEsp(false)} to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+          :<NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>}
+          <div className={modal}>
+            <div className='modal-content'>
+              <div className='modal-details-taller'>
+                  <p className='sub-title'>Orden Nº:<span className='data-modal-taller'>{id}</span></p>
+                  <p className='sub-title'>Nombre:<span className='data-modal-taller'>{nombre} {apellidos} </span></p>
+              </div>
+              <div className='modal-machine-details-taller'>
+                 <div className='machine-detail-1'> 
+                  <p className='sub-detail'>Tipo:<span className='data-modal-taller'>{tipo}</span></p>
+                  <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
+                  <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
+                  <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                  <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
+                </div>
+                <div className='machine-detail-2'>
+                  <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                  {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
+                  {revision? <p className='sub-detail'>Equipo a Revisión</p>: null}
+                  {espada? <p className='sub-detail'>Espada:<span className='data-modal-taller'>Sí</span></p>: null}
+                  {cadena? <p className='sub-detail'>Cadena:<span className='data-modal-taller'>Sí</span></p>: null}
+                  {funda? <p className='sub-detail'>Funda:<span className='data-modal-taller'>Sí</span></p>: null}
+                  {disco? <p className='sub-detail'>Disco de corte:<span className='data-modal-taller'>Sí</span></p>: null}
+                </div>
+              </div>
+              <div className='observaciones-taller'>
+                <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
+              </div>
+              {mantencion? <div className='detalle-observaciones'>
+                Repuestos solicitados:
+                <textarea className='detalle-field' value={detallePpto}/>
+              </div>: 
+              <div className='detalle-observaciones'>
+                Diagnóstico:
+                <textarea className='detalle-field' value={diagnostico}/>
+              </div>}
+              <div className='detalle-observaciones'>
+                Repuestos faltantes:
+                <textarea className='detalle-field' value={esperaRepuestoField}/>
+              </div>
+              
+              <div className='modal-buttons'>
+                  <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
+                  <button className='button-list' onClick={() => {
+                  repuestoAtallerHandle(id)
+                  }}>Repuesto a Taller</button>
+              </div>
+            </div>
+          </div>  
+          </div>
+        )}
       </div>
     )
   } else {

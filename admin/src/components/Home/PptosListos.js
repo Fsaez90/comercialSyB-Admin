@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { Audio } from 'react-loader-spinner'
 
-
-function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
+function PptosListos({render, setRender}) {
+  const [pptoslistosLista, setpptoslistosLista] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("msg-mecanic") 
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
@@ -37,12 +40,24 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   const [diagnosticoGar, setDiagnosticoGar] = useState()
   const [aplGarantia, setAplGarantia] = useState()
   const [categoria, setCategoria] = useState()
-
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setRender(!render)
-},[pptoslistos, modal])
+    getData()
+},[refresh])
+
+const getData = async () => {
+  try {
+    setLoading(true)
+    const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/pptos_listos/')
+    const data = await result.json();
+    setpptoslistosLista(data.slice().sort((a, b) => a.id - b.id))
+    setLoading(false)
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    setLoading(false); // Ensure loading indicator is hidden in case of an error
+  }
+}
 
 async function AprobadaHandle(n) {
   if (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.") {
@@ -88,13 +103,12 @@ async function AprobadaHandle(n) {
 
       if (response.ok) {
         setRender(!render);
-        setTimeout(() => {
-          setModal("modal-inactive");
-          setPresupuesto("")
-          setDiagnostico("")
-          setValorizacion("$") 
-          navigate('/pptos-listos');
-        }, 1500);
+        setRefresh(!refresh)
+        setModal("modal-inactive");
+        setPresupuesto("")
+        setDiagnostico("")
+        setValorizacion("$") 
+        navigate('/pptos-listos');
       }
     } catch (error) {
       // Handle the error here
@@ -148,13 +162,12 @@ async function AprobadaEsperaRepuestoHandle(n) {
 
       if (response.ok) {
         setRender(!render);
-        setTimeout(() => {
-          setModal("modal-inactive");
-          setPresupuesto("")
-          setDiagnostico("")
-          setValorizacion("$") 
-          navigate('/pptos-listos');
-        }, 1500);
+        setRefresh(!refresh)
+        setModal("modal-inactive");
+        setPresupuesto("")
+        setDiagnostico("")
+        setValorizacion("$") 
+        navigate('/pptos-listos');
       }
     } catch (error) {
       // Handle the error here
@@ -206,13 +219,12 @@ async function RechazadaHandle(n) {
 
       if (response.ok) {
         setRender(!render);
-        setTimeout(() => {
-          setModal("modal-inactive");
-          setPresupuesto("")
-          setDiagnostico("")
-          setValorizacion("$") 
-          navigate('/pptos-listos');
-        }, 1500);
+        setRefresh(!refresh)
+        setModal("modal-inactive");
+        setPresupuesto("")
+        setDiagnostico("")
+        setValorizacion("$") 
+        navigate('/pptos-listos');
       }
     } catch (error) {
       // Handle the error here
@@ -264,13 +276,12 @@ async function GuardarHandle(n) {
 
       if (response.ok) {
         setRender(!render);
-        setTimeout(() => {
-          setModal("modal-inactive");
-          setPresupuesto("")
-          setDiagnostico("")
-          setValorizacion("$") 
-          navigate('/pptos-listos');
-        }, 1500);
+        setRefresh(!refresh)
+        setModal("modal-inactive");
+        setPresupuesto("")
+        setDiagnostico("")
+        setValorizacion("$") 
+        navigate('/pptos-listos');
       }
     } catch (error) {
       // Handle the error here
@@ -339,13 +350,12 @@ async function NoRespondeHandle(n) {
 
       if (updateResponse.ok && emailResponse.ok) {
         setRender(!render);
-        setTimeout(() => {
-          setModal("modal-inactive");
-          setPresupuesto("")
-          setDiagnostico("")
-          setValorizacion("$") 
-          navigate('/pptos-listos');
-        }, 1500);
+        setRefresh(!refresh)
+        setModal("modal-inactive");
+        setPresupuesto("")
+        setDiagnostico("")
+        setValorizacion("$") 
+        navigate('/pptos-listos');
       }
     } catch (error) {
       // Handle the error here
@@ -354,184 +364,216 @@ async function NoRespondeHandle(n) {
   }
 }
 
-  if (pptoslistos !== 0) {
+  if (pptoslistosLista.length !== 0) {
     return (
-      <div className='frame'>
-      <h1 className='title-component'>Presupuesto listos por notificar y valorizar/ingresar a PC: </h1>
-      <div className='render-section'>
-      {pptoslistosLista.map((x, index) => {
-        return(
-          <div className="list-section" key={index}>
-              <p className='number-list'>Orden Nº {x.id}</p>
-              <button className='button-list' onClick={() => 
-                {setModal("modal")
-                setId(x.id)
-                setNombre(x.nombre)
-                setApellidos(x.apellidos)
-                setRut(x.rut)
-                setTelefono(x.telefono)
-                setEmail(x.email)
-                setTipo(x.tipo)
-                setMarca(x.marca)
-                setModelo(x.modelo)
-                setSerie(x.serie)
-                setEspada(x.espada)
-                setCadena(x.cadena)
-                setFunda(x.funda)
-                setDisco(x.disco)
-                setObservaciones(x.observaciones)
-                setMantencion(x.mantencion)
-                setRevision(x.revision)
-                setMecanico(x.mecanico)
-                setDiagnostico(x.diagnostico)
-                setPresupuesto(x.detalle_ppto)
-                setFechaRevision(x.fecha_trabajo)
-                setHoraRevision(x.hora_trabajo)
-                setPrioritaria(x.prioritaria)
-                setValorizacion(x.valorizacion) 
-                setIngresoSistema(x.ingreso_sistema)
-                setIsGarantia(x.garantia)
-                setDetallePptoGar(x.detalle_garantia)
-                setDiagnosticoGar(x.diagnostico_garantia)
-                setAplGarantia(x.validez_garantia)
-                setCategoria(x.categoria)
-              }
-                }>Notificar</button>         
-          </div> 
-          )
-      })}
-      </div>
-      <NavLink to="/notificaciones">Volver</NavLink>
-      <div className={modal}>
-          <div className='modal-content'>
-            <div className='modal-details-taller'>
-                <p className='sub-title'>Orden Nº:<span className='data-modal-taller'>{id}</span></p>
-                <p className='sub-title'>Nombre:<span className='data-modal-taller'>{nombre} {apellidos} </span></p>
-            </div>
-            <div className='modal-machine-details-taller'>
-               <div className='machine-detail-1'> 
-                <p className='sub-detail'>Tipo:<span className='data-modal-taller'>{tipo}</span></p>
-                <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
-                <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
-                <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
-                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
-              </div>
-              <div className='machine-detail-2'>
-                <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
-                {aplGarantia === "no"? <p className='sub-detail'>GARANTIA NO VALIDA</p>: null}
-                {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
-                {revision? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Revisión</span></p>: null}
-                <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
-              </div>
-            </div>
-            {isGarantia?
-              <>
-                <div className='detalle-observaciones'>
-                  Diagnóstico:
-                  <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
-                </div>
-                <div className='detalle-observaciones'>
-                  Detalle de reparación:
-                  <textarea className='detalle-field' value={detallePptoGar || presupuesto}/>
-                  {(aplGarantia === "no")?
-                  <div>
-                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
-                    <label for="valorizacion">Valorización de presupuesto</label>
-                </div>:
-                  <div>
-                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
-                    <label for="valorizacion">Valorización de presupuesto</label>
-                </div>
+      <div>
+        {loading ? (
+        <div className='frame'>
+          <Audio
+            height="70"
+            width="70"
+            radius="9"
+            color="white"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+          />      
+      </div>          
+        ) : (
+        <div className='frame'>
+          <h1 className='title-component'>Presupuesto listos por notificar y valorizar/ingresar a PC: </h1>
+          <div className='render-section'>
+          {pptoslistosLista.map((x, index) => {
+            return(
+              <div className="list-section" key={index}>
+                  <p className='number-list'>Orden Nº {x.id}</p>
+                  <button className='button-list' onClick={() => 
+                    {setModal("modal")
+                    setId(x.id)
+                    setNombre(x.nombre)
+                    setApellidos(x.apellidos)
+                    setRut(x.rut)
+                    setTelefono(x.telefono)
+                    setEmail(x.email)
+                    setTipo(x.tipo)
+                    setMarca(x.marca)
+                    setModelo(x.modelo)
+                    setSerie(x.serie)
+                    setEspada(x.espada)
+                    setCadena(x.cadena)
+                    setFunda(x.funda)
+                    setDisco(x.disco)
+                    setObservaciones(x.observaciones)
+                    setMantencion(x.mantencion)
+                    setRevision(x.revision)
+                    setMecanico(x.mecanico)
+                    setDiagnostico(x.diagnostico)
+                    setPresupuesto(x.detalle_ppto)
+                    setFechaRevision(x.fecha_trabajo)
+                    setHoraRevision(x.hora_trabajo)
+                    setPrioritaria(x.prioritaria)
+                    setValorizacion(x.valorizacion) 
+                    setIngresoSistema(x.ingreso_sistema)
+                    setIsGarantia(x.garantia)
+                    setDetallePptoGar(x.detalle_garantia)
+                    setDiagnosticoGar(x.diagnostico_garantia)
+                    setAplGarantia(x.validez_garantia)
+                    setCategoria(x.categoria)
                   }
+                    }>Notificar</button>         
+              </div> 
+              )
+          })}
+          </div>
+          <NavLink to="/notificaciones">Volver</NavLink>
+          <div className={modal}>
+              <div className='modal-content'>
+                <div className='modal-details-taller'>
+                    <p className='sub-title'>Orden Nº:<span className='data-modal-taller'>{id}</span></p>
+                    <p className='sub-title'>Nombre:<span className='data-modal-taller'>{nombre} {apellidos} </span></p>
                 </div>
-              </>:
-              <>
-                <div className='detalle-observaciones'>
-                  Diagnóstico:
-                  <textarea className='diagnostico-field' value={diagnostico}/>
-                </div>
-                <div className='detalle-observaciones'>
-                  Detalle de reparación:
-                  <textarea className='detalle-field' value={presupuesto}/>
-                  <div>
-                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
-                    <label for="valorizacion">Valorización de presupuesto</label>
+                <div className='modal-machine-details-taller'>
+                   <div className='machine-detail-1'> 
+                    <p className='sub-detail'>Tipo:<span className='data-modal-taller'>{tipo}</span></p>
+                    <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
+                    <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
+                    <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                    <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
+                  </div>
+                  <div className='machine-detail-2'>
+                    <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                    {aplGarantia === "no"? <p className='sub-detail'>GARANTIA NO VALIDA</p>: null}
+                    {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
+                    {revision? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Revisión</span></p>: null}
+                    <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
                   </div>
                 </div>
-              </>
-              }
-            <div className='opcion-presupuesto'>
-                <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} checked={esperaRepuesto} value={esperaRepuesto}/>
-                <label for="espera_repuesto">Repuesto faltante</label>
-                {esperaRepuesto? <div className='detalle-observaciones'>
-                  Indicar repuestos faltantes + código:
-                <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
-              </div>: null} 
-              <div className={msg}>{esperaRepuesto?"Indicar valorización más repuestos faltantes":"Indicar valorización del presupuesto"}</div>
-            </div>
-            {esperaRepuesto?
-            <div className='modal-buttons-notificaciones'>
-            <div>
-              <button className='button-list-aprobada' onClick={() => {
-                AprobadaEsperaRepuestoHandle(id) 
-                }}>Aprobada</button>
-              <button className='button-list-rechazada' onClick={() => {
-                RechazadaHandle(id) 
-                }}>Rechazada</button>
-            </div>
-            <div>
-              <button className='button-list-guardar' onClick={() => {
-                GuardarHandle(id) 
-                }}>Guardar, notificar después</button>
-              <button className='button-list-noResponde' onClick={() => {
-                NoRespondeHandle(id) 
-                }}>No responde</button>
-              <button className='button-list-volver' onClick={()=> {
-                 setModal("modal-inactive")
-                 setPresupuesto("")
-                 setDiagnostico("")
-                 setValorizacion("$")
-                 setMsg("msg-mecanic")
-                }}>Volver</button>
-            </div>
-          </div>: 
-          <div className='modal-buttons-notificaciones'>
-          <div>
-            <button className='button-list-aprobada' onClick={() => {
-              AprobadaHandle(id) 
-              }}>Aprobada</button>
-            <button className='button-list-rechazada' onClick={() => {
-              RechazadaHandle(id) 
-              }}>Rechazada</button>
-          </div>
-          <div>
-            <button className='button-list-guardar' onClick={() => {
-              GuardarHandle(id) 
-              }}>Guardar, notificar después</button>
-            <button className='button-list-noResponde' onClick={() => {
-              NoRespondeHandle(id) 
-              }}>No responde</button>
-            <button className='button-list-volver' onClick={()=> {
-               setModal("modal-inactive")
-               setPresupuesto("")
-               setDiagnostico("")
-               setValorizacion("$") 
-               setMsg("msg-mecanic")
-              }}>Volver</button>
-          </div>
-        </div>}
-          </div>
-        </div>   
-    </div>
+                {isGarantia?
+                  <>
+                    <div className='detalle-observaciones'>
+                      Diagnóstico:
+                      <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
+                    </div>
+                    <div className='detalle-observaciones'>
+                      Detalle de reparación:
+                      <textarea className='detalle-field' value={detallePptoGar || presupuesto}/>
+                      {(aplGarantia === "no")?
+                      <div>
+                        <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
+                        <label for="valorizacion">Valorización de presupuesto</label>
+                    </div>:
+                      <div>
+                        <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
+                        <label for="valorizacion">Valorización de presupuesto</label>
+                    </div>
+                      }
+                    </div>
+                  </>:
+                  <>
+                    <div className='detalle-observaciones'>
+                      Diagnóstico:
+                      <textarea className='diagnostico-field' value={diagnostico}/>
+                    </div>
+                    <div className='detalle-observaciones'>
+                      Detalle de reparación:
+                      <textarea className='detalle-field' value={presupuesto}/>
+                      <div>
+                        <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                        <label for="valorizacion">Valorización de presupuesto</label>
+                      </div>
+                    </div>
+                  </>
+                  }
+                <div className='opcion-presupuesto'>
+                    <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} checked={esperaRepuesto} value={esperaRepuesto}/>
+                    <label for="espera_repuesto">Repuesto faltante</label>
+                    {esperaRepuesto? <div className='detalle-observaciones'>
+                      Indicar repuestos faltantes + código:
+                    <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
+                  </div>: null} 
+                  <div className={msg}>{esperaRepuesto?"Indicar valorización más repuestos faltantes":"Indicar valorización del presupuesto"}</div>
+                </div>
+                {esperaRepuesto?
+                <div className='modal-buttons-notificaciones'>
+                <div>
+                  <button className='button-list-aprobada' onClick={() => {
+                    AprobadaEsperaRepuestoHandle(id) 
+                    }}>Aprobada</button>
+                  <button className='button-list-rechazada' onClick={() => {
+                    RechazadaHandle(id) 
+                    }}>Rechazada</button>
+                </div>
+                <div>
+                  <button className='button-list-guardar' onClick={() => {
+                    GuardarHandle(id) 
+                    }}>Guardar, notificar después</button>
+                  <button className='button-list-noResponde' onClick={() => {
+                    NoRespondeHandle(id) 
+                    }}>No responde</button>
+                  <button className='button-list-volver' onClick={()=> {
+                     setModal("modal-inactive")
+                     setPresupuesto("")
+                     setDiagnostico("")
+                     setValorizacion("$")
+                     setMsg("msg-mecanic")
+                    }}>Volver</button>
+                </div>
+              </div>: 
+              <div className='modal-buttons-notificaciones'>
+              <div>
+                <button className='button-list-aprobada' onClick={() => {
+                  AprobadaHandle(id) 
+                  }}>Aprobada</button>
+                <button className='button-list-rechazada' onClick={() => {
+                  RechazadaHandle(id) 
+                  }}>Rechazada</button>
+              </div>
+              <div>
+                <button className='button-list-guardar' onClick={() => {
+                  GuardarHandle(id) 
+                  }}>Guardar, notificar después</button>
+                <button className='button-list-noResponde' onClick={() => {
+                  NoRespondeHandle(id) 
+                  }}>No responde</button>
+                <button className='button-list-volver' onClick={()=> {
+                   setModal("modal-inactive")
+                   setPresupuesto("")
+                   setDiagnostico("")
+                   setValorizacion("$") 
+                   setMsg("msg-mecanic")
+                  }}>Volver</button>
+              </div>
+            </div>}
+              </div>
+            </div>   
+        </div>
+        )}
+      </div>
     )
   } else {
     return (
-      <div className='frame'>
-        <h1 className='title-component'>Presupuesto listos por notificar y valorizar/ingresar a PC:</h1>
-        <div className='render-section'>
-          <p className='not-exist'>No hay notificaciones pendientes</p>
+      <div>
+        {loading ? (
+         <div className='frame'>
+          <Audio
+            height="70"
+            width="70"
+            radius="9"
+            color="white"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+          />      
+     </div>          
+        ) : (
+        <div className='frame'>
+          <h1 className='title-component'>Presupuesto listos por notificar y valorizar/ingresar a PC:</h1>
+          <div className='render-section'>
+            <p className='not-exist'>No hay notificaciones pendientes</p>
+          </div>
+          <NavLink to="/notificaciones">Volver</NavLink>
         </div>
-        <NavLink to="/notificaciones">Volver</NavLink>
+        )}
       </div>
     )
   }

@@ -10,7 +10,7 @@ import html2pdf from 'html2pdf.js';
 import logo from "../static/img/syblogo.png"
 
 
-function Ingreso({setRender, render, date, lastId}) {
+function Ingreso({setRender, render, date, nextorden}) {
 
   const  navigate  = useNavigate();
   const [loadMessage, setLoadMessage] =useState()
@@ -64,7 +64,7 @@ function Ingreso({setRender, render, date, lastId}) {
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
         <p style={{ marginLeft: '20px', marginTop: '0px', marginBottom: '0px' }}>Nombre: {name} {lastname}</p>
         <p style={{ marginLeft: '20px', marginTop: '0px', marginBottom: '0px' }}>RUT: {rut}</p>
-        <p style={{ marginLeft: '20px', fontSize: '25px', borderRadius: '3px', color: 'white', backgroundColor: 'orange' }}>Orden Nº: {lastId + 1}</p>
+        <p style={{ marginLeft: '20px', fontSize: '25px', borderRadius: '3px', color: 'white', backgroundColor: 'orange' }}>Orden Nº: {nextorden}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start' }}>
         {email ? <p style={{ marginLeft: '20px', marginTop: '0px', marginBottom: '0px' }}>Email: {email}</p> : <p style={{ marginLeft: '20px' }}>Email: Sin Correo</p>}
@@ -253,7 +253,7 @@ async function crearOrden(e) {
       <h1 className='title-component'>Formulario Ingreso de equipo:</h1>
       <br />
       <form className='form' onSubmit={(e) => crearOrden(e)}>
-        <div id ="asdc" className='subtitulos'>ORDEN {lastId + 1} </div>
+        <div id ="asdc" className='subtitulos'>ORDEN {nextorden} </div>
         <br /><br />
         <div className='subtitulos'>Datos cliente</div>
          <br />
@@ -364,7 +364,7 @@ async function crearOrden(e) {
                     </div>
                   </div>
                   <div>
-                    <p>Orden Nº: {lastId + 1}</p>
+                    <p>Orden Nº: {nextorden}</p>
                     <p>Nombre: {name} </p>
                     <p>Apellidos: {lastname}</p>
                     <p>RUT: {rut}</p>

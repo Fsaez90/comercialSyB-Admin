@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import "../static/modalIngreso.css";
 import AddHomeIcon from '@mui/icons-material/AddHome';
+import { Audio } from 'react-loader-spinner';
 
-function OTxingresar({listaOt, render, setRender, notificaciones}) {
-
+function OTxingresar({render, setRender}) {
+  const [lista, setLista] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -28,9 +31,22 @@ function OTxingresar({listaOt, render, setRender, notificaciones}) {
   const [isGarantia, setIsGarantia] = useState()
   const  navigate  = useNavigate();
 
-  useEffect(() => {
-    setRender(!render)
- },[notificaciones, modal]) 
+  useEffect(() => {  
+    getData();
+  },[refresh])
+
+  const getData = async () => {
+    try {
+      setLoading(true)
+      const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/ot_xingresar/')
+      const data = await result.json();
+      setLista(data.slice().sort((a, b) => a.id - b.id))
+      setLoading(false)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false); // Ensure loading indicator is hidden in case of an error
+    }
+  }
 
  async function Ingresar(n) {
   try {
@@ -61,91 +77,103 @@ function OTxingresar({listaOt, render, setRender, notificaciones}) {
     });
     if (response.ok) {
       setRender(!render);
-      setTimeout(() => {
-        setModal("modal-inactive");
-        navigate('/otxingresar');
-      }, 1500);
+      setRefresh(!refresh)
+      setModal("modal-inactive");
+      navigate('/otxingresar');
     }
-
   } catch (error) {
     console.error(error);
   }
 }
 
-if (notificaciones !== 0){
+if (lista.length !== 0){
   return (
-    <div className='frame'>
-      <h1 className='title-component'>Ordenes de trabajo por ingresar a PC: </h1>
-      <div className='render-section'>
-      {listaOt.map((x, index) => {
-        return(
-          <div className="list-section" key={index}>
-              <p className='number-list'>Orden Nº {x.id}</p>
-              <button className='button-list' onClick={() => 
-                {setModal("modal")
-                setId(x.id)
-                setNombre(x.nombre)
-                setApellidos(x.apellidos)
-                setRut(x.rut)
-                setTelefono(x.telefono)
-                setEmail(x.email)
-                setTipo(x.tipo)
-                setMarca(x.marca)
-                setModelo(x.modelo)
-                setSerie(x.serie)
-                setEspada(x.espada)
-                setCadena(x.cadena)
-                setFunda(x.funda)
-                setDisco(x.disco)
-                setObservaciones(x.observaciones)
-                setMantencion(x.mantencion)
-                setRevision(x.revision)
-                setMecanico(x.mecanico)
-                setIsGarantia(x.garantia)
-                setCategoria(x.categoria)
-              }
-                }>Comenzar</button>         
-          </div> 
-          )
-      })}
-      </div>
-      <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
-      <div className={modal}>
-        <div className='modal-content'>
-          <div className='modal-details'>
-            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '80px'}}>
-              <p>Nombre: <span className='data-modal'>{nombre}</span></p>
-              <p style={{ color: 'orange'      , fontWeight: 'bold'}}>Nro Orden: <span style={{fontSize:'30px', color: 'orange'}}>{id}</span></p>
-            </div>
-              <p>Apellidos: <span className='data-modal'>{apellidos}</span></p>
-              <p>RUT: <span className='data-modal'>{rut}</span></p>
-              <p>Telefono: <span className='data-modal'>{telefono}</span></p>
-              <p>Email: <span className='data-modal'>{email}</span></p>
-          </div>
-          <div className='modal-machine-details'>
-              <p>Tipo: <span className='data-modal'>{tipo}</span></p>
-              <p>Modelo: <span className='data-modal'>{modelo}</span></p>
-              <p>Marca: <span className='data-modal'>{marca}</span></p>
-              <p>Serie: <span className='data-modal'>{serie}</span></p>
-              <p>Categoría: <span className='data-modal'>{categoria}</span></p>
-              {espada? <p>Espada: <span className='data-modal'>Sí</span></p>: null}
-              {cadena? <p>Cadena: <span className='data-modal'>Sí</span></p>: null}
-              {funda? <p>Funda: <span className='data-modal'>Sí</span></p>: null}
-              {disco? <p>Disco de corte: <span className='data-modal'>Sí</span></p>: null}
-              <p>Observaciones: <span className='data-modal'>{observaciones}</span></p>
-              {mantencion? <p>Equipo a mantencion</p>: null}
-              {revision? <p>Equipo a Revisión</p>: null}
-              {isGarantia? <p>Equipo a Garantía</p>: null}
-              <p>Mecanico: <span className='data-modal'>{mecanico}</span></p>
-          </div>
-          <div className='modal-buttons'>
-              <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
-              <button className='button-list' onClick={() => {
-                Ingresar(id) 
-                }}>Ingresar</button>
-          </div>
+    <div>
+      {loading ? (
+        <Audio
+          height="70"
+          width="70"
+          radius="9"
+          color="white"
+          ariaLabel="loading"
+          wrapperStyle
+          wrapperClass
+        />
+      ) : (
+        <div className='frame'>
+        <h1 className='title-component'>Ordenes de trabajo por ingresar a PC: </h1>
+        <div className='render-section'>
+        {lista.map((x, index) => {
+          return(
+            <div className="list-section" key={index}>
+                <p className='number-list'>Orden Nº {x.id}</p>
+                <button className='button-list' onClick={() => 
+                  {setModal("modal")
+                  setId(x.id)
+                  setNombre(x.nombre)
+                  setApellidos(x.apellidos)
+                  setRut(x.rut)
+                  setTelefono(x.telefono)
+                  setEmail(x.email)
+                  setTipo(x.tipo)
+                  setMarca(x.marca)
+                  setModelo(x.modelo)
+                  setSerie(x.serie)
+                  setEspada(x.espada)
+                  setCadena(x.cadena)
+                  setFunda(x.funda)
+                  setDisco(x.disco)
+                  setObservaciones(x.observaciones)
+                  setMantencion(x.mantencion)
+                  setRevision(x.revision)
+                  setMecanico(x.mecanico)
+                  setIsGarantia(x.garantia)
+                  setCategoria(x.categoria)
+                }
+                  }>Comenzar</button>         
+            </div> 
+            )
+        })}
         </div>
-      </div>  
+        <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+        <div className={modal}>
+          <div className='modal-content'>
+            <div className='modal-details'>
+              <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '80px'}}>
+                <p>Nombre: <span className='data-modal'>{nombre}</span></p>
+                <p style={{ color: 'orange'      , fontWeight: 'bold'}}>Nro Orden: <span style={{fontSize:'30px', color: 'orange'}}>{id}</span></p>
+              </div>
+                <p>Apellidos: <span className='data-modal'>{apellidos}</span></p>
+                <p>RUT: <span className='data-modal'>{rut}</span></p>
+                <p>Telefono: <span className='data-modal'>{telefono}</span></p>
+                <p>Email: <span className='data-modal'>{email}</span></p>
+            </div>
+            <div className='modal-machine-details'>
+                <p>Tipo: <span className='data-modal'>{tipo}</span></p>
+                <p>Modelo: <span className='data-modal'>{modelo}</span></p>
+                <p>Marca: <span className='data-modal'>{marca}</span></p>
+                <p>Serie: <span className='data-modal'>{serie}</span></p>
+                <p>Categoría: <span className='data-modal'>{categoria}</span></p>
+                {espada? <p>Espada: <span className='data-modal'>Sí</span></p>: null}
+                {cadena? <p>Cadena: <span className='data-modal'>Sí</span></p>: null}
+                {funda? <p>Funda: <span className='data-modal'>Sí</span></p>: null}
+                {disco? <p>Disco de corte: <span className='data-modal'>Sí</span></p>: null}
+                <p>Observaciones: <span className='data-modal'>{observaciones}</span></p>
+                {mantencion? <p>Equipo a mantencion</p>: null}
+                {revision? <p>Equipo a Revisión</p>: null}
+                {isGarantia? <p>Equipo a Garantía</p>: null}
+                <p>Mecanico: <span className='data-modal'>{mecanico}</span></p>
+            </div>
+            <div className='modal-buttons'>
+                <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
+                <button className='button-list' onClick={() => {
+                  Ingresar(id) 
+                  }}>Ingresar</button>
+            </div>
+          </div>
+        </div>  
+        </div>
+      )}
     </div>
   )
 }else {

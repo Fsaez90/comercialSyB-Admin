@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalNotificaciones.css"
+import { Audio } from 'react-loader-spinner';
 
-function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
+function EquiposReparados({render, setRender}) {
+  const [lista, setLista] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -34,12 +38,24 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
   const [diagnosticoGar, setDiagnosticoGar] = useState() 
   const [aplGarantia,  setAplGarantia] = useState()
   const [categoria, setCategoria] = useState()
-
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setRender(!render)
-},[eqreparados, modal])
+    getData()
+},[refresh])
+
+const getData = async () => {
+  try {
+    setLoading(true)
+    const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/equipos_reparados/')
+    const data = await result.json();
+    setLista(data)
+    setLoading(false)
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    setLoading(false); // Ensure loading indicator is hidden in case of an error
+  }
+}
 
 async function NotificadoHandle(n){
   try {
@@ -82,58 +98,14 @@ async function NotificadoHandle(n){
     });
   if (response.ok) {
     setRender(!render);
-    setTimeout(() => {
-      setModal("modal-inactive");
-      navigate('/equipos-reparados');
-    }, 1500);
+    setRefresh(!refresh)
+    setModal("modal-inactive");
+    navigate('/equipos-reparados');
   }
   } catch (error) {
     // Handle the error here
   }
 }
-
-
-  // function NoRespondeHandle(n){
-  //   fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-  //     method: "POST",
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: JSON.stringify({
-  //         nombre: nombre,
-  //         apellidos: apellidos,
-  //         rut: rut,
-  //         email: email,
-  //         telefono: telefono,
-  //         tipo: tipo,
-  //         marca: marca,
-  //         modelo: modelo,
-  //         serie: serie,
-  //         observaciones: observaciones,
-  //         espada: espada,
-  //         cadena: cadena,
-  //         funda: funda,
-  //         disco: disco,
-  //         mantencion: mantencion,
-  //         revision: revision,
-  //         mecanico: mecanico,
-  //         ingreso_sistema: ingresoSistema,
-  //         diagnostico: diagnostico,
-  //         comenzada: true,
-  //         detalle_ppto: presupuesto,
-  //         mmto_completado: true,
-  //         status: "Equipo listo para retiro, cliente no responde",
-  //         terminada: true,
-  //         valorizacion: valorizacion,
-  //         prioritaria: prioritaria,
-  //         cliente_noresponde: true,
-  //         reparada: true
-  //     })
-  //   })
-  //   setRender(!render)
-  //   setTimeout(() => {
-  //     setModal("modal-inactive")
-  //     navigate('/equipos-reparados') 
-  //   }, 500);
-  // }
 
   async function NoRespondeHandl(n) {
     try {
@@ -189,13 +161,12 @@ async function NotificadoHandle(n){
 
       if (updateResponse.ok && emailResponse.ok) {
         setRender(!render);
-        setTimeout(() => {
-          setModal("modal-inactive");
-          setPresupuesto("")
-          setDiagnostico("")
-          setValorizacion("$") 
-          navigate('/pptos-listos');
-        }, 1500);
+        setRefresh(!refresh)
+        setModal("modal-inactive");
+        setPresupuesto("")
+        setDiagnostico("")
+        setValorizacion("$") 
+        navigate('/pptos-listos');
       }
     } catch (error) {
       // Handle the error here
@@ -204,142 +175,174 @@ async function NotificadoHandle(n){
   }
 
 
-    if (eqreparados !== 0) {
+    if (lista.length !== 0) {
       return (
-        <div className='frame'>
-        <h1 className='title-component'>Equipos listos para retiro: </h1>
-        <div className='render-section'>
-        {eqreparadosLista.map((x, index) => {
-          return(
-            <div className="list-section" key={index}>
-                <p className='number-list'>Orden Nº {x.id}</p>
-                <button className='button-list' onClick={() => 
-                  {setModal("modal")
-                  setId(x.id)
-                  setNombre(x.nombre)
-                  setApellidos(x.apellidos)
-                  setRut(x.rut)
-                  setTelefono(x.telefono)
-                  setEmail(x.email)
-                  setTipo(x.tipo)
-                  setMarca(x.marca)
-                  setModelo(x.modelo)
-                  setSerie(x.serie)
-                  setEspada(x.espada)
-                  setCadena(x.cadena)
-                  setFunda(x.funda)
-                  setDisco(x.disco)
-                  setObservaciones(x.observaciones)
-                  setMantencion(x.mantencion)
-                  setRevision(x.revision)
-                  setMecanico(x.mecanico)
-                  setDiagnostico(x.diagnostico)
-                  setPresupuesto(x.detalle_ppto)
-                  setFechaRevision(x.fecha_trabajo)
-                  setPrioritaria(x.prioritaria)
-                  setValorizacion(x.valorizacion)
-                  setIngresoSistema(x.ingreso_sistema)
-                  setFechaReparacion(x.fecha_reparacion)
-                  setIsGarantia(x.garantia)
-                  setDetallePptoGar(x.detalle_garantia)
-                  setDiagnosticoGar(x.diagnostico_garantia)
-                  setAplGarantia(x.validez_garantia)
-                  setCategoria(x.categoria)
-                }
-                  }>Notificar</button>         
-            </div> 
-            )
-        })}
-        </div>
-        <NavLink to="/notificaciones">Volver</NavLink>
-        <div className={modal}>
-            <div className='modal-content'>
-              <div className='modal-details-taller'>
-                  <p className='sub-title'>Orden Nº:<span className='data-modal-taller'>{id}</span></p>
-                  <p className='sub-title'>Nombre:<span className='data-modal-taller'>{nombre} {apellidos} </span></p>
-              </div>
-              <div className='modal-machine-details-taller'>
-                 <div className='machine-detail-1'> 
-                  <p className='sub-detail'>Tipo:<span className='data-modal-taller'>{tipo}</span></p>
-                  <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
-                  <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
-                  <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
-                  <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
-                </div>
-                <div className='machine-detail-2'>
-                  <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
-                  {isGarantia? <p className='sub-detail'><span className='data-modal-taller'>GARANTIA</span></p>: null}     
-                  {mantencion? <p className='sub-detail'><span className='data-modal-taller'>Mantención</span></p>: null}
-                  {revision? <p className='sub-detail'><span className='data-modal-taller'>Revisión</span></p>: null}
-                  <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
-                  <p className='sub-detail'>Fecha de reparación: <span className='data-modal-taller'>{fechaReparacion}</span></p>
-                </div>
-              </div>
-              {isGarantia?
-              <>
-                <div className='detalle-observaciones'>
-                  Diagnóstico:
-                  <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
-                </div>
-                <div className='detalle-observaciones'>
-                  Detalle de reparación:
-                  <textarea className='detalle-field' value={detallePptoGar || presupuesto}/>
-                  {(aplGarantia === "no")?
-                  <div>
-                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
-                    <label for="valorizacion">Valorización de presupuesto</label>
-                  </div>:
-                  <div>
-                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
-                    <label for="valorizacion">Valorización de presupuesto</label>
-                  </div>
-                  }
-                </div>
-              </>:
-              <>
-                <div className='detalle-observaciones'>
-                  Diagnóstico:
-                  <textarea className='diagnostico-field' value={diagnostico}/>
-                </div>
-                <div className='detalle-observaciones'>
-                  Detalle de reparación:
-                  <textarea className='detalle-field' value={presupuesto}/>
-                  <div>
-                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
-                    <label for="valorizacion">Valorización de presupuesto</label>
-                  </div>
-                </div>
-              </>
-              }
-              <div className='modal-buttons-notificaciones'>
-                <div>
-                  <button className='button-list-aprobada' onClick={() => {
-                    NotificadoHandle(id) 
-                    }}>Notificado</button>
-                </div>
-                <div>
-                  <button className='button-list-noResponde' onClick={() => {
-                    NoRespondeHandl(id) 
-                    }}>No responde</button>
-                  <button className='button-list-volver' onClick={()=> {
-                     setModal("modal-inactive")
-                     setPresupuesto("")
-                     setDiagnostico("")
-                    }}>Volver</button>
-                </div>
-              </div>
+        <div>
+          {loading ? (
+            <div className='frame'>
+              <Audio
+                height="70"
+                width="70"
+                radius="9"
+                color="white"
+                ariaLabel="loading"
+                wrapperStyle
+                wrapperClass
+              />      
+          </div>  
+          ) : (
+          <div className='frame'>
+            <h1 className='title-component'>Equipos listos para retiro: </h1>
+            <div className='render-section'>
+            {lista.map((x, index) => {
+              return(
+                <div className="list-section" key={index}>
+                    <p className='number-list'>Orden Nº {x.id}</p>
+                    <button className='button-list' onClick={() => 
+                      {setModal("modal")
+                      setId(x.id)
+                      setNombre(x.nombre)
+                      setApellidos(x.apellidos)
+                      setRut(x.rut)
+                      setTelefono(x.telefono)
+                      setEmail(x.email)
+                      setTipo(x.tipo)
+                      setMarca(x.marca)
+                      setModelo(x.modelo)
+                      setSerie(x.serie)
+                      setEspada(x.espada)
+                      setCadena(x.cadena)
+                      setFunda(x.funda)
+                      setDisco(x.disco)
+                      setObservaciones(x.observaciones)
+                      setMantencion(x.mantencion)
+                      setRevision(x.revision)
+                      setMecanico(x.mecanico)
+                      setDiagnostico(x.diagnostico)
+                      setPresupuesto(x.detalle_ppto)
+                      setFechaRevision(x.fecha_trabajo)
+                      setPrioritaria(x.prioritaria)
+                      setValorizacion(x.valorizacion)
+                      setIngresoSistema(x.ingreso_sistema)
+                      setFechaReparacion(x.fecha_reparacion)
+                      setIsGarantia(x.garantia)
+                      setDetallePptoGar(x.detalle_garantia)
+                      setDiagnosticoGar(x.diagnostico_garantia)
+                      setAplGarantia(x.validez_garantia)
+                      setCategoria(x.categoria)
+                    }
+                      }>Notificar</button>         
+                </div> 
+                )
+            })}
             </div>
-          </div>   
-      </div>
+            <NavLink to="/notificaciones">Volver</NavLink>
+            <div className={modal}>
+                <div className='modal-content'>
+                  <div className='modal-details-taller'>
+                      <p className='sub-title'>Orden Nº:<span className='data-modal-taller'>{id}</span></p>
+                      <p className='sub-title'>Nombre:<span className='data-modal-taller'>{nombre} {apellidos} </span></p>
+                  </div>
+                  <div className='modal-machine-details-taller'>
+                     <div className='machine-detail-1'> 
+                      <p className='sub-detail'>Tipo:<span className='data-modal-taller'>{tipo}</span></p>
+                      <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
+                      <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
+                      <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                      <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
+                    </div>
+                    <div className='machine-detail-2'>
+                      <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                      {isGarantia? <p className='sub-detail'><span className='data-modal-taller'>GARANTIA</span></p>: null}     
+                      {mantencion? <p className='sub-detail'><span className='data-modal-taller'>Mantención</span></p>: null}
+                      {revision? <p className='sub-detail'><span className='data-modal-taller'>Revisión</span></p>: null}
+                      <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
+                      <p className='sub-detail'>Fecha de reparación: <span className='data-modal-taller'>{fechaReparacion}</span></p>
+                    </div>
+                  </div>
+                  {isGarantia?
+                  <>
+                    <div className='detalle-observaciones'>
+                      Diagnóstico:
+                      <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
+                    </div>
+                    <div className='detalle-observaciones'>
+                      Detalle de reparación:
+                      <textarea className='detalle-field' value={detallePptoGar || presupuesto}/>
+                      {(aplGarantia === "no")?
+                      <div>
+                        <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                        <label for="valorizacion">Valorización de presupuesto</label>
+                      </div>:
+                      <div>
+                        <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
+                        <label for="valorizacion">Valorización de presupuesto</label>
+                      </div>
+                      }
+                    </div>
+                  </>:
+                  <>
+                    <div className='detalle-observaciones'>
+                      Diagnóstico:
+                      <textarea className='diagnostico-field' value={diagnostico}/>
+                    </div>
+                    <div className='detalle-observaciones'>
+                      Detalle de reparación:
+                      <textarea className='detalle-field' value={presupuesto}/>
+                      <div>
+                        <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                        <label for="valorizacion">Valorización de presupuesto</label>
+                      </div>
+                    </div>
+                  </>
+                  }
+                  <div className='modal-buttons-notificaciones'>
+                    <div>
+                      <button className='button-list-aprobada' onClick={() => {
+                        NotificadoHandle(id) 
+                        }}>Notificado</button>
+                    </div>
+                    <div>
+                      <button className='button-list-noResponde' onClick={() => {
+                        NoRespondeHandl(id) 
+                        }}>No responde</button>
+                      <button className='button-list-volver' onClick={()=> {
+                         setModal("modal-inactive")
+                         setPresupuesto("")
+                         setDiagnostico("")
+                        }}>Volver</button>
+                    </div>
+                  </div>
+                </div>
+              </div>   
+          </div>
+          )}
+        </div>
       )
     } else {
       return (
-        <div className='frame'>
-          <h1 className='title-component'>Equipos listos para retiro:</h1>
-          <div className='render-section'>
-            <p className='not-exist'>No hay notificaciones pendientes</p>
+        <div>
+          {loading ? (
+            <div className='frame'>
+              <Audio
+                height="70"
+                width="70"
+                radius="9"
+                color="white"
+                ariaLabel="loading"
+                wrapperStyle
+                wrapperClass
+              />      
+          </div> 
+          ) : (
+          <div className='frame'>
+            <h1 className='title-component'>Equipos listos para retiro:</h1>
+            <div className='render-section'>
+              <p className='not-exist'>No hay notificaciones pendientes</p>
+            </div>
+            <NavLink to="/notificaciones">Volver</NavLink>
           </div>
-          <NavLink to="/notificaciones">Volver</NavLink>
+          )}
         </div>
       )
     }

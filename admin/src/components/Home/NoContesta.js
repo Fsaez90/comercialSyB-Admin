@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import "../static/modalNotificaciones.css"
 
-function NoContesta({render, setRender, noContestaretiro, noContestappto}) {
-    
-    useEffect(() => {
-        setRender(!render)
-      },[noContestaretiro, noContestappto])
+function NoContesta({noContRetiro, noContPpto}) {
     
       return (
         <div className='frame-menu'>
@@ -15,12 +11,12 @@ function NoContesta({render, setRender, noContestaretiro, noContestappto}) {
                 <div>
                     <div className='frame-menu'>
                         <NavLink className='menu-button' to="/no-contesta-pptos">Presupuestos listos</NavLink>
-                        {noContestappto > 0? <p id='not-count'>{noContestappto}</p>: null}
+                        {noContPpto > 0? <p id='not-count'>{noContPpto}</p>: null}
                     </div>
                     <br/><br/>
                     <div className='frame-menu'>
                         <NavLink className='menu-button' to="/no-contesta-retiro">Retiro de máquinas</NavLink>
-                        {noContestaretiro > 0? <p id='not-count'>{noContestaretiro}</p>: null}
+                        {noContRetiro > 0? <p id='not-count'>{noContRetiro}</p>: null}
                     </div>
                 </div>
             </div>
