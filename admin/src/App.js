@@ -139,7 +139,7 @@ function App() {
       <Router>
       <Routes>
         <Route path='/' element={<AdminHome date={date} render={render} setRender={setRender} setAdminEsp={setAdminEsp} retiroTotal={retiroTotal} esperarep={esperarep} pendientesTotal={pendientesTotal} loading={loading}/>}/> 
-        <Route path='/app' element={<Home nototal={nototal} not={not} esperarep={esperarep} nextorden={nextorden} setRender={setRender} render={render} loading={loading}/>}/>
+        <Route path='/app' element={<Home nototal={nototal} not={not} esperarep={esperarep} nextorden={nextorden} setRender={setRender} render={render} loading={loading} />}/>
         <Route path='/mecanicos' element={<Mecanicos render={render} setRender={setRender} reportMec1={reportMec1} reportMec2={reportMec2} month={month} />}/>
         <Route path='/mecanico1' element={<Mecanico1 idReport1={idReport1} idReport1Gar={idReport1Gar} render={render} setRender={setRender} month={month}/>}/> 
         <Route path='/mecanico2' element={<Mecanico2 idReport2={idReport2} idReport2Gar={idReport2Gar} render={render} setRender={setRender} month={month}/>}/>  

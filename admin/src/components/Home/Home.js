@@ -3,13 +3,13 @@ import { NavLink } from 'react-router-dom'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 
-function Home({not, nototal, esperarep}) {
+function Home({not, nototal, esperarep, nextorden}) {
 
   return (
     <div className='frame-menu'>
         <h1 className='title-menu'>STIHL Los Andes</h1>
         <div className='menu'>
-            <NavLink className='menu-button' to="/ingreso">Ingreso Equipo</NavLink>
+            <NavLink className='menu-button' to="/ingreso">Ingreso Equipo[{nextorden}]</NavLink>
             <div className='frame-menu not'>
               <NavLink className='menu-button' to="/notificaciones">Notificaciones</NavLink>
               {nototal > 0? <p id='not-count'>{nototal}</p>: null}
